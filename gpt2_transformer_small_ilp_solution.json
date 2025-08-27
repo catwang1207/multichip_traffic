@@ -2,11 +2,11 @@
   "metadata": {
     "solver": "ILP",
     "data_file": "gpt2_transformer_small.txt",
-    "timestamp": "2025-08-27 21:43:34",
+    "timestamp": "2025-08-27 22:25:31",
     "status": "timeout_feasible",
     "total_cycles": 13,
     "num_chiplets": 4,
-    "solve_time_seconds": 9.800994396209717,
+    "solve_time_seconds": 9.782212495803833,
     "total_tasks": 399
   },
   "pe_assignments": {

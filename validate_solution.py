@@ -87,7 +87,7 @@ class SolutionValidator:
             if pd.notna(row['wait_ids']) and row['wait_ids'] != 'None':
                 current_task = row['task_id']
                 if current_task in task_times:
-                    wait_task_ids = [int(x.strip()) for x in str(row['wait_ids']).split(',')]
+                    wait_task_ids = [int(float(x.strip())) for x in str(row['wait_ids']).split(',')]
                     for wait_task_id in wait_task_ids:
                         if wait_task_id in task_times:
                             current_time = task_times[current_task]
@@ -116,7 +116,7 @@ class SolutionValidator:
             if pd.notna(row['wait_ids']) and row['wait_ids'] != 'None':
                 current_task = row['task_id']
                 if current_task in task_times and row['data_size'] > bandwidth:
-                    wait_task_ids = [int(x.strip()) for x in str(row['wait_ids']).split(',')]
+                    wait_task_ids = [int(float(x.strip())) for x in str(row['wait_ids']).split(',')]
                     for wait_task_id in wait_task_ids:
                         if wait_task_id in task_times:
                             current_chiplet = task_assignments.get(current_task, -1)
@@ -236,7 +236,11 @@ class SolutionValidator:
         print(f"Status: {metadata.get('status', 'Unknown')}")
         print(f"Total cycles: {metadata.get('total_cycles', 'Unknown')}")
         print(f"Number of chiplets: {metadata.get('num_chiplets', 'Unknown')}")
-        print(f"Solve time: {metadata.get('solve_time_seconds', 'Unknown'):.3f}s")
+        solve_time = metadata.get('solve_time_seconds', 'Unknown')
+        if isinstance(solve_time, (int, float)):
+            print(f"Solve time: {solve_time:.3f}s")
+        else:
+            print(f"Solve time: {solve_time}")
         print(f"Total tasks: {len(task_assignments)}")
         
         # Task distribution per chiplet
@@ -256,7 +260,7 @@ class SolutionValidator:
             if pd.notna(row['wait_ids']) and row['wait_ids'] != 'None':
                 current_task = row['task_id']
                 if current_task in task_times:
-                    wait_task_ids = [int(x.strip()) for x in str(row['wait_ids']).split(',')]
+                    wait_task_ids = [int(float(x.strip())) for x in str(row['wait_ids']).split(',')]
                     for wait_task_id in wait_task_ids:
                         if wait_task_id in task_times:
                             total_deps += 1
