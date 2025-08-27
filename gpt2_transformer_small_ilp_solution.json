@@ -2,18 +2,56 @@
   "metadata": {
     "solver": "ILP",
     "data_file": "gpt2_transformer_small.txt",
-    "timestamp": "2025-08-27 13:50:06",
-    "status": "optimal",
+    "timestamp": "2025-08-27 17:05:26",
+    "status": "timeout_feasible",
     "total_cycles": 12,
-    "num_chiplets": 4,
-    "solve_time_seconds": 13.286906719207764,
+    "num_chiplets": 3,
+    "solve_time_seconds": 9.876347303390503,
     "total_tasks": 399
   },
   "schedule": [
     {
       "cycle": 0,
       "chiplets": {
-        "0": [
+        "0": [],
+        "1": [],
+        "2": [
+          {
+            "task_id": 1,
+            "source_pe": 0,
+            "dest_pe": 1,
+            "data_size": 16384
+          },
+          {
+            "task_id": 2,
+            "source_pe": 0,
+            "dest_pe": 2,
+            "data_size": 16384
+          },
+          {
+            "task_id": 3,
+            "source_pe": 0,
+            "dest_pe": 3,
+            "data_size": 16384
+          },
+          {
+            "task_id": 4,
+            "source_pe": 0,
+            "dest_pe": 4,
+            "data_size": 16384
+          },
+          {
+            "task_id": 5,
+            "source_pe": 0,
+            "dest_pe": 5,
+            "data_size": 16384
+          },
+          {
+            "task_id": 6,
+            "source_pe": 0,
+            "dest_pe": 6,
+            "data_size": 16384
+          },
           {
             "task_id": 7,
             "source_pe": 0,
@@ -48,6 +86,12 @@
             "task_id": 12,
             "source_pe": 0,
             "dest_pe": 26,
+            "data_size": 16384
+          },
+          {
+            "task_id": 13,
+            "source_pe": 0,
+            "dest_pe": 41,
             "data_size": 16384
           },
           {
@@ -87,9 +131,27 @@
             "data_size": 16384
           },
           {
+            "task_id": 56,
+            "source_pe": 0,
+            "dest_pe": 62,
+            "data_size": 16384
+          },
+          {
             "task_id": 57,
             "source_pe": 0,
             "dest_pe": 63,
+            "data_size": 16384
+          },
+          {
+            "task_id": 58,
+            "source_pe": 0,
+            "dest_pe": 64,
+            "data_size": 16384
+          },
+          {
+            "task_id": 59,
+            "source_pe": 0,
+            "dest_pe": 65,
             "data_size": 16384
           },
           {
@@ -102,6 +164,12 @@
             "task_id": 61,
             "source_pe": 0,
             "dest_pe": 81,
+            "data_size": 16384
+          },
+          {
+            "task_id": 62,
+            "source_pe": 0,
+            "dest_pe": 82,
             "data_size": 16384
           },
           {
@@ -165,6 +233,12 @@
             "data_size": 16384
           },
           {
+            "task_id": 109,
+            "source_pe": 0,
+            "dest_pe": 341,
+            "data_size": 16384
+          },
+          {
             "task_id": 110,
             "source_pe": 0,
             "dest_pe": 342,
@@ -177,9 +251,21 @@
             "data_size": 16384
           },
           {
+            "task_id": 112,
+            "source_pe": 0,
+            "dest_pe": 344,
+            "data_size": 16384
+          },
+          {
             "task_id": 113,
             "source_pe": 0,
             "dest_pe": 345,
+            "data_size": 16384
+          },
+          {
+            "task_id": 114,
+            "source_pe": 0,
+            "dest_pe": 346,
             "data_size": 16384
           },
           {
@@ -189,53 +275,9 @@
             "data_size": 16384
           },
           {
-            "task_id": 125,
+            "task_id": 116,
             "source_pe": 0,
-            "dest_pe": 385,
-            "data_size": 16384
-          },
-          {
-            "task_id": 126,
-            "source_pe": 0,
-            "dest_pe": 386,
-            "data_size": 16384
-          }
-        ],
-        "1": [
-          {
-            "task_id": 1,
-            "source_pe": 0,
-            "dest_pe": 1,
-            "data_size": 16384
-          },
-          {
-            "task_id": 4,
-            "source_pe": 0,
-            "dest_pe": 4,
-            "data_size": 16384
-          },
-          {
-            "task_id": 13,
-            "source_pe": 0,
-            "dest_pe": 41,
-            "data_size": 16384
-          },
-          {
-            "task_id": 58,
-            "source_pe": 0,
-            "dest_pe": 64,
-            "data_size": 16384
-          },
-          {
-            "task_id": 59,
-            "source_pe": 0,
-            "dest_pe": 65,
-            "data_size": 16384
-          },
-          {
-            "task_id": 112,
-            "source_pe": 0,
-            "dest_pe": 344,
+            "dest_pe": 362,
             "data_size": 16384
           },
           {
@@ -248,6 +290,12 @@
             "task_id": 118,
             "source_pe": 0,
             "dest_pe": 364,
+            "data_size": 16384
+          },
+          {
+            "task_id": 119,
+            "source_pe": 0,
+            "dest_pe": 365,
             "data_size": 16384
           },
           {
@@ -269,100 +317,40 @@
             "data_size": 16384
           },
           {
-            "task_id": 124,
-            "source_pe": 0,
-            "dest_pe": 384,
-            "data_size": 16384
-          }
-        ],
-        "2": [
-          {
-            "task_id": 2,
-            "source_pe": 0,
-            "dest_pe": 2,
-            "data_size": 16384
-          },
-          {
-            "task_id": 3,
-            "source_pe": 0,
-            "dest_pe": 3,
-            "data_size": 16384
-          },
-          {
-            "task_id": 5,
-            "source_pe": 0,
-            "dest_pe": 5,
-            "data_size": 16384
-          },
-          {
-            "task_id": 6,
-            "source_pe": 0,
-            "dest_pe": 6,
-            "data_size": 16384
-          },
-          {
-            "task_id": 56,
-            "source_pe": 0,
-            "dest_pe": 62,
-            "data_size": 16384
-          },
-          {
-            "task_id": 114,
-            "source_pe": 0,
-            "dest_pe": 346,
-            "data_size": 16384
-          },
-          {
-            "task_id": 116,
-            "source_pe": 0,
-            "dest_pe": 362,
-            "data_size": 16384
-          },
-          {
-            "task_id": 119,
-            "source_pe": 0,
-            "dest_pe": 365,
-            "data_size": 16384
-          },
-          {
             "task_id": 123,
             "source_pe": 0,
             "dest_pe": 383,
             "data_size": 16384
-          }
-        ],
-        "3": [
+          },
           {
-            "task_id": 62,
+            "task_id": 124,
             "source_pe": 0,
-            "dest_pe": 82,
+            "dest_pe": 384,
             "data_size": 16384
           },
           {
-            "task_id": 109,
+            "task_id": 125,
             "source_pe": 0,
-            "dest_pe": 341,
+            "dest_pe": 385,
+            "data_size": 16384
+          },
+          {
+            "task_id": 126,
+            "source_pe": 0,
+            "dest_pe": 386,
             "data_size": 16384
           }
-        ]
+        ],
+        "3": [],
+        "4": []
       }
     },
     {
       "cycle": 1,
       "chiplets": {
-        "0": [
-          {
-            "task_id": 25,
-            "source_pe": 21,
-            "dest_pe": 21,
-            "data_size": 8192
-          },
-          {
-            "task_id": 26,
-            "source_pe": 22,
-            "dest_pe": 22,
-            "data_size": 8192
-          },
+        "0": [],
+        "1": [],
+        "2": [
           {
             "task_id": 27,
             "source_pe": 23,
@@ -385,12 +373,6 @@
             "task_id": 30,
             "source_pe": 26,
             "dest_pe": 26,
-            "data_size": 8192
-          },
-          {
-            "task_id": 32,
-            "source_pe": 42,
-            "dest_pe": 42,
             "data_size": 8192
           },
           {
@@ -418,30 +400,6 @@
             "data_size": 8192
           },
           {
-            "task_id": 73,
-            "source_pe": 61,
-            "dest_pe": 61,
-            "data_size": 8192
-          },
-          {
-            "task_id": 75,
-            "source_pe": 63,
-            "dest_pe": 63,
-            "data_size": 8192
-          },
-          {
-            "task_id": 78,
-            "source_pe": 66,
-            "dest_pe": 66,
-            "data_size": 8192
-          },
-          {
-            "task_id": 79,
-            "source_pe": 81,
-            "dest_pe": 81,
-            "data_size": 8192
-          },
-          {
             "task_id": 81,
             "source_pe": 83,
             "dest_pe": 83,
@@ -463,18 +421,6 @@
             "task_id": 84,
             "source_pe": 86,
             "dest_pe": 86,
-            "data_size": 8192
-          },
-          {
-            "task_id": 85,
-            "source_pe": 101,
-            "dest_pe": 101,
-            "data_size": 8192
-          },
-          {
-            "task_id": 86,
-            "source_pe": 102,
-            "dest_pe": 102,
             "data_size": 8192
           },
           {
@@ -500,112 +446,20 @@
             "source_pe": 106,
             "dest_pe": 106,
             "data_size": 8192
-          },
-          {
-            "task_id": 129,
-            "source_pe": 343,
-            "dest_pe": 343,
-            "data_size": 8192
-          },
-          {
-            "task_id": 131,
-            "source_pe": 345,
-            "dest_pe": 345,
-            "data_size": 8192
-          },
-          {
-            "task_id": 133,
-            "source_pe": 361,
-            "dest_pe": 361,
-            "data_size": 8192
-          },
-          {
-            "task_id": 143,
-            "source_pe": 385,
-            "dest_pe": 385,
-            "data_size": 8192
-          },
-          {
-            "task_id": 144,
-            "source_pe": 386,
-            "dest_pe": 386,
-            "data_size": 8192
           }
         ],
-        "1": [],
-        "2": [],
-        "3": []
+        "3": [],
+        "4": []
       }
     },
     {
       "cycle": 2,
       "chiplets": {
-        "0": [
-          {
-            "task_id": 91,
-            "source_pe": 81,
-            "dest_pe": 61,
-            "data_size": 8192
-          },
-          {
-            "task_id": 92,
-            "source_pe": 101,
-            "dest_pe": 61,
-            "data_size": 8192
-          },
-          {
-            "task_id": 97,
-            "source_pe": 83,
-            "dest_pe": 63,
-            "data_size": 8192
-          },
-          {
-            "task_id": 98,
-            "source_pe": 103,
-            "dest_pe": 63,
-            "data_size": 8192
-          },
-          {
-            "task_id": 106,
-            "source_pe": 86,
-            "dest_pe": 66,
-            "data_size": 8192
-          },
-          {
-            "task_id": 107,
-            "source_pe": 106,
-            "dest_pe": 66,
-            "data_size": 8192
-          }
-        ],
+        "0": [],
         "1": [
-          {
-            "task_id": 19,
-            "source_pe": 1,
-            "dest_pe": 1,
-            "data_size": 8192
-          },
           {
             "task_id": 22,
             "source_pe": 4,
-            "dest_pe": 4,
-            "data_size": 8192
-          },
-          {
-            "task_id": 31,
-            "source_pe": 41,
-            "dest_pe": 41,
-            "data_size": 8192
-          },
-          {
-            "task_id": 46,
-            "source_pe": 24,
-            "dest_pe": 4,
-            "data_size": 8192
-          },
-          {
-            "task_id": 47,
-            "source_pe": 44,
             "dest_pe": 4,
             "data_size": 8192
           },
@@ -622,109 +476,25 @@
             "data_size": 8192
           },
           {
-            "task_id": 100,
-            "source_pe": 84,
-            "dest_pe": 64,
+            "task_id": 78,
+            "source_pe": 66,
+            "dest_pe": 66,
             "data_size": 8192
           },
           {
-            "task_id": 101,
-            "source_pe": 104,
-            "dest_pe": 64,
+            "task_id": 141,
+            "source_pe": 383,
+            "dest_pe": 383,
             "data_size": 8192
           },
           {
-            "task_id": 103,
-            "source_pe": 85,
-            "dest_pe": 65,
-            "data_size": 8192
-          },
-          {
-            "task_id": 104,
-            "source_pe": 105,
-            "dest_pe": 65,
-            "data_size": 8192
-          },
-          {
-            "task_id": 130,
-            "source_pe": 344,
-            "dest_pe": 344,
-            "data_size": 8192
-          },
-          {
-            "task_id": 135,
-            "source_pe": 363,
-            "dest_pe": 363,
-            "data_size": 8192
-          },
-          {
-            "task_id": 136,
-            "source_pe": 364,
-            "dest_pe": 364,
-            "data_size": 8192
-          },
-          {
-            "task_id": 138,
-            "source_pe": 366,
-            "dest_pe": 366,
-            "data_size": 8192
-          },
-          {
-            "task_id": 139,
-            "source_pe": 381,
-            "dest_pe": 381,
-            "data_size": 8192
-          },
-          {
-            "task_id": 140,
-            "source_pe": 382,
-            "dest_pe": 382,
-            "data_size": 8192
-          },
-          {
-            "task_id": 142,
-            "source_pe": 384,
-            "dest_pe": 384,
+            "task_id": 143,
+            "source_pe": 385,
+            "dest_pe": 385,
             "data_size": 8192
           }
         ],
         "2": [
-          {
-            "task_id": 20,
-            "source_pe": 2,
-            "dest_pe": 2,
-            "data_size": 8192
-          },
-          {
-            "task_id": 21,
-            "source_pe": 3,
-            "dest_pe": 3,
-            "data_size": 8192
-          },
-          {
-            "task_id": 23,
-            "source_pe": 5,
-            "dest_pe": 5,
-            "data_size": 8192
-          },
-          {
-            "task_id": 24,
-            "source_pe": 6,
-            "dest_pe": 6,
-            "data_size": 8192
-          },
-          {
-            "task_id": 40,
-            "source_pe": 22,
-            "dest_pe": 2,
-            "data_size": 8192
-          },
-          {
-            "task_id": 41,
-            "source_pe": 42,
-            "dest_pe": 2,
-            "data_size": 8192
-          },
           {
             "task_id": 43,
             "source_pe": 23,
@@ -735,6 +505,18 @@
             "task_id": 44,
             "source_pe": 43,
             "dest_pe": 3,
+            "data_size": 8192
+          },
+          {
+            "task_id": 46,
+            "source_pe": 24,
+            "dest_pe": 4,
+            "data_size": 8192
+          },
+          {
+            "task_id": 47,
+            "source_pe": 44,
+            "dest_pe": 4,
             "data_size": 8192
           },
           {
@@ -762,27 +544,138 @@
             "data_size": 8192
           },
           {
-            "task_id": 74,
-            "source_pe": 62,
-            "dest_pe": 62,
+            "task_id": 97,
+            "source_pe": 83,
+            "dest_pe": 63,
             "data_size": 8192
           },
           {
-            "task_id": 95,
+            "task_id": 98,
+            "source_pe": 103,
+            "dest_pe": 63,
+            "data_size": 8192
+          },
+          {
+            "task_id": 100,
+            "source_pe": 84,
+            "dest_pe": 64,
+            "data_size": 8192
+          },
+          {
+            "task_id": 101,
+            "source_pe": 104,
+            "dest_pe": 64,
+            "data_size": 8192
+          },
+          {
+            "task_id": 103,
+            "source_pe": 85,
+            "dest_pe": 65,
+            "data_size": 8192
+          },
+          {
+            "task_id": 104,
+            "source_pe": 105,
+            "dest_pe": 65,
+            "data_size": 8192
+          },
+          {
+            "task_id": 106,
+            "source_pe": 86,
+            "dest_pe": 66,
+            "data_size": 8192
+          },
+          {
+            "task_id": 107,
+            "source_pe": 106,
+            "dest_pe": 66,
+            "data_size": 8192
+          },
+          {
+            "task_id": 136,
+            "source_pe": 364,
+            "dest_pe": 364,
+            "data_size": 8192
+          }
+        ],
+        "3": [],
+        "4": [
+          {
+            "task_id": 21,
+            "source_pe": 3,
+            "dest_pe": 3,
+            "data_size": 8192
+          },
+          {
+            "task_id": 23,
+            "source_pe": 5,
+            "dest_pe": 5,
+            "data_size": 8192
+          },
+          {
+            "task_id": 24,
+            "source_pe": 6,
+            "dest_pe": 6,
+            "data_size": 8192
+          },
+          {
+            "task_id": 25,
+            "source_pe": 21,
+            "dest_pe": 21,
+            "data_size": 8192
+          },
+          {
+            "task_id": 26,
+            "source_pe": 22,
+            "dest_pe": 22,
+            "data_size": 8192
+          },
+          {
+            "task_id": 31,
+            "source_pe": 41,
+            "dest_pe": 41,
+            "data_size": 8192
+          },
+          {
+            "task_id": 32,
+            "source_pe": 42,
+            "dest_pe": 42,
+            "data_size": 8192
+          },
+          {
+            "task_id": 75,
+            "source_pe": 63,
+            "dest_pe": 63,
+            "data_size": 8192
+          },
+          {
+            "task_id": 79,
+            "source_pe": 81,
+            "dest_pe": 81,
+            "data_size": 8192
+          },
+          {
+            "task_id": 80,
+            "source_pe": 82,
+            "dest_pe": 82,
+            "data_size": 8192
+          },
+          {
+            "task_id": 85,
+            "source_pe": 101,
+            "dest_pe": 101,
+            "data_size": 8192
+          },
+          {
+            "task_id": 86,
             "source_pe": 102,
-            "dest_pe": 62,
+            "dest_pe": 102,
             "data_size": 8192
           },
           {
-            "task_id": 132,
-            "source_pe": 346,
-            "dest_pe": 346,
-            "data_size": 8192
-          },
-          {
-            "task_id": 134,
-            "source_pe": 362,
-            "dest_pe": 362,
+            "task_id": 135,
+            "source_pe": 363,
+            "dest_pe": 363,
             "data_size": 8192
           },
           {
@@ -792,35 +685,21 @@
             "data_size": 8192
           },
           {
-            "task_id": 141,
-            "source_pe": 383,
-            "dest_pe": 383,
+            "task_id": 138,
+            "source_pe": 366,
+            "dest_pe": 366,
             "data_size": 8192
           },
           {
-            "task_id": 161,
+            "task_id": 142,
+            "source_pe": 384,
+            "dest_pe": 384,
+            "data_size": 8192
+          },
+          {
+            "task_id": 144,
             "source_pe": 386,
-            "dest_pe": 346,
-            "data_size": 8192
-          }
-        ],
-        "3": [
-          {
-            "task_id": 80,
-            "source_pe": 82,
-            "dest_pe": 82,
-            "data_size": 8192
-          },
-          {
-            "task_id": 127,
-            "source_pe": 341,
-            "dest_pe": 341,
-            "data_size": 8192
-          },
-          {
-            "task_id": 145,
-            "source_pe": 361,
-            "dest_pe": 341,
+            "dest_pe": 386,
             "data_size": 8192
           }
         ]
@@ -829,85 +708,36 @@
     {
       "cycle": 3,
       "chiplets": {
-        "0": [
-          {
-            "task_id": 93,
-            "source_pe": 61,
-            "dest_pe": 61,
-            "data_size": 8192
-          },
-          {
-            "task_id": 99,
-            "source_pe": 63,
-            "dest_pe": 63,
-            "data_size": 8192
-          },
-          {
-            "task_id": 108,
-            "source_pe": 66,
-            "dest_pe": 66,
-            "data_size": 8192
-          },
-          {
-            "task_id": 128,
-            "source_pe": 342,
-            "dest_pe": 342,
-            "data_size": 8192
-          },
-          {
-            "task_id": 148,
-            "source_pe": 362,
-            "dest_pe": 342,
-            "data_size": 8192
-          },
-          {
-            "task_id": 149,
-            "source_pe": 382,
-            "dest_pe": 342,
-            "data_size": 8192
-          },
-          {
-            "task_id": 151,
-            "source_pe": 363,
-            "dest_pe": 343,
-            "data_size": 8192
-          },
-          {
-            "task_id": 152,
-            "source_pe": 383,
-            "dest_pe": 343,
-            "data_size": 8192
-          },
-          {
-            "task_id": 157,
-            "source_pe": 365,
-            "dest_pe": 345,
-            "data_size": 8192
-          },
-          {
-            "task_id": 158,
-            "source_pe": 385,
-            "dest_pe": 345,
-            "data_size": 8192
-          }
-        ],
+        "0": [],
         "1": [
           {
-            "task_id": 37,
-            "source_pe": 21,
+            "task_id": 19,
+            "source_pe": 1,
             "dest_pe": 1,
             "data_size": 8192
           },
           {
-            "task_id": 38,
-            "source_pe": 41,
-            "dest_pe": 1,
+            "task_id": 20,
+            "source_pe": 2,
+            "dest_pe": 2,
             "data_size": 8192
           },
           {
             "task_id": 48,
             "source_pe": 4,
             "dest_pe": 4,
+            "data_size": 8192
+          },
+          {
+            "task_id": 73,
+            "source_pe": 61,
+            "dest_pe": 61,
+            "data_size": 8192
+          },
+          {
+            "task_id": 74,
+            "source_pe": 62,
+            "dest_pe": 62,
             "data_size": 8192
           },
           {
@@ -923,22 +753,91 @@
             "data_size": 8192
           },
           {
-            "task_id": 154,
-            "source_pe": 364,
+            "task_id": 108,
+            "source_pe": 66,
+            "dest_pe": 66,
+            "data_size": 8192
+          },
+          {
+            "task_id": 129,
+            "source_pe": 343,
+            "dest_pe": 343,
+            "data_size": 8192
+          },
+          {
+            "task_id": 130,
+            "source_pe": 344,
             "dest_pe": 344,
             "data_size": 8192
           },
           {
-            "task_id": 155,
-            "source_pe": 384,
-            "dest_pe": 344,
+            "task_id": 140,
+            "source_pe": 382,
+            "dest_pe": 382,
+            "data_size": 8192
+          },
+          {
+            "task_id": 152,
+            "source_pe": 383,
+            "dest_pe": 343,
+            "data_size": 8192
+          },
+          {
+            "task_id": 158,
+            "source_pe": 385,
+            "dest_pe": 345,
             "data_size": 8192
           }
         ],
         "2": [
           {
-            "task_id": 42,
-            "source_pe": 2,
+            "task_id": 131,
+            "source_pe": 345,
+            "dest_pe": 345,
+            "data_size": 8192
+          },
+          {
+            "task_id": 132,
+            "source_pe": 346,
+            "dest_pe": 346,
+            "data_size": 8192
+          },
+          {
+            "task_id": 134,
+            "source_pe": 362,
+            "dest_pe": 362,
+            "data_size": 8192
+          },
+          {
+            "task_id": 154,
+            "source_pe": 364,
+            "dest_pe": 344,
+            "data_size": 8192
+          }
+        ],
+        "3": [],
+        "4": [
+          {
+            "task_id": 37,
+            "source_pe": 21,
+            "dest_pe": 1,
+            "data_size": 8192
+          },
+          {
+            "task_id": 38,
+            "source_pe": 41,
+            "dest_pe": 1,
+            "data_size": 8192
+          },
+          {
+            "task_id": 40,
+            "source_pe": 22,
+            "dest_pe": 2,
+            "data_size": 8192
+          },
+          {
+            "task_id": 41,
+            "source_pe": 42,
             "dest_pe": 2,
             "data_size": 8192
           },
@@ -961,9 +860,63 @@
             "data_size": 8192
           },
           {
+            "task_id": 91,
+            "source_pe": 81,
+            "dest_pe": 61,
+            "data_size": 8192
+          },
+          {
+            "task_id": 92,
+            "source_pe": 101,
+            "dest_pe": 61,
+            "data_size": 8192
+          },
+          {
             "task_id": 94,
             "source_pe": 82,
             "dest_pe": 62,
+            "data_size": 8192
+          },
+          {
+            "task_id": 95,
+            "source_pe": 102,
+            "dest_pe": 62,
+            "data_size": 8192
+          },
+          {
+            "task_id": 99,
+            "source_pe": 63,
+            "dest_pe": 63,
+            "data_size": 8192
+          },
+          {
+            "task_id": 133,
+            "source_pe": 361,
+            "dest_pe": 361,
+            "data_size": 8192
+          },
+          {
+            "task_id": 139,
+            "source_pe": 381,
+            "dest_pe": 381,
+            "data_size": 8192
+          },
+          {
+            "task_id": 151,
+            "source_pe": 363,
+            "dest_pe": 343,
+            "data_size": 8192
+          },
+          {
+            "task_id": 155,
+            "source_pe": 384,
+            "dest_pe": 344,
+            "data_size": 8192
+          },
+          {
+            "task_id": 157,
+            "source_pe": 365,
+            "dest_pe": 345,
             "data_size": 8192
           },
           {
@@ -971,13 +924,11 @@
             "source_pe": 366,
             "dest_pe": 346,
             "data_size": 8192
-          }
-        ],
-        "3": [
+          },
           {
-            "task_id": 146,
-            "source_pe": 381,
-            "dest_pe": 341,
+            "task_id": 161,
+            "source_pe": 386,
+            "dest_pe": 346,
             "data_size": 8192
           }
         ]
@@ -986,10 +937,47 @@
     {
       "cycle": 4,
       "chiplets": {
-        "0": [
+        "0": [],
+        "1": [
           {
-            "task_id": 150,
+            "task_id": 39,
+            "source_pe": 1,
+            "dest_pe": 1,
+            "data_size": 8192
+          },
+          {
+            "task_id": 42,
+            "source_pe": 2,
+            "dest_pe": 2,
+            "data_size": 8192
+          },
+          {
+            "task_id": 93,
+            "source_pe": 61,
+            "dest_pe": 61,
+            "data_size": 8192
+          },
+          {
+            "task_id": 96,
+            "source_pe": 62,
+            "dest_pe": 62,
+            "data_size": 8192
+          },
+          {
+            "task_id": 127,
+            "source_pe": 341,
+            "dest_pe": 341,
+            "data_size": 8192
+          },
+          {
+            "task_id": 128,
             "source_pe": 342,
+            "dest_pe": 342,
+            "data_size": 8192
+          },
+          {
+            "task_id": 149,
+            "source_pe": 382,
             "dest_pe": 342,
             "data_size": 8192
           },
@@ -1000,42 +988,10 @@
             "data_size": 8192
           },
           {
-            "task_id": 159,
-            "source_pe": 345,
-            "dest_pe": 345,
-            "data_size": 8192
-          }
-        ],
-        "1": [
-          {
-            "task_id": 39,
-            "source_pe": 1,
-            "dest_pe": 1,
-            "data_size": 8192
-          },
-          {
             "task_id": 156,
             "source_pe": 344,
             "dest_pe": 344,
             "data_size": 8192
-          },
-          {
-            "task_id": 169,
-            "source_pe": 61,
-            "dest_pe": 143,
-            "data_size": 4096
-          },
-          {
-            "task_id": 188,
-            "source_pe": 3,
-            "dest_pe": 123,
-            "data_size": 4096
-          },
-          {
-            "task_id": 189,
-            "source_pe": 63,
-            "dest_pe": 123,
-            "data_size": 4096
           },
           {
             "task_id": 193,
@@ -1047,32 +1003,6 @@
             "task_id": 194,
             "source_pe": 64,
             "dest_pe": 142,
-            "data_size": 4096
-          }
-        ],
-        "2": [
-          {
-            "task_id": 96,
-            "source_pe": 62,
-            "dest_pe": 62,
-            "data_size": 8192
-          },
-          {
-            "task_id": 162,
-            "source_pe": 346,
-            "dest_pe": 346,
-            "data_size": 8192
-          },
-          {
-            "task_id": 183,
-            "source_pe": 3,
-            "dest_pe": 183,
-            "data_size": 4096
-          },
-          {
-            "task_id": 184,
-            "source_pe": 63,
-            "dest_pe": 183,
             "data_size": 4096
           },
           {
@@ -1088,46 +1018,97 @@
             "data_size": 4096
           },
           {
+            "task_id": 204,
+            "source_pe": 65,
+            "dest_pe": 161,
+            "data_size": 4096
+          },
+          {
+            "task_id": 209,
+            "source_pe": 65,
+            "dest_pe": 165,
+            "data_size": 4096
+          },
+          {
+            "task_id": 214,
+            "source_pe": 66,
+            "dest_pe": 182,
+            "data_size": 4096
+          },
+          {
+            "task_id": 219,
+            "source_pe": 66,
+            "dest_pe": 184,
+            "data_size": 4096
+          }
+        ],
+        "2": [
+          {
+            "task_id": 148,
+            "source_pe": 362,
+            "dest_pe": 342,
+            "data_size": 8192
+          },
+          {
+            "task_id": 159,
+            "source_pe": 345,
+            "dest_pe": 345,
+            "data_size": 8192
+          },
+          {
+            "task_id": 162,
+            "source_pe": 346,
+            "dest_pe": 346,
+            "data_size": 8192
+          }
+        ],
+        "3": [],
+        "4": [
+          {
+            "task_id": 145,
+            "source_pe": 361,
+            "dest_pe": 341,
+            "data_size": 8192
+          },
+          {
+            "task_id": 146,
+            "source_pe": 381,
+            "dest_pe": 341,
+            "data_size": 8192
+          },
+          {
+            "task_id": 183,
+            "source_pe": 3,
+            "dest_pe": 183,
+            "data_size": 4096
+          },
+          {
+            "task_id": 184,
+            "source_pe": 63,
+            "dest_pe": 183,
+            "data_size": 4096
+          },
+          {
+            "task_id": 188,
+            "source_pe": 3,
+            "dest_pe": 123,
+            "data_size": 4096
+          },
+          {
+            "task_id": 189,
+            "source_pe": 63,
+            "dest_pe": 123,
+            "data_size": 4096
+          },
+          {
             "task_id": 203,
             "source_pe": 5,
             "dest_pe": 161,
             "data_size": 4096
           },
           {
-            "task_id": 204,
-            "source_pe": 65,
-            "dest_pe": 161,
-            "data_size": 4096
-          }
-        ],
-        "3": [
-          {
-            "task_id": 147,
-            "source_pe": 341,
-            "dest_pe": 341,
-            "data_size": 8192
-          },
-          {
-            "task_id": 164,
-            "source_pe": 61,
-            "dest_pe": 163,
-            "data_size": 4096
-          },
-          {
-            "task_id": 178,
-            "source_pe": 2,
-            "dest_pe": 164,
-            "data_size": 4096
-          },
-          {
             "task_id": 208,
             "source_pe": 5,
-            "dest_pe": 165,
-            "data_size": 4096
-          },
-          {
-            "task_id": 209,
-            "source_pe": 65,
             "dest_pe": 165,
             "data_size": 4096
           },
@@ -1138,20 +1119,8 @@
             "data_size": 4096
           },
           {
-            "task_id": 214,
-            "source_pe": 66,
-            "dest_pe": 182,
-            "data_size": 4096
-          },
-          {
             "task_id": 218,
             "source_pe": 6,
-            "dest_pe": 184,
-            "data_size": 4096
-          },
-          {
-            "task_id": 219,
-            "source_pe": 66,
             "dest_pe": 184,
             "data_size": 4096
           }
@@ -1164,14 +1133,38 @@
         "0": [],
         "1": [
           {
+            "task_id": 147,
+            "source_pe": 341,
+            "dest_pe": 341,
+            "data_size": 8192
+          },
+          {
+            "task_id": 150,
+            "source_pe": 342,
+            "dest_pe": 342,
+            "data_size": 8192
+          },
+          {
+            "task_id": 163,
+            "source_pe": 1,
+            "dest_pe": 163,
+            "data_size": 4096
+          },
+          {
+            "task_id": 164,
+            "source_pe": 61,
+            "dest_pe": 163,
+            "data_size": 4096
+          },
+          {
             "task_id": 168,
             "source_pe": 1,
             "dest_pe": 143,
             "data_size": 4096
           },
           {
-            "task_id": 171,
-            "source_pe": 341,
+            "task_id": 169,
+            "source_pe": 61,
             "dest_pe": 143,
             "data_size": 4096
           },
@@ -1188,37 +1181,17 @@
             "data_size": 4096
           },
           {
-            "task_id": 176,
-            "source_pe": 342,
-            "dest_pe": 162,
+            "task_id": 178,
+            "source_pe": 2,
+            "dest_pe": 164,
             "data_size": 4096
           },
           {
-            "task_id": 190,
-            "source_pe": 123,
-            "dest_pe": 123,
-            "data_size": 2048
-          },
-          {
-            "task_id": 191,
-            "source_pe": 343,
-            "dest_pe": 123,
+            "task_id": 179,
+            "source_pe": 62,
+            "dest_pe": 164,
             "data_size": 4096
           },
-          {
-            "task_id": 195,
-            "source_pe": 142,
-            "dest_pe": 142,
-            "data_size": 2048
-          },
-          {
-            "task_id": 196,
-            "source_pe": 344,
-            "dest_pe": 142,
-            "data_size": 4096
-          }
-        ],
-        "2": [
           {
             "task_id": 185,
             "source_pe": 183,
@@ -1232,10 +1205,16 @@
             "data_size": 4096
           },
           {
-            "task_id": 200,
-            "source_pe": 144,
-            "dest_pe": 144,
-            "data_size": 2048
+            "task_id": 191,
+            "source_pe": 343,
+            "dest_pe": 123,
+            "data_size": 4096
+          },
+          {
+            "task_id": 196,
+            "source_pe": 344,
+            "dest_pe": 142,
+            "data_size": 4096
           },
           {
             "task_id": 201,
@@ -1250,42 +1229,18 @@
             "data_size": 2048
           },
           {
+            "task_id": 215,
+            "source_pe": 182,
+            "dest_pe": 182,
+            "data_size": 2048
+          }
+        ],
+        "2": [
+          {
             "task_id": 206,
             "source_pe": 345,
             "dest_pe": 161,
             "data_size": 4096
-          }
-        ],
-        "3": [
-          {
-            "task_id": 163,
-            "source_pe": 1,
-            "dest_pe": 163,
-            "data_size": 4096
-          },
-          {
-            "task_id": 166,
-            "source_pe": 341,
-            "dest_pe": 163,
-            "data_size": 4096
-          },
-          {
-            "task_id": 179,
-            "source_pe": 62,
-            "dest_pe": 164,
-            "data_size": 4096
-          },
-          {
-            "task_id": 181,
-            "source_pe": 342,
-            "dest_pe": 164,
-            "data_size": 4096
-          },
-          {
-            "task_id": 210,
-            "source_pe": 165,
-            "dest_pe": 165,
-            "data_size": 2048
           },
           {
             "task_id": 211,
@@ -1294,28 +1249,49 @@
             "data_size": 4096
           },
           {
-            "task_id": 215,
-            "source_pe": 182,
-            "dest_pe": 182,
-            "data_size": 2048
-          },
-          {
             "task_id": 216,
             "source_pe": 346,
             "dest_pe": 182,
             "data_size": 4096
           },
           {
-            "task_id": 220,
-            "source_pe": 184,
-            "dest_pe": 184,
-            "data_size": 2048
-          },
-          {
             "task_id": 221,
             "source_pe": 346,
             "dest_pe": 184,
             "data_size": 4096
+          }
+        ],
+        "3": [],
+        "4": [
+          {
+            "task_id": 190,
+            "source_pe": 123,
+            "dest_pe": 123,
+            "data_size": 2048
+          },
+          {
+            "task_id": 195,
+            "source_pe": 142,
+            "dest_pe": 142,
+            "data_size": 2048
+          },
+          {
+            "task_id": 200,
+            "source_pe": 144,
+            "dest_pe": 144,
+            "data_size": 2048
+          },
+          {
+            "task_id": 210,
+            "source_pe": 165,
+            "dest_pe": 165,
+            "data_size": 2048
+          },
+          {
+            "task_id": 220,
+            "source_pe": 184,
+            "dest_pe": 184,
+            "data_size": 2048
           }
         ]
       }
@@ -1326,11 +1302,69 @@
         "0": [],
         "1": [
           {
+            "task_id": 165,
+            "source_pe": 163,
+            "dest_pe": 163,
+            "data_size": 2048
+          },
+          {
+            "task_id": 166,
+            "source_pe": 341,
+            "dest_pe": 163,
+            "data_size": 4096
+          },
+          {
             "task_id": 170,
             "source_pe": 143,
             "dest_pe": 143,
             "data_size": 2048
           },
+          {
+            "task_id": 171,
+            "source_pe": 341,
+            "dest_pe": 143,
+            "data_size": 4096
+          },
+          {
+            "task_id": 176,
+            "source_pe": 342,
+            "dest_pe": 162,
+            "data_size": 4096
+          },
+          {
+            "task_id": 180,
+            "source_pe": 164,
+            "dest_pe": 164,
+            "data_size": 2048
+          },
+          {
+            "task_id": 181,
+            "source_pe": 342,
+            "dest_pe": 164,
+            "data_size": 4096
+          },
+          {
+            "task_id": 187,
+            "source_pe": 183,
+            "dest_pe": 183,
+            "data_size": 4096
+          },
+          {
+            "task_id": 207,
+            "source_pe": 161,
+            "dest_pe": 161,
+            "data_size": 4096
+          },
+          {
+            "task_id": 217,
+            "source_pe": 182,
+            "dest_pe": 182,
+            "data_size": 4096
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
           {
             "task_id": 175,
             "source_pe": 162,
@@ -1348,14 +1382,6 @@
             "source_pe": 142,
             "dest_pe": 142,
             "data_size": 4096
-          }
-        ],
-        "2": [
-          {
-            "task_id": 187,
-            "source_pe": 183,
-            "dest_pe": 183,
-            "data_size": 4096
           },
           {
             "task_id": 202,
@@ -1364,35 +1390,9 @@
             "data_size": 4096
           },
           {
-            "task_id": 207,
-            "source_pe": 161,
-            "dest_pe": 161,
-            "data_size": 4096
-          }
-        ],
-        "3": [
-          {
-            "task_id": 165,
-            "source_pe": 163,
-            "dest_pe": 163,
-            "data_size": 2048
-          },
-          {
-            "task_id": 180,
-            "source_pe": 164,
-            "dest_pe": 164,
-            "data_size": 2048
-          },
-          {
             "task_id": 212,
             "source_pe": 165,
             "dest_pe": 165,
-            "data_size": 4096
-          },
-          {
-            "task_id": 217,
-            "source_pe": 182,
-            "dest_pe": 182,
             "data_size": 4096
           },
           {
@@ -1410,23 +1410,139 @@
         "0": [],
         "1": [
           {
+            "task_id": 167,
+            "source_pe": 163,
+            "dest_pe": 163,
+            "data_size": 4096
+          },
+          {
             "task_id": 172,
             "source_pe": 143,
             "dest_pe": 143,
             "data_size": 4096
           },
           {
-            "task_id": 177,
-            "source_pe": 162,
-            "dest_pe": 162,
+            "task_id": 182,
+            "source_pe": 164,
+            "dest_pe": 164,
             "data_size": 4096
-          }
-        ],
-        "2": [
+          },
           {
             "task_id": 247,
             "source_pe": 183,
             "dest_pe": 221,
+            "data_size": 4096
+          },
+          {
+            "task_id": 251,
+            "source_pe": 183,
+            "dest_pe": 222,
+            "data_size": 4096
+          },
+          {
+            "task_id": 255,
+            "source_pe": 183,
+            "dest_pe": 223,
+            "data_size": 4096
+          },
+          {
+            "task_id": 259,
+            "source_pe": 183,
+            "dest_pe": 224,
+            "data_size": 4096
+          },
+          {
+            "task_id": 263,
+            "source_pe": 183,
+            "dest_pe": 225,
+            "data_size": 4096
+          },
+          {
+            "task_id": 267,
+            "source_pe": 183,
+            "dest_pe": 226,
+            "data_size": 4096
+          },
+          {
+            "task_id": 271,
+            "source_pe": 161,
+            "dest_pe": 241,
+            "data_size": 4096
+          },
+          {
+            "task_id": 273,
+            "source_pe": 182,
+            "dest_pe": 241,
+            "data_size": 4096
+          },
+          {
+            "task_id": 275,
+            "source_pe": 161,
+            "dest_pe": 242,
+            "data_size": 4096
+          },
+          {
+            "task_id": 277,
+            "source_pe": 182,
+            "dest_pe": 242,
+            "data_size": 4096
+          },
+          {
+            "task_id": 279,
+            "source_pe": 161,
+            "dest_pe": 243,
+            "data_size": 4096
+          },
+          {
+            "task_id": 281,
+            "source_pe": 182,
+            "dest_pe": 243,
+            "data_size": 4096
+          },
+          {
+            "task_id": 283,
+            "source_pe": 161,
+            "dest_pe": 244,
+            "data_size": 4096
+          },
+          {
+            "task_id": 285,
+            "source_pe": 182,
+            "dest_pe": 244,
+            "data_size": 4096
+          },
+          {
+            "task_id": 287,
+            "source_pe": 161,
+            "dest_pe": 245,
+            "data_size": 4096
+          },
+          {
+            "task_id": 289,
+            "source_pe": 182,
+            "dest_pe": 245,
+            "data_size": 4096
+          },
+          {
+            "task_id": 291,
+            "source_pe": 161,
+            "dest_pe": 246,
+            "data_size": 4096
+          },
+          {
+            "task_id": 293,
+            "source_pe": 182,
+            "dest_pe": 246,
+            "data_size": 4096
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 177,
+            "source_pe": 162,
+            "dest_pe": 162,
             "data_size": 4096
           },
           {
@@ -1448,9 +1564,21 @@
             "data_size": 4096
           },
           {
-            "task_id": 255,
-            "source_pe": 183,
-            "dest_pe": 223,
+            "task_id": 252,
+            "source_pe": 123,
+            "dest_pe": 222,
+            "data_size": 4096
+          },
+          {
+            "task_id": 253,
+            "source_pe": 142,
+            "dest_pe": 222,
+            "data_size": 4096
+          },
+          {
+            "task_id": 254,
+            "source_pe": 144,
+            "dest_pe": 222,
             "data_size": 4096
           },
           {
@@ -1472,12 +1600,6 @@
             "data_size": 4096
           },
           {
-            "task_id": 259,
-            "source_pe": 183,
-            "dest_pe": 224,
-            "data_size": 4096
-          },
-          {
             "task_id": 260,
             "source_pe": 123,
             "dest_pe": 224,
@@ -1493,12 +1615,6 @@
             "task_id": 262,
             "source_pe": 144,
             "dest_pe": 224,
-            "data_size": 4096
-          },
-          {
-            "task_id": 263,
-            "source_pe": 183,
-            "dest_pe": 225,
             "data_size": 4096
           },
           {
@@ -1520,12 +1636,6 @@
             "data_size": 4096
           },
           {
-            "task_id": 267,
-            "source_pe": 183,
-            "dest_pe": 226,
-            "data_size": 4096
-          },
-          {
             "task_id": 268,
             "source_pe": 123,
             "dest_pe": 226,
@@ -1544,106 +1654,8 @@
             "data_size": 4096
           },
           {
-            "task_id": 283,
-            "source_pe": 161,
-            "dest_pe": 244,
-            "data_size": 4096
-          },
-          {
-            "task_id": 284,
-            "source_pe": 165,
-            "dest_pe": 244,
-            "data_size": 4096
-          },
-          {
-            "task_id": 285,
-            "source_pe": 182,
-            "dest_pe": 244,
-            "data_size": 4096
-          },
-          {
-            "task_id": 286,
-            "source_pe": 184,
-            "dest_pe": 244,
-            "data_size": 4096
-          },
-          {
-            "task_id": 287,
-            "source_pe": 161,
-            "dest_pe": 245,
-            "data_size": 4096
-          },
-          {
-            "task_id": 288,
-            "source_pe": 165,
-            "dest_pe": 245,
-            "data_size": 4096
-          },
-          {
-            "task_id": 289,
-            "source_pe": 182,
-            "dest_pe": 245,
-            "data_size": 4096
-          },
-          {
-            "task_id": 290,
-            "source_pe": 184,
-            "dest_pe": 245,
-            "data_size": 4096
-          }
-        ],
-        "3": [
-          {
-            "task_id": 167,
-            "source_pe": 163,
-            "dest_pe": 163,
-            "data_size": 4096
-          },
-          {
-            "task_id": 182,
-            "source_pe": 164,
-            "dest_pe": 164,
-            "data_size": 4096
-          },
-          {
-            "task_id": 251,
-            "source_pe": 183,
-            "dest_pe": 222,
-            "data_size": 4096
-          },
-          {
-            "task_id": 252,
-            "source_pe": 123,
-            "dest_pe": 222,
-            "data_size": 4096
-          },
-          {
-            "task_id": 253,
-            "source_pe": 142,
-            "dest_pe": 222,
-            "data_size": 4096
-          },
-          {
-            "task_id": 254,
-            "source_pe": 144,
-            "dest_pe": 222,
-            "data_size": 4096
-          },
-          {
-            "task_id": 271,
-            "source_pe": 161,
-            "dest_pe": 241,
-            "data_size": 4096
-          },
-          {
             "task_id": 272,
             "source_pe": 165,
-            "dest_pe": 241,
-            "data_size": 4096
-          },
-          {
-            "task_id": 273,
-            "source_pe": 182,
             "dest_pe": 241,
             "data_size": 4096
           },
@@ -1654,20 +1666,8 @@
             "data_size": 4096
           },
           {
-            "task_id": 275,
-            "source_pe": 161,
-            "dest_pe": 242,
-            "data_size": 4096
-          },
-          {
             "task_id": 276,
             "source_pe": 165,
-            "dest_pe": 242,
-            "data_size": 4096
-          },
-          {
-            "task_id": 277,
-            "source_pe": 182,
             "dest_pe": 242,
             "data_size": 4096
           },
@@ -1678,20 +1678,8 @@
             "data_size": 4096
           },
           {
-            "task_id": 279,
-            "source_pe": 161,
-            "dest_pe": 243,
-            "data_size": 4096
-          },
-          {
             "task_id": 280,
             "source_pe": 165,
-            "dest_pe": 243,
-            "data_size": 4096
-          },
-          {
-            "task_id": 281,
-            "source_pe": 182,
             "dest_pe": 243,
             "data_size": 4096
           },
@@ -1702,20 +1690,32 @@
             "data_size": 4096
           },
           {
-            "task_id": 291,
-            "source_pe": 161,
-            "dest_pe": 246,
+            "task_id": 284,
+            "source_pe": 165,
+            "dest_pe": 244,
+            "data_size": 4096
+          },
+          {
+            "task_id": 286,
+            "source_pe": 184,
+            "dest_pe": 244,
+            "data_size": 4096
+          },
+          {
+            "task_id": 288,
+            "source_pe": 165,
+            "dest_pe": 245,
+            "data_size": 4096
+          },
+          {
+            "task_id": 290,
+            "source_pe": 184,
+            "dest_pe": 245,
             "data_size": 4096
           },
           {
             "task_id": 292,
             "source_pe": 165,
-            "dest_pe": 246,
-            "data_size": 4096
-          },
-          {
-            "task_id": 293,
-            "source_pe": 182,
             "dest_pe": 246,
             "data_size": 4096
           },
@@ -1732,148 +1732,7 @@
       "cycle": 8,
       "chiplets": {
         "0": [],
-        "1": [],
-        "2": [
-          {
-            "task_id": 231,
-            "source_pe": 163,
-            "dest_pe": 203,
-            "data_size": 4096
-          },
-          {
-            "task_id": 232,
-            "source_pe": 143,
-            "dest_pe": 203,
-            "data_size": 4096
-          },
-          {
-            "task_id": 233,
-            "source_pe": 162,
-            "dest_pe": 203,
-            "data_size": 4096
-          },
-          {
-            "task_id": 234,
-            "source_pe": 164,
-            "dest_pe": 203,
-            "data_size": 4096
-          },
-          {
-            "task_id": 235,
-            "source_pe": 163,
-            "dest_pe": 204,
-            "data_size": 4096
-          },
-          {
-            "task_id": 236,
-            "source_pe": 143,
-            "dest_pe": 204,
-            "data_size": 4096
-          },
-          {
-            "task_id": 237,
-            "source_pe": 162,
-            "dest_pe": 204,
-            "data_size": 4096
-          },
-          {
-            "task_id": 238,
-            "source_pe": 164,
-            "dest_pe": 204,
-            "data_size": 4096
-          },
-          {
-            "task_id": 239,
-            "source_pe": 163,
-            "dest_pe": 205,
-            "data_size": 4096
-          },
-          {
-            "task_id": 240,
-            "source_pe": 143,
-            "dest_pe": 205,
-            "data_size": 4096
-          },
-          {
-            "task_id": 241,
-            "source_pe": 162,
-            "dest_pe": 205,
-            "data_size": 4096
-          },
-          {
-            "task_id": 242,
-            "source_pe": 164,
-            "dest_pe": 205,
-            "data_size": 4096
-          },
-          {
-            "task_id": 243,
-            "source_pe": 163,
-            "dest_pe": 206,
-            "data_size": 4096
-          },
-          {
-            "task_id": 244,
-            "source_pe": 143,
-            "dest_pe": 206,
-            "data_size": 4096
-          },
-          {
-            "task_id": 245,
-            "source_pe": 162,
-            "dest_pe": 206,
-            "data_size": 4096
-          },
-          {
-            "task_id": 246,
-            "source_pe": 164,
-            "dest_pe": 206,
-            "data_size": 4096
-          },
-          {
-            "task_id": 301,
-            "source_pe": 221,
-            "dest_pe": 221,
-            "data_size": 8192
-          },
-          {
-            "task_id": 303,
-            "source_pe": 223,
-            "dest_pe": 223,
-            "data_size": 8192
-          },
-          {
-            "task_id": 304,
-            "source_pe": 224,
-            "dest_pe": 224,
-            "data_size": 8192
-          },
-          {
-            "task_id": 305,
-            "source_pe": 225,
-            "dest_pe": 225,
-            "data_size": 8192
-          },
-          {
-            "task_id": 306,
-            "source_pe": 226,
-            "dest_pe": 226,
-            "data_size": 8192
-          },
-          {
-            "task_id": 310,
-            "source_pe": 244,
-            "dest_pe": 244,
-            "data_size": 8192
-          },
-          {
-            "task_id": 311,
-            "source_pe": 245,
-            "dest_pe": 245,
-            "data_size": 8192
-          }
-        ],
-        "3": [
+        "1": [
           {
             "task_id": 223,
             "source_pe": 163,
@@ -1883,12 +1742,6 @@
           {
             "task_id": 224,
             "source_pe": 143,
-            "dest_pe": 201,
-            "data_size": 4096
-          },
-          {
-            "task_id": 225,
-            "source_pe": 162,
             "dest_pe": 201,
             "data_size": 4096
           },
@@ -1911,15 +1764,45 @@
             "data_size": 4096
           },
           {
-            "task_id": 229,
-            "source_pe": 162,
+            "task_id": 230,
+            "source_pe": 164,
             "dest_pe": 202,
             "data_size": 4096
           },
           {
-            "task_id": 230,
+            "task_id": 231,
+            "source_pe": 163,
+            "dest_pe": 203,
+            "data_size": 4096
+          },
+          {
+            "task_id": 232,
+            "source_pe": 143,
+            "dest_pe": 203,
+            "data_size": 4096
+          },
+          {
+            "task_id": 234,
             "source_pe": 164,
-            "dest_pe": 202,
+            "dest_pe": 203,
+            "data_size": 4096
+          },
+          {
+            "task_id": 235,
+            "source_pe": 163,
+            "dest_pe": 204,
+            "data_size": 4096
+          },
+          {
+            "task_id": 236,
+            "source_pe": 143,
+            "dest_pe": 204,
+            "data_size": 4096
+          },
+          {
+            "task_id": 238,
+            "source_pe": 164,
+            "dest_pe": 204,
             "data_size": 4096
           },
           {
@@ -1929,9 +1812,67 @@
             "data_size": 8192
           },
           {
+            "task_id": 304,
+            "source_pe": 224,
+            "dest_pe": 224,
+            "data_size": 8192
+          },
+          {
             "task_id": 307,
             "source_pe": 241,
             "dest_pe": 241,
+            "data_size": 8192
+          },
+          {
+            "task_id": 310,
+            "source_pe": 244,
+            "dest_pe": 244,
+            "data_size": 8192
+          },
+          {
+            "task_id": 312,
+            "source_pe": 246,
+            "dest_pe": 246,
+            "data_size": 8192
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 225,
+            "source_pe": 162,
+            "dest_pe": 201,
+            "data_size": 4096
+          },
+          {
+            "task_id": 229,
+            "source_pe": 162,
+            "dest_pe": 202,
+            "data_size": 4096
+          },
+          {
+            "task_id": 233,
+            "source_pe": 162,
+            "dest_pe": 203,
+            "data_size": 4096
+          },
+          {
+            "task_id": 237,
+            "source_pe": 162,
+            "dest_pe": 204,
+            "data_size": 4096
+          },
+          {
+            "task_id": 301,
+            "source_pe": 221,
+            "dest_pe": 221,
+            "data_size": 8192
+          },
+          {
+            "task_id": 303,
+            "source_pe": 223,
+            "dest_pe": 223,
             "data_size": 8192
           },
           {
@@ -1947,9 +1888,9 @@
             "data_size": 8192
           },
           {
-            "task_id": 312,
-            "source_pe": 246,
-            "dest_pe": 246,
+            "task_id": 311,
+            "source_pe": 245,
+            "dest_pe": 245,
             "data_size": 8192
           }
         ]
@@ -1959,8 +1900,55 @@
       "cycle": 9,
       "chiplets": {
         "0": [],
-        "1": [],
-        "2": [
+        "1": [
+          {
+            "task_id": 239,
+            "source_pe": 163,
+            "dest_pe": 205,
+            "data_size": 4096
+          },
+          {
+            "task_id": 240,
+            "source_pe": 143,
+            "dest_pe": 205,
+            "data_size": 4096
+          },
+          {
+            "task_id": 242,
+            "source_pe": 164,
+            "dest_pe": 205,
+            "data_size": 4096
+          },
+          {
+            "task_id": 243,
+            "source_pe": 163,
+            "dest_pe": 206,
+            "data_size": 4096
+          },
+          {
+            "task_id": 244,
+            "source_pe": 143,
+            "dest_pe": 206,
+            "data_size": 4096
+          },
+          {
+            "task_id": 246,
+            "source_pe": 164,
+            "dest_pe": 206,
+            "data_size": 4096
+          },
+          {
+            "task_id": 295,
+            "source_pe": 201,
+            "dest_pe": 201,
+            "data_size": 8192
+          },
+          {
+            "task_id": 296,
+            "source_pe": 202,
+            "dest_pe": 202,
+            "data_size": 8192
+          },
           {
             "task_id": 297,
             "source_pe": 203,
@@ -1974,27 +1962,27 @@
             "data_size": 8192
           },
           {
-            "task_id": 299,
-            "source_pe": 205,
-            "dest_pe": 205,
+            "task_id": 305,
+            "source_pe": 225,
+            "dest_pe": 225,
             "data_size": 8192
           },
           {
-            "task_id": 300,
-            "source_pe": 206,
-            "dest_pe": 206,
+            "task_id": 306,
+            "source_pe": 226,
+            "dest_pe": 226,
             "data_size": 8192
           },
           {
-            "task_id": 319,
-            "source_pe": 223,
-            "dest_pe": 203,
+            "task_id": 314,
+            "source_pe": 241,
+            "dest_pe": 201,
             "data_size": 8192
           },
           {
-            "task_id": 320,
-            "source_pe": 243,
-            "dest_pe": 203,
+            "task_id": 316,
+            "source_pe": 222,
+            "dest_pe": 202,
             "data_size": 8192
           },
           {
@@ -2008,16 +1996,82 @@
             "source_pe": 244,
             "dest_pe": 204,
             "data_size": 8192
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 241,
+            "source_pe": 162,
+            "dest_pe": 205,
+            "data_size": 4096
+          },
+          {
+            "task_id": 245,
+            "source_pe": 162,
+            "dest_pe": 206,
+            "data_size": 4096
+          },
+          {
+            "task_id": 313,
+            "source_pe": 221,
+            "dest_pe": 201,
+            "data_size": 8192
+          },
+          {
+            "task_id": 317,
+            "source_pe": 242,
+            "dest_pe": 202,
+            "data_size": 8192
+          },
+          {
+            "task_id": 319,
+            "source_pe": 223,
+            "dest_pe": 203,
+            "data_size": 8192
+          },
+          {
+            "task_id": 320,
+            "source_pe": 243,
+            "dest_pe": 203,
+            "data_size": 8192
+          }
+        ]
+      }
+    },
+    {
+      "cycle": 10,
+      "chiplets": {
+        "0": [],
+        "1": [
+          {
+            "task_id": 315,
+            "source_pe": 201,
+            "dest_pe": 201,
+            "data_size": 8192
+          },
+          {
+            "task_id": 318,
+            "source_pe": 202,
+            "dest_pe": 202,
+            "data_size": 8192
+          },
+          {
+            "task_id": 321,
+            "source_pe": 203,
+            "dest_pe": 203,
+            "data_size": 8192
+          },
+          {
+            "task_id": 324,
+            "source_pe": 204,
+            "dest_pe": 204,
+            "data_size": 8192
           },
           {
             "task_id": 325,
             "source_pe": 225,
-            "dest_pe": 205,
-            "data_size": 8192
-          },
-          {
-            "task_id": 326,
-            "source_pe": 245,
             "dest_pe": 205,
             "data_size": 8192
           },
@@ -2034,88 +2088,25 @@
             "data_size": 8192
           }
         ],
-        "3": [
+        "2": [],
+        "3": [],
+        "4": [
           {
-            "task_id": 295,
-            "source_pe": 201,
-            "dest_pe": 201,
-            "data_size": 8192
-          },
-          {
-            "task_id": 296,
-            "source_pe": 202,
-            "dest_pe": 202,
-            "data_size": 8192
-          },
-          {
-            "task_id": 313,
-            "source_pe": 221,
-            "dest_pe": 201,
-            "data_size": 8192
-          },
-          {
-            "task_id": 314,
-            "source_pe": 241,
-            "dest_pe": 201,
-            "data_size": 8192
-          },
-          {
-            "task_id": 316,
-            "source_pe": 222,
-            "dest_pe": 202,
-            "data_size": 8192
-          },
-          {
-            "task_id": 317,
-            "source_pe": 242,
-            "dest_pe": 202,
-            "data_size": 8192
-          }
-        ]
-      }
-    },
-    {
-      "cycle": 10,
-      "chiplets": {
-        "0": [],
-        "1": [],
-        "2": [
-          {
-            "task_id": 321,
-            "source_pe": 203,
-            "dest_pe": 203,
-            "data_size": 8192
-          },
-          {
-            "task_id": 324,
-            "source_pe": 204,
-            "dest_pe": 204,
-            "data_size": 8192
-          },
-          {
-            "task_id": 327,
+            "task_id": 299,
             "source_pe": 205,
             "dest_pe": 205,
             "data_size": 8192
           },
           {
-            "task_id": 330,
+            "task_id": 300,
             "source_pe": 206,
             "dest_pe": 206,
             "data_size": 8192
-          }
-        ],
-        "3": [
-          {
-            "task_id": 315,
-            "source_pe": 201,
-            "dest_pe": 201,
-            "data_size": 8192
           },
           {
-            "task_id": 318,
-            "source_pe": 202,
-            "dest_pe": 202,
+            "task_id": 326,
+            "source_pe": 245,
+            "dest_pe": 205,
             "data_size": 8192
           }
         ]
@@ -2126,6 +2117,54 @@
       "chiplets": {
         "0": [],
         "1": [
+          {
+            "task_id": 331,
+            "source_pe": 202,
+            "dest_pe": 20,
+            "data_size": 8192
+          },
+          {
+            "task_id": 332,
+            "source_pe": 201,
+            "dest_pe": 20,
+            "data_size": 8192
+          },
+          {
+            "task_id": 333,
+            "source_pe": 202,
+            "dest_pe": 40,
+            "data_size": 8192
+          },
+          {
+            "task_id": 334,
+            "source_pe": 201,
+            "dest_pe": 40,
+            "data_size": 8192
+          },
+          {
+            "task_id": 335,
+            "source_pe": 202,
+            "dest_pe": 60,
+            "data_size": 8192
+          },
+          {
+            "task_id": 336,
+            "source_pe": 201,
+            "dest_pe": 60,
+            "data_size": 8192
+          },
+          {
+            "task_id": 337,
+            "source_pe": 202,
+            "dest_pe": 80,
+            "data_size": 8192
+          },
+          {
+            "task_id": 338,
+            "source_pe": 201,
+            "dest_pe": 80,
+            "data_size": 8192
+          },
           {
             "task_id": 339,
             "source_pe": 202,
@@ -2175,6 +2214,54 @@
             "data_size": 8192
           },
           {
+            "task_id": 347,
+            "source_pe": 202,
+            "dest_pe": 180,
+            "data_size": 8192
+          },
+          {
+            "task_id": 348,
+            "source_pe": 201,
+            "dest_pe": 180,
+            "data_size": 8192
+          },
+          {
+            "task_id": 349,
+            "source_pe": 202,
+            "dest_pe": 200,
+            "data_size": 8192
+          },
+          {
+            "task_id": 350,
+            "source_pe": 201,
+            "dest_pe": 200,
+            "data_size": 8192
+          },
+          {
+            "task_id": 351,
+            "source_pe": 202,
+            "dest_pe": 220,
+            "data_size": 8192
+          },
+          {
+            "task_id": 352,
+            "source_pe": 201,
+            "dest_pe": 220,
+            "data_size": 8192
+          },
+          {
+            "task_id": 353,
+            "source_pe": 202,
+            "dest_pe": 240,
+            "data_size": 8192
+          },
+          {
+            "task_id": 354,
+            "source_pe": 201,
+            "dest_pe": 240,
+            "data_size": 8192
+          },
+          {
             "task_id": 355,
             "source_pe": 202,
             "dest_pe": 260,
@@ -2196,6 +2283,18 @@
             "task_id": 358,
             "source_pe": 201,
             "dest_pe": 280,
+            "data_size": 8192
+          },
+          {
+            "task_id": 359,
+            "source_pe": 202,
+            "dest_pe": 300,
+            "data_size": 8192
+          },
+          {
+            "task_id": 360,
+            "source_pe": 201,
+            "dest_pe": 300,
             "data_size": 8192
           },
           {
@@ -2271,86 +2370,6 @@
             "data_size": 8192
           },
           {
-            "task_id": 381,
-            "source_pe": 204,
-            "dest_pe": 321,
-            "data_size": 8192
-          },
-          {
-            "task_id": 382,
-            "source_pe": 203,
-            "dest_pe": 321,
-            "data_size": 8192
-          },
-          {
-            "task_id": 383,
-            "source_pe": 204,
-            "dest_pe": 122,
-            "data_size": 8192
-          },
-          {
-            "task_id": 384,
-            "source_pe": 203,
-            "dest_pe": 122,
-            "data_size": 8192
-          },
-          {
-            "task_id": 393,
-            "source_pe": 204,
-            "dest_pe": 263,
-            "data_size": 8192
-          },
-          {
-            "task_id": 394,
-            "source_pe": 203,
-            "dest_pe": 263,
-            "data_size": 8192
-          },
-          {
-            "task_id": 399,
-            "source_pe": 204,
-            "dest_pe": 323,
-            "data_size": 8192
-          }
-        ],
-        "2": [
-          {
-            "task_id": 347,
-            "source_pe": 202,
-            "dest_pe": 180,
-            "data_size": 8192
-          },
-          {
-            "task_id": 348,
-            "source_pe": 201,
-            "dest_pe": 180,
-            "data_size": 8192
-          },
-          {
-            "task_id": 349,
-            "source_pe": 202,
-            "dest_pe": 200,
-            "data_size": 8192
-          },
-          {
-            "task_id": 350,
-            "source_pe": 201,
-            "dest_pe": 200,
-            "data_size": 8192
-          },
-          {
-            "task_id": 351,
-            "source_pe": 202,
-            "dest_pe": 220,
-            "data_size": 8192
-          },
-          {
-            "task_id": 352,
-            "source_pe": 201,
-            "dest_pe": 220,
-            "data_size": 8192
-          },
-          {
             "task_id": 373,
             "source_pe": 202,
             "dest_pe": 181,
@@ -2360,92 +2379,6 @@
             "task_id": 374,
             "source_pe": 201,
             "dest_pe": 181,
-            "data_size": 8192
-          },
-          {
-            "task_id": 395,
-            "source_pe": 204,
-            "dest_pe": 283,
-            "data_size": 8192
-          },
-          {
-            "task_id": 396,
-            "source_pe": 203,
-            "dest_pe": 283,
-            "data_size": 8192
-          }
-        ],
-        "3": [
-          {
-            "task_id": 331,
-            "source_pe": 202,
-            "dest_pe": 20,
-            "data_size": 8192
-          },
-          {
-            "task_id": 332,
-            "source_pe": 201,
-            "dest_pe": 20,
-            "data_size": 8192
-          },
-          {
-            "task_id": 333,
-            "source_pe": 202,
-            "dest_pe": 40,
-            "data_size": 8192
-          },
-          {
-            "task_id": 334,
-            "source_pe": 201,
-            "dest_pe": 40,
-            "data_size": 8192
-          },
-          {
-            "task_id": 335,
-            "source_pe": 202,
-            "dest_pe": 60,
-            "data_size": 8192
-          },
-          {
-            "task_id": 336,
-            "source_pe": 201,
-            "dest_pe": 60,
-            "data_size": 8192
-          },
-          {
-            "task_id": 337,
-            "source_pe": 202,
-            "dest_pe": 80,
-            "data_size": 8192
-          },
-          {
-            "task_id": 338,
-            "source_pe": 201,
-            "dest_pe": 80,
-            "data_size": 8192
-          },
-          {
-            "task_id": 353,
-            "source_pe": 202,
-            "dest_pe": 240,
-            "data_size": 8192
-          },
-          {
-            "task_id": 354,
-            "source_pe": 201,
-            "dest_pe": 240,
-            "data_size": 8192
-          },
-          {
-            "task_id": 359,
-            "source_pe": 202,
-            "dest_pe": 300,
-            "data_size": 8192
-          },
-          {
-            "task_id": 360,
-            "source_pe": 201,
-            "dest_pe": 300,
             "data_size": 8192
           },
           {
@@ -2482,6 +2415,30 @@
             "task_id": 380,
             "source_pe": 203,
             "dest_pe": 301,
+            "data_size": 8192
+          },
+          {
+            "task_id": 381,
+            "source_pe": 204,
+            "dest_pe": 321,
+            "data_size": 8192
+          },
+          {
+            "task_id": 382,
+            "source_pe": 203,
+            "dest_pe": 321,
+            "data_size": 8192
+          },
+          {
+            "task_id": 383,
+            "source_pe": 204,
+            "dest_pe": 122,
+            "data_size": 8192
+          },
+          {
+            "task_id": 384,
+            "source_pe": 203,
+            "dest_pe": 122,
             "data_size": 8192
           },
           {
@@ -2533,6 +2490,30 @@
             "data_size": 8192
           },
           {
+            "task_id": 393,
+            "source_pe": 204,
+            "dest_pe": 263,
+            "data_size": 8192
+          },
+          {
+            "task_id": 394,
+            "source_pe": 203,
+            "dest_pe": 263,
+            "data_size": 8192
+          },
+          {
+            "task_id": 395,
+            "source_pe": 204,
+            "dest_pe": 283,
+            "data_size": 8192
+          },
+          {
+            "task_id": 396,
+            "source_pe": 203,
+            "dest_pe": 283,
+            "data_size": 8192
+          },
+          {
             "task_id": 397,
             "source_pe": 204,
             "dest_pe": 303,
@@ -2542,6 +2523,28 @@
             "task_id": 398,
             "source_pe": 203,
             "dest_pe": 303,
+            "data_size": 8192
+          },
+          {
+            "task_id": 399,
+            "source_pe": 204,
+            "dest_pe": 323,
+            "data_size": 8192
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 327,
+            "source_pe": 205,
+            "dest_pe": 205,
+            "data_size": 8192
+          },
+          {
+            "task_id": 330,
+            "source_pe": 206,
+            "dest_pe": 206,
             "data_size": 8192
           }
         ]

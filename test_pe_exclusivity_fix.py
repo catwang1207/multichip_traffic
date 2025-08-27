@@ -23,17 +23,21 @@ if __name__ == "__main__":
     
     print(f"Problem: {len(problem.tasks)} tasks, {len(problem.pes)} PEs")
     
-    # Test ILP solver with fixed constraint
-    print("Solving with FIXED PE Exclusivity constraint...")
-    ilp_solution = problem.solve('ilp', max_chiplets=6, timeout=60, save_solution_file=True)
+    # Test ILP solver with timeout and upper bound fallback
+    print("Solving with ILP-only approach (10s timeout for testing)...")
+    solution = problem.solve(timeout=10, max_chiplets=6, save_solution_file=True)
     
-    print(f"ILP: {ilp_solution['status']}, {ilp_solution['total_time']} cycles, {ilp_solution['num_chiplets']} chiplets")
-    print(f"Tasks assigned: {len(ilp_solution.get('task_assignments', {}))}")
-    if 'solution_file' in ilp_solution:
-        print(f"New solution file: {ilp_solution['solution_file']}")
+    print(f"Solution: {solution['status']}, {solution['total_time']} cycles, {solution['num_chiplets']} chiplets")
+    print(f"Tasks assigned: {len(solution.get('task_assignments', {}))}")
     
-    if len(ilp_solution.get('task_assignments', {})) == len(problem.tasks):
+    if 'note' in solution:
+        print(f"Note: {solution['note']}")
+        
+    if 'solution_file' in solution:
+        print(f"Solution file: {solution['solution_file']}")
+    
+    if len(solution.get('task_assignments', {})) == len(problem.tasks):
         print("✅ ALL TASKS ASSIGNED!")
     else:
-        missing = len(problem.tasks) - len(ilp_solution.get('task_assignments', {}))
+        missing = len(problem.tasks) - len(solution.get('task_assignments', {}))
         print(f"❌ {missing} tasks still missing")

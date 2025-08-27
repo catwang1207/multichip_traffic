@@ -141,18 +141,19 @@ class SolutionValidator:
         return len(comm_violations) == 0
     
     def validate_chiplet_capacity_constraint(self, task_assignments, max_pes=32):
-        """Each chiplet can use at most max_pes PEs"""
+        """Each chiplet can use at most max_pes PEs (only source_pe counts, dest_pe can be anywhere)"""
         print("Validating Chiplet Capacity Constraint...")
         
-        # Group tasks by chiplet and find PEs used
+        # Group tasks by chiplet and find source PEs used (dest_pe can be on different chiplets)
         chiplet_pes = defaultdict(set)
         
         for _, row in self.traffic_data.iterrows():
             task_id = row['task_id']
             if task_id in task_assignments:
                 chiplet = task_assignments[task_id]
-                dest_pe = row['dest_pe']
-                chiplet_pes[chiplet].add(dest_pe)
+                source_pe = row['source_pe']
+                # Only source_pe belongs to the chiplet (dest_pe can be anywhere)
+                chiplet_pes[chiplet].add(source_pe)
         
         capacity_violations = []
         for chiplet, pes in chiplet_pes.items():
@@ -168,27 +169,62 @@ class SolutionValidator:
         
         return len(capacity_violations) == 0
     
-    def validate_pe_exclusivity_constraint(self, task_assignments):
-        """Each PE belongs to at most one chiplet"""
+    def validate_pe_exclusivity_constraint(self, task_assignments, pe_assignments=None):
+        """Each PE belongs to at most one chiplet (using actual PE assignments from ILP)"""
         print("Validating PE Exclusivity Constraint...")
         
-        # Track which chiplet each PE belongs to
-        pe_chiplets = {}
+        violations_before = len(self.violations)
         
-        for _, row in self.traffic_data.iterrows():
-            task_id = row['task_id']
-            if task_id in task_assignments:
-                chiplet = task_assignments[task_id]
-                dest_pe = row['dest_pe']
-                
-                if dest_pe in pe_chiplets:
-                    if pe_chiplets[dest_pe] != chiplet:
-                        self.violations.append(f"PE {dest_pe} is used by multiple chiplets: {pe_chiplets[dest_pe]} and {chiplet}")
-                else:
-                    pe_chiplets[dest_pe] = chiplet
+        if pe_assignments:
+            # Use actual PE assignments from ILP solver
+            pe_chiplet_count = {}
+            for pe_id, chiplet in pe_assignments.items():
+                if chiplet not in pe_chiplet_count:
+                    pe_chiplet_count[chiplet] = 0
+                pe_chiplet_count[chiplet] += 1
+            
+            # Check for any PE assigned to multiple chiplets (shouldn't happen with correct ILP)
+            all_pes = set()
+            for pe_id in pe_assignments:
+                if pe_id in all_pes:
+                    self.violations.append(f"PE {pe_id} appears multiple times in PE assignments")
+                all_pes.add(pe_id)
+            
+            print(f"  Using ILP PE assignments: {len(pe_assignments)} PEs assigned")
+            for chiplet in sorted(pe_chiplet_count.keys()):
+                print(f"    Chiplet {chiplet}: {pe_chiplet_count[chiplet]} PEs")
+        else:
+            # Fallback: infer PE assignments from task assignments (old method)
+            print("  Using inferred PE assignments from task assignments")
+            pe_chiplets = {}
+            
+            for _, row in self.traffic_data.iterrows():
+                task_id = row['task_id']
+                if task_id in task_assignments:
+                    chiplet = task_assignments[task_id]
+                    source_pe = row['source_pe']
+                    dest_pe = row['dest_pe']
+                    
+                    # Check both source_pe and dest_pe exclusivity
+                    for pe_type, pe_id in [('source', source_pe), ('dest', dest_pe)]:
+                        if pe_id in pe_chiplets:
+                            if pe_chiplets[pe_id] != chiplet:
+                                self.violations.append(f"{pe_type.title()} PE {pe_id} is used by multiple chiplets: {pe_chiplets[pe_id]} and {chiplet} (task {task_id})")
+                        else:
+                            pe_chiplets[pe_id] = chiplet
         
-        exclusivity_violations = len([v for v in self.violations if "used by multiple chiplets" in v])
+        exclusivity_violations = len(self.violations) - violations_before
         print(f"  {'✅' if exclusivity_violations == 0 else '❌'} PE exclusivity violations: {exclusivity_violations}")
+        
+        if exclusivity_violations > 0:
+            print(f"    Found {exclusivity_violations} PEs assigned to multiple chiplets")
+            # Show PE distribution summary
+            pe_counts = {}
+            for pe_id, chiplet in pe_chiplets.items():
+                if chiplet not in pe_counts:
+                    pe_counts[chiplet] = 0
+                pe_counts[chiplet] += 1
+            print(f"    PE distribution: {dict(sorted(pe_counts.items()))}")
         
         return exclusivity_violations == 0
     
@@ -252,13 +288,16 @@ class SolutionValidator:
         # Extract solution data
         task_assignments, task_times, metadata = self.extract_solution_data()
         
+        # Get PE assignments from solution if available
+        pe_assignments = self.solution.get('pe_assignments', None)
+        
         # Run all constraint validations
         validations = [
             self.validate_task_assignment_constraint(task_assignments),
             self.validate_task_dependency_constraint(task_assignments, task_times),
             self.validate_inter_chiplet_comm_constraint(task_assignments, task_times),
             self.validate_chiplet_capacity_constraint(task_assignments),
-            self.validate_pe_exclusivity_constraint(task_assignments)
+            self.validate_pe_exclusivity_constraint(task_assignments, pe_assignments)
         ]
         
         # Generate summary

@@ -76,9 +76,11 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
     
     # Organize tasks by clock cycle and chiplet
     schedule = {}
+    max_chiplet = max(task_assignments.values()) if task_assignments else 0
+    
     for cycle in range(total_time):
         schedule[cycle] = {}
-        for chiplet in range(max(task_assignments.values()) + 1 if task_assignments else 0):
+        for chiplet in range(max_chiplet + 1):
             schedule[cycle][chiplet] = []
     
     # Assign tasks to their execution cycles and chiplets
@@ -86,6 +88,10 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
         if task in task_times:
             cycle = task_times[task]
             if cycle < total_time:
+                # Ensure the chiplet exists in this cycle
+                if chiplet not in schedule[cycle]:
+                    schedule[cycle][chiplet] = []
+                    
                 task_info = {
                     'task_id': task,
                     'source_pe': task_data[task]['source_pe'],
@@ -109,18 +115,22 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
         'schedule': []
     }
     
-    # Convert schedule to list format
+    # Convert schedule to list format - use all chiplets that actually exist in schedule
+    all_chiplets = set()
+    for cycle in range(total_time):
+        all_chiplets.update(schedule[cycle].keys())
+    
     for cycle in range(total_time):
         cycle_data = {
             'cycle': cycle,
             'chiplets': {}
         }
         
-        for chiplet in range(num_chiplets):
+        for chiplet in sorted(all_chiplets):
             if chiplet in schedule[cycle]:
-                cycle_data['chiplets'][chiplet] = schedule[cycle][chiplet]
+                cycle_data['chiplets'][str(chiplet)] = schedule[cycle][chiplet]
             else:
-                cycle_data['chiplets'][chiplet] = []
+                cycle_data['chiplets'][str(chiplet)] = []
         
         solution_data['schedule'].append(cycle_data)
     
@@ -129,8 +139,6 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
         with open(solution_file, 'w') as f:
             json.dump(solution_data, f, indent=2)
         
-        print(f"✅ Solution file generated: {solution_file}")
-        print(f"   Total cycles: {total_time}, Chiplets: {num_chiplets}, Tasks: {len(task_assignments)}")
         return solution_file
         
     except Exception as e:
@@ -195,17 +203,11 @@ class ChipletProblem:
             'num_constraints': len(self.constraints)
         }
     
-    def solve(self, solver_type='greedy', save_solution_file=True, **kwargs):
-        """Solve using specified solver"""
-        # Solve with the specified solver
-        if solver_type == 'ilp':
-            solution = ILPSolver(self).solve(**kwargs)
-            solver_name = "ILP"
-        elif solver_type == 'greedy':
-            solution = GreedySolver(self).solve(**kwargs)
-            solver_name = "Greedy"
-        else:
-            raise ValueError(f"Unknown solver type: {solver_type}")
+    def solve(self, timeout=60, save_solution_file=True, **kwargs):
+        """Solve using ILP only with timeout solution extraction"""
+        # Force ILP solver only
+        solution = ILPSolver(self).solve(timeout=timeout, **kwargs)
+        solver_name = "ILP"
         
         # Generate solution file if requested
         if save_solution_file and solution['status'] != 'infeasible':
@@ -234,7 +236,7 @@ class Solver(ABC):
 class ILPSolver(Solver):
     """ILP solver using PuLP - translates constraints to mathematical formulation"""
     
-    def solve(self, max_chiplets=10, timeout=300, **kwargs):
+    def solve(self, max_chiplets=10, timeout=300):
         """Solve using ILP formulation"""
         
         print(f"=== ILP SOLVER ===")
@@ -304,21 +306,33 @@ class ILPSolver(Solver):
                         prob += task_time[task] >= task_time[dep_task] + 1
                         
             elif isinstance(constraint, ChipletCapacityConstraint):
-                # Link task assignment to PE usage - only dest_pe (where task executes)
+                # Enforce PE-task co-location: all tasks with same source_pe must be on same chiplet
                 for task in tasks:
-                    dest_pe = task_data[task]['dest_pe']
+                    source_pe = task_data[task]['source_pe']
                     for c in range(max_chiplets):
-                        # If task is assigned to chiplet c, dest_pe must be used by chiplet c
-                        prob += pe_used[dest_pe, c] >= z[task, c]
+                        # If task is on chiplet c, its source_pe must be on chiplet c
+                        prob += pe_used[source_pe, c] >= z[task, c]
+                        # If source_pe is on chiplet c, all tasks using it must be on chiplet c
+                        prob += z[task, c] >= pe_used[source_pe, c]
                 
                 # Each chiplet can use at most max_pes PEs
                 for c in range(max_chiplets):
                     prob += lpSum([pe_used[pe, c] for pe in pes]) <= constraint.max_pes
                     
             elif isinstance(constraint, PEExclusivityConstraint):
-                # Each PE belongs to exactly one chiplet (if used by any task)
+                # Each PE belongs to at most one chiplet, and exactly one if used as source_pe or dest_pe
+                used_pes = set()
+                for task in tasks:
+                    used_pes.add(task_data[task]['source_pe'])
+                    used_pes.add(task_data[task]['dest_pe'])
+                
                 for pe in pes:
-                    prob += lpSum([pe_used[pe, c] for c in range(max_chiplets)]) == 1
+                    if pe in used_pes:
+                        # PEs used as source_pe or dest_pe must belong to exactly one chiplet
+                        prob += lpSum([pe_used[pe, c] for c in range(max_chiplets)]) == 1
+                    else:
+                        # Unused PEs can belong to at most one chiplet (but don't have to)
+                        prob += lpSum([pe_used[pe, c] for c in range(max_chiplets)]) <= 1
                     
             elif isinstance(constraint, InterChipletCommConstraint):
                 # Add explicit timing constraints for inter-chiplet communication
@@ -375,197 +389,99 @@ class ILPSolver(Solver):
         
         print(f"ILP formulation complete. Solving with timeout={timeout}s...")
         
-        # SOLVE
+        # SOLVE with built-in timeout parameter using CBC solver
         solve_start = time_module.time()
-        status = prob.solve()
+        
+        # Use PuLP's CBC solver with timeout - try to get solution file
+        solver = PULP_CBC_CMD(timeLimit=timeout, msg=True, keepFiles=1)
+        status = prob.solve(solver)
+        
         solve_time = time_module.time() - solve_start
         
-        if status == LpStatusOptimal:
-            # Extract solution
+        
+        # Extract solution regardless of status (optimal, feasible, or timed out)  
+        # CBC returns LpStatusNotSolved when timed out but may have found a feasible solution
+        if (status == LpStatusOptimal or 
+            status == LpStatusNotSolved or
+            (status is None and total_time_var.value() is not None)):
+            # Extract solution found by ILP
             task_assignments = {}
             chiplet_tasks = defaultdict(list)
             
             for task in tasks:
                 for c in range(max_chiplets):
-                    if z[task, c].value() == 1:
+                    if z[task, c].value() and z[task, c].value() > 0.5:  # Handle numerical precision
                         task_assignments[task] = c
                         chiplet_tasks[c].append(task)
                         break
             
-            # Extract task times
-            task_times = {}
-            for task in tasks:
-                task_times[task] = int(task_time[task].value())
-            
-            active_chiplets = len([c for c in chiplet_tasks if chiplet_tasks[c]])
-            
-            return {
-                'status': 'optimal' if status == LpStatusOptimal else 'feasible',
-                'total_time': int(total_time_var.value()),
-                'num_chiplets': active_chiplets,
-                'solve_time': solve_time,
-                'task_assignments': task_assignments,
-                'task_times': task_times,
-                'chiplet_tasks': dict(chiplet_tasks)
-            }
-        else:
-            return {
-                'status': 'infeasible',
-                'solve_time': solve_time
-            }
-
-# ================== GREEDY SOLVER ==================
-
-class GreedySolver(Solver):
-    """Greedy heuristic solver - interprets constraints as heuristic rules"""
-    
-    def solve(self, **kwargs):
-        """Solve using greedy heuristic guided by constraints"""
-        
-        print(f"=== GREEDY SOLVER ===")
-        print(f"Applying {len(self.problem.constraints)} constraints as heuristic rules...")
-        
-        tasks = self.problem.tasks
-        task_data = self.problem.task_data
-        dependencies = self.problem.dependencies
-        
-        # Extract constraint parameters
-        max_pes = 32
-        bandwidth = 8192
-        
-        for constraint in self.problem.constraints:
-            if isinstance(constraint, ChipletCapacityConstraint):
-                max_pes = constraint.max_pes
-            elif isinstance(constraint, InterChipletCommConstraint):
-                bandwidth = constraint.bandwidth
-        
-        # GREEDY ALGORITHM WITH CONSTRAINT-GUIDED HEURISTICS
-        
-        class Chiplet:
-            def __init__(self, id):
-                self.id = id
-                self.tasks = []
-                self.pes = set()
-                self.current_time = 0
+            # Only proceed if we have ALL tasks assigned (complete solution)
+            if len(task_assignments) == len(tasks):
+                # Extract PE assignments from ILP solution - both source and dest PEs
+                pe_assignments = {}
+                for pe in pes:
+                    for c in range(max_chiplets):
+                        if pe_used[pe, c].value() and pe_used[pe, c].value() > 0.5:
+                            pe_assignments[pe] = c
+                            break
                 
-            def can_add_pe(self, pe):
-                return len(self.pes) < max_pes or pe in self.pes
+                # Task assignments should already be correct since they're based on z variables
+                # which are constrained to match source_pe assignments. Keep original task_assignments.
+                # The PE assignments will be used for validation, not for changing task placement.
                 
-            def add_task(self, task, pe, source_pe, data_size, start_time):
-                self.tasks.append(task)
-                self.pes.add(pe)
+                # Extract task times
+                task_times = {}
+                for task in tasks:
+                    if task_time[task].value() is not None:
+                        task_times[task] = int(round(task_time[task].value()))
+                    else:
+                        task_times[task] = 0
                 
-                # Apply InterChipletCommConstraint
-                if source_pe != pe and data_size > bandwidth:
-                    duration = 2  # Extra cycle for large inter-chiplet transfer
+                active_chiplets = len([c for c in chiplet_tasks if chiplet_tasks[c]])
+                
+                # Calculate total_time as the maximum task completion time + 1
+                if task_times:
+                    total_time = max(task_times.values()) + 1
+                elif total_time_var.value() is not None:
+                    total_time = int(round(total_time_var.value()))
                 else:
-                    duration = 1
-                    
-                self.current_time = max(self.current_time, start_time + duration)
-                return self.current_time
+                    total_time = max_time
+                
+                # Determine status - CBC returns 'optimal' even when timed out
+                if status == LpStatusOptimal and solve_time < timeout * 0.95:
+                    solution_status = 'optimal'
+                elif status == LpStatusOptimal and solve_time >= timeout * 0.95:
+                    solution_status = 'timeout_feasible' 
+                elif status == LpStatusNotSolved:
+                    solution_status = 'timeout_feasible'
+                else:
+                    solution_status = 'feasible'
+                
+                return {
+                    'status': solution_status,
+                    'pe_assignments': pe_assignments,  # Include PE assignments for validation
+                    'total_time': total_time,
+                    'num_chiplets': active_chiplets,
+                    'solve_time': solve_time,
+                    'task_assignments': task_assignments,
+                    'task_times': task_times,
+                    'chiplet_tasks': dict(chiplet_tasks)
+                }
+            else:
+                # Return infeasible since we don't have a complete solution
+                return {
+                    'status': 'infeasible',
+                    'solve_time': solve_time,
+                    'note': f'Incomplete solution extraction: only {len(task_assignments)}/{len(tasks)} tasks assigned'
+                }
         
-        # Initialize
-        chiplets = []
-        task_assignments = {}
-        task_completion_times = {}
-        
-        def get_ready_tasks(scheduled_tasks):
-            ready = []
-            for task in tasks:
-                if task not in scheduled_tasks:
-                    # Apply TaskDependencyConstraint
-                    if all(dep in scheduled_tasks for dep in dependencies[task]):
-                        ready.append(task)
-            return ready
-        
-        # MAIN GREEDY LOOP
-        scheduled_tasks = set()
-        
-        while len(scheduled_tasks) < len(tasks):
-            ready_tasks = get_ready_tasks(scheduled_tasks)
-            
-            if not ready_tasks:
-                break
-                
-            for task in ready_tasks:
-                pe = task_data[task]['dest_pe']
-                source_pe = task_data[task]['source_pe']
-                data_size = task_data[task]['data_size']
-                
-                # Calculate earliest start time (TaskDependencyConstraint)
-                earliest_start = 0
-                for dep_task in dependencies[task]:
-                    if dep_task in task_completion_times:
-                        earliest_start = max(earliest_start, task_completion_times[dep_task])
-                
-                # Find best chiplet (guided by constraints)
-                best_chiplet = None
-                best_score = float('inf')
-                
-                # Try existing chiplets
-                for chiplet in chiplets:
-                    if chiplet.can_add_pe(pe):  # ChipletCapacityConstraint
-                        start_time = max(earliest_start, chiplet.current_time)
-                        
-                        # Communication cost (InterChipletCommConstraint)
-                        comm_cost = 0
-                        if source_pe != pe:
-                            if source_pe in chiplet.pes:
-                                comm_cost = 0  # Intra-chiplet
-                            else:
-                                if data_size > bandwidth:
-                                    comm_cost = 10 * (data_size // bandwidth)
-                                else:
-                                    comm_cost = 5
-                        
-                        duration = 2 if (source_pe != pe and data_size > bandwidth) else 1
-                        finish_time = start_time + duration
-                        score = finish_time + comm_cost
-                        
-                        if score < best_score:
-                            best_score = score
-                            best_chiplet = chiplet
-                
-                # Try creating new chiplet (ChipletUsageConstraint)
-                if len(chiplets) < 20:  # Reasonable limit
-                    start_time = earliest_start
-                    duration = 2 if (source_pe != pe and data_size > bandwidth) else 1
-                    finish_time = start_time + duration
-                    score = finish_time + 50  # Penalty for new chiplet
-                    
-                    if score < best_score:
-                        best_chiplet = None  # Signal to create new
-                
-                # Assign task
-                if best_chiplet is None:
-                    new_chiplet = Chiplet(len(chiplets))
-                    chiplets.append(new_chiplet)
-                    best_chiplet = new_chiplet
-                
-                start_time = max(earliest_start, best_chiplet.current_time)
-                completion_time = best_chiplet.add_task(task, pe, source_pe, data_size, start_time)
-                
-                task_assignments[task] = best_chiplet.id
-                task_completion_times[task] = completion_time
-                scheduled_tasks.add(task)
-        
-        # TimeBoundsConstraint
-        total_time = max(task_completion_times.values()) if task_completion_times else 0
-        
-        chiplet_tasks = defaultdict(list)
-        for task, chiplet_id in task_assignments.items():
-            chiplet_tasks[chiplet_id].append(task)
-        
+        # No solution found
         return {
-            'status': 'feasible',
-            'total_time': total_time,
-            'num_chiplets': len(chiplets),
-            'solve_time': 0.0,  # Very fast
-            'task_assignments': task_assignments,
-            'task_times': task_completion_times,
-            'chiplet_tasks': dict(chiplet_tasks),
-            'chiplets': chiplets  # Additional info
+            'status': 'infeasible',
+            'solve_time': solve_time,
+            'note': f'ILP failed with status {LpStatus[status]}'
         }
+    
 
 # ================== EXAMPLE USAGE ==================
 
@@ -590,29 +506,24 @@ if __name__ == "__main__":
     
     print("\n" + "="*50)
     
-    # Solve with greedy heuristic
-    # print("Solving with GREEDY heuristic...")
-    # greedy_solution = problem.solve('greedy')
-    
-    # print(f"Greedy solution:")
-    # print(f"  Status: {greedy_solution['status']}")
-    # print(f"  Total time: {greedy_solution['total_time']} cycles")
-    # print(f"  Chiplets used: {greedy_solution['num_chiplets']}")
-    # print(f"  Solve time: {greedy_solution.get('solve_time', 0):.3f}s")
-    
-    print("\n" + "="*50)
-    
-    # Solve with ILP (smaller problem)
-    print("Solving with ILP (may take longer)...")
+    # Solve with ILP only (with timeout solution extraction)
+    print("Solving with ILP only (with 60s timeout solution extraction)...")
     try:
-        ilp_solution = problem.solve('ilp', max_chiplets=10, timeout=60)
+        solution = problem.solve(timeout=60, max_chiplets=10)
         
-        print(f"ILP solution:")
-        print(f"  Status: {ilp_solution['status']}")
-        if ilp_solution['status'] != 'infeasible':
-            print(f"  Total time: {ilp_solution['total_time']} cycles")
-            print(f"  Chiplets used: {ilp_solution['num_chiplets']}")
-        print(f"  Solve time: {ilp_solution['solve_time']:.3f}s")
+        print(f"Solution:")
+        print(f"  Status: {solution['status']}")
+        if solution['status'] != 'infeasible':
+            print(f"  Total time: {solution['total_time']} cycles")
+            print(f"  Chiplets used: {solution['num_chiplets']}")
+            print(f"  Tasks assigned: {len(solution.get('task_assignments', {}))}")
+        print(f"  Solve time: {solution['solve_time']:.3f}s")
+        
+        if 'note' in solution:
+            print(f"  Note: {solution['note']}")
+            
+        if 'solution_file' in solution:
+            print(f"  Solution file: {solution['solution_file']}")
         
     except Exception as e:
-        print(f"ILP failed: {e}")
+        print(f"Solver failed: {e}")
