@@ -1,0 +1,16 @@
+task_id	src_network_id	src_pe	dst_network_id	dest_pe	tensor_shape	bytes	wait_ids	description
+1	-1	-1	0	0	(1, 256)	512	None	Input distribution (rows 0:256) to P0
+2	-1	-1	0	1	(1, 256)	512	None	Input distribution (rows 0:256) to P1
+3	0	0	0	0	(1, 256)	512	1	Processing of data at P0
+4	0	1	0	1	(1, 256)	512	2	Processing of data at P1
+5	-1	-1	1	2	(1, 256)	512	None	Input distribution (rows 0:256) to P0
+6	-1	-1	1	3	(1, 256)	512	None	Input distribution (rows 0:256) to P1
+7	1	2	1	2	(1, 256)	512	5	Processing of data at P2
+8	1	3	1	3	(1, 256)	512	6	Processing of data at P3
+9	0	0	0	4	(1, 256)	512	3	Sending processed P0 data to P4 for partial add
+10	0	1	0	4	(1, 256)	512	4	Sending processed P1 data to P4 for partial add
+11	1	2	1	5	(1, 256)	512	7	Sending processed P2 data to P5 for partial add
+12	1	3	1	5	(1, 256)	512	8	Sending processed P3 data to P5 for partial add
+13	0	4	0	4	(1, 256)	512	9,10	Processing of data at P4
+14	1	5	1	5	(1, 256)	512	11,12	Processing of data at P5
+15	0	4	1	5	(1, 256)	512	13	Sending processed P4 data to P5 for partial add
