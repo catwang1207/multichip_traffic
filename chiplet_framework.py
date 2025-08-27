@@ -58,7 +58,7 @@ class TimeBoundsConstraint:
 # ================== SOLUTION FILE GENERATOR ==================
 
 def generate_solution_file(solution, solver_name, data_file, task_data):
-    """Generate a solution file showing task assignments per clock cycle"""
+    """Generate a solution file showing task assignments per clock cycle with detailed PE assignments"""
     
     if solution['status'] == 'infeasible':
         print(f"Cannot generate solution file - {solver_name} solution is infeasible")
@@ -69,6 +69,7 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
     task_times = solution.get('task_times', {})
     total_time = solution.get('total_time', 0)
     num_chiplets = solution.get('num_chiplets', 0)
+    pe_assignments = solution.get('pe_assignments', {})
     
     # Create solution filename
     base_name = os.path.splitext(os.path.basename(data_file))[0]
@@ -92,11 +93,17 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
                 if chiplet not in schedule[cycle]:
                     schedule[cycle][chiplet] = []
                     
+                source_pe = task_data[task]['source_pe']
+                dest_pe = task_data[task]['dest_pe']
+                
                 task_info = {
                     'task_id': task,
-                    'source_pe': task_data[task]['source_pe'],
-                    'dest_pe': task_data[task]['dest_pe'],
-                    'data_size': task_data[task]['data_size']
+                    'source_pe': source_pe,
+                    'dest_pe': dest_pe,
+                    'data_size': task_data[task]['data_size'],
+                    'source_pe_chiplet': pe_assignments.get(source_pe, chiplet),  # Should match task chiplet
+                    'dest_pe_chiplet': pe_assignments.get(dest_pe, -1),  # May be on different chiplet
+                    'execution_cycle': cycle
                 }
                 schedule[cycle][chiplet].append(task_info)
     
@@ -112,6 +119,7 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
             'solve_time_seconds': solution.get('solve_time', 0),
             'total_tasks': len(task_assignments)
         },
+        'pe_assignments': pe_assignments,  # Include detailed PE-to-chiplet assignments
         'schedule': []
     }
     
@@ -277,11 +285,16 @@ class ILPSolver(Solver):
             for pe in pes:
                 pe_used[pe, c] = LpVariable(f"pe_used_{pe}_{c}", cat='Binary')
         
+        # Chiplet PE usage variables (1 if chiplet c has any PEs assigned to it)
+        chiplet_pe_used = {}
+        for c in range(max_chiplets):
+            chiplet_pe_used[c] = LpVariable(f"chiplet_pe_used_{c}", cat='Binary')
+        
         # CREATE PROBLEM
         prob = LpProblem("ChipletAssignment", LpMinimize)
         
-        # OBJECTIVE
-        prob += 1000 * total_time_var + lpSum([y[c] for c in range(max_chiplets)])
+        # OBJECTIVE: Minimize time + heavily penalize chiplet usage
+        prob += 1000 * total_time_var + 500 * lpSum([chiplet_pe_used[c] for c in range(max_chiplets)])
         
         # TRANSLATE CONSTRAINTS
         print("Translating constraints...")
@@ -306,21 +319,21 @@ class ILPSolver(Solver):
                         prob += task_time[task] >= task_time[dep_task] + 1
                         
             elif isinstance(constraint, ChipletCapacityConstraint):
-                # Enforce PE-task co-location: all tasks with same source_pe must be on same chiplet
+                # Enforce PE-task co-location: tasks are assigned to chiplet where their source_pe is located
                 for task in tasks:
                     source_pe = task_data[task]['source_pe']
                     for c in range(max_chiplets):
                         # If task is on chiplet c, its source_pe must be on chiplet c
                         prob += pe_used[source_pe, c] >= z[task, c]
-                        # If source_pe is on chiplet c, all tasks using it must be on chiplet c
+                        # If source_pe is on chiplet c, all tasks with that source_pe must be on chiplet c
                         prob += z[task, c] >= pe_used[source_pe, c]
                 
-                # Each chiplet can use at most max_pes PEs
+                # Each chiplet can use at most max_pes PEs  
                 for c in range(max_chiplets):
                     prob += lpSum([pe_used[pe, c] for pe in pes]) <= constraint.max_pes
                     
             elif isinstance(constraint, PEExclusivityConstraint):
-                # Each PE belongs to at most one chiplet, and exactly one if used as source_pe or dest_pe
+                # Each PE belongs to exactly one chiplet if used, at most one chiplet if unused
                 used_pes = set()
                 for task in tasks:
                     used_pes.add(task_data[task]['source_pe'])
@@ -328,7 +341,7 @@ class ILPSolver(Solver):
                 
                 for pe in pes:
                     if pe in used_pes:
-                        # PEs used as source_pe or dest_pe must belong to exactly one chiplet
+                        # PEs used in any task must belong to exactly one chiplet
                         prob += lpSum([pe_used[pe, c] for c in range(max_chiplets)]) == 1
                     else:
                         # Unused PEs can belong to at most one chiplet (but don't have to)
@@ -386,6 +399,14 @@ class ILPSolver(Solver):
                 # Total time must cover all task completion times
                 for task in tasks:
                     prob += total_time_var >= task_time[task] + 1
+        
+        # Add chiplet PE usage constraints: chiplet_pe_used[c] = 1 if any PE is assigned to chiplet c
+        for c in range(max_chiplets):
+            # If any PE is assigned to chiplet c, then chiplet_pe_used[c] must be 1
+            prob += chiplet_pe_used[c] >= lpSum([pe_used[pe, c] for pe in pes]) / len(pes)
+            # If no PEs are assigned to chiplet c, then chiplet_pe_used[c] can be 0
+            for pe in pes:
+                prob += chiplet_pe_used[c] >= pe_used[pe, c]
         
         print(f"ILP formulation complete. Solving with timeout={timeout}s...")
         
