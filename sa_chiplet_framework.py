@@ -178,7 +178,7 @@ class SimulatedAnnealingSolution:
         
         # Objective: 100*max_time + 50*chiplet_usage + 50000*violations
         used_chiplets = len(set(self.task_assignments.values()))
-        cost = 100 * max_time + 50 * used_chiplets + 1000000 * total_violations
+        cost = 100 * max_time + 500 * used_chiplets + 1000000 * total_violations
         
         self._cached_cost = cost
         self._cached_violations = violations

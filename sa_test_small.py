@@ -56,7 +56,7 @@ if __name__ == "__main__":
         solution_prefix='solution_gpt2_small_sa',
         initial_temp=2000.0,      # Higher initial temperature
         max_iterations=100000,    # 10x more iterations
-        cooling_rate=0.99,        # Slower cooling for better exploration
+        cooling_rate=0.999,        # Slower cooling for better exploration
         max_no_improvement=15000  # More patience before stopping
     )
     
