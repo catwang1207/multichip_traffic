@@ -54,7 +54,9 @@ class SolutionValidator:
                 for task_info in tasks:
                     task_id = task_info['task_id']
                     task_assignments[task_id] = chiplet_id
-                    task_times[task_id] = cycle
+                    # Record the earliest (start) time for multi-cycle tasks
+                    if task_id not in task_times or cycle < task_times[task_id]:
+                        task_times[task_id] = cycle
         
         return task_assignments, task_times, metadata
     
@@ -228,6 +230,104 @@ class SolutionValidator:
         
         return exclusivity_violations == 0
     
+    def validate_no_multicasting_constraint(self, task_assignments, task_times):
+        """Each source PE can only send to one destination at a time (no multicasting)"""
+        print("Validating No Multicasting Constraint...")
+        
+        multicast_violations = []
+        
+        # Group tasks by time and source PE
+        time_source_tasks = defaultdict(lambda: defaultdict(list))
+        
+        for _, row in self.traffic_data.iterrows():
+            task_id = row['task_id']
+            if task_id in task_times:
+                time = task_times[task_id]
+                source_pe = row['source_pe']
+                dest_pe = row['dest_pe']
+                time_source_tasks[time][source_pe].append((task_id, dest_pe))
+        
+        # Check for multicasting violations
+        for time, source_tasks in time_source_tasks.items():
+            for source_pe, tasks_dests in source_tasks.items():
+                if len(tasks_dests) > 1:
+                    dest_pes = [dest for _, dest in tasks_dests]
+                    unique_dests = set(dest_pes)
+                    if len(unique_dests) > 1:  # Multiple different destinations
+                        task_ids = [task for task, _ in tasks_dests]
+                        multicast_violations.append(
+                            f"Time {time}: Source PE {source_pe} sends to multiple destinations {sorted(unique_dests)} (tasks {task_ids})"
+                        )
+        
+        if multicast_violations:
+            self.violations.extend(multicast_violations[:5])  # Show first 5
+            if len(multicast_violations) > 5:
+                self.violations.append(f"... and {len(multicast_violations) - 5} more multicasting violations")
+        
+        print(f"  {'✅' if not multicast_violations else '❌'} Multicasting violations: {len(multicast_violations)}")
+        return len(multicast_violations) == 0
+    
+    def validate_task_duration_constraint(self, task_assignments, task_times, bandwidth=8192):
+        """Tasks with large data (>8192B) on different chiplets must take 2 cycles"""
+        print("Validating Task Duration Constraint...")
+        
+        duration_violations = []
+        
+        # Check each task's expected duration based on data size and chiplet location
+        for _, row in self.traffic_data.iterrows():
+            task_id = row['task_id']
+            if task_id in task_times and task_id in task_assignments:
+                source_pe = row['source_pe']
+                dest_pe = row['dest_pe']
+                data_size = row['data_size']
+                task_time = task_times[task_id]
+                task_chiplet = task_assignments[task_id]
+                
+                # Find which chiplet the destination PE belongs to
+                dest_chiplet = None
+                for other_task_id in task_assignments:
+                    if other_task_id != task_id:
+                        other_row = self.traffic_data[self.traffic_data['task_id'] == other_task_id]
+                        if not other_row.empty:
+                            other_source_pe = other_row.iloc[0]['source_pe']
+                            if other_source_pe == dest_pe:
+                                dest_chiplet = task_assignments[other_task_id]
+                                break
+                
+                # If we can determine dest_chiplet and it's different from source chiplet
+                if dest_chiplet is not None and dest_chiplet != task_chiplet:
+                    # Inter-chiplet task
+                    if data_size > bandwidth:
+                        # Should take 2 cycles - check if task appears in next cycle too
+                        task_appears_next_cycle = False
+                        next_time = task_time + 1
+                        
+                        # Look for this task in the next cycle in solution schedule
+                        if hasattr(self, 'solution') and 'schedule' in self.solution:
+                            for cycle_data in self.solution['schedule']:
+                                if cycle_data['cycle'] == next_time:
+                                    chiplets = cycle_data.get('chiplets', {})
+                                    for chiplet_id, tasks in chiplets.items():
+                                        for task_info in tasks:
+                                            if task_info['task_id'] == task_id:
+                                                task_appears_next_cycle = True
+                                                break
+                        
+                        if not task_appears_next_cycle:
+                            duration_violations.append(
+                                f"Task {task_id} (inter-chiplet, {data_size}B) should take 2 cycles but only appears at time {task_time}"
+                            )
+                    # Small inter-chiplet tasks should take 1 cycle (no violation check needed)
+                # Intra-chiplet tasks always take 1 cycle (no violation check needed)
+        
+        if duration_violations:
+            self.violations.extend(duration_violations[:5])  # Show first 5
+            if len(duration_violations) > 5:
+                self.violations.append(f"... and {len(duration_violations) - 5} more task duration violations")
+        
+        print(f"  {'✅' if not duration_violations else '❌'} Task duration violations: {len(duration_violations)}")
+        return len(duration_violations) == 0
+    
     def generate_summary_statistics(self, task_assignments, task_times, metadata):
         """Generate summary statistics about the solution"""
         print("\n=== SOLUTION SUMMARY ===")
@@ -301,7 +401,9 @@ class SolutionValidator:
             self.validate_task_dependency_constraint(task_assignments, task_times),
             self.validate_inter_chiplet_comm_constraint(task_assignments, task_times),
             self.validate_chiplet_capacity_constraint(task_assignments),
-            self.validate_pe_exclusivity_constraint(task_assignments, pe_assignments)
+            self.validate_pe_exclusivity_constraint(task_assignments, pe_assignments),
+            self.validate_no_multicasting_constraint(task_assignments, task_times),
+            self.validate_task_duration_constraint(task_assignments, task_times)
         ]
         
         # Generate summary

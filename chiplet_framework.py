@@ -55,6 +55,12 @@ class TimeBoundsConstraint:
     name: str = "time_bounds"
     description: str = "Total time must cover all task completion times"
 
+@dataclass
+class NoMulticastingConstraint:
+    """Forbid multicasting - each source PE can only send to one destination PE per time cycle"""
+    name: str = "no_multicasting"
+    description: str = "Forbid multicasting - each source PE can only send to one destination PE per time cycle"
+
 # ================== SOLUTION FILE GENERATOR ==================
 
 def generate_solution_file(solution, solver_name, data_file, task_data):
@@ -67,6 +73,7 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
     # Extract solution data
     task_assignments = solution.get('task_assignments', {})
     task_times = solution.get('task_times', {})
+    task_durations = solution.get('task_durations', {})  # Extract task durations
     total_time = solution.get('total_time', 0)
     num_chiplets = solution.get('num_chiplets', 0)
     pe_assignments = solution.get('pe_assignments', {})
@@ -84,28 +91,32 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
         for chiplet in range(max_chiplet + 1):
             schedule[cycle][chiplet] = []
     
-    # Assign tasks to their execution cycles and chiplets
+    # Assign tasks to their execution cycles and chiplets (accounting for task duration)
     for task, chiplet in task_assignments.items():
         if task in task_times:
-            cycle = task_times[task]
-            if cycle < total_time:
-                # Ensure the chiplet exists in this cycle
-                if chiplet not in schedule[cycle]:
-                    schedule[cycle][chiplet] = []
+            start_cycle = task_times[task]
+            duration = task_durations.get(task, 1)  # Default to 1 cycle if not found
+            
+            # Add task to all cycles it's active: [start_cycle, start_cycle + duration)
+            for cycle_offset in range(duration):
+                cycle = start_cycle + cycle_offset
+                if cycle < total_time:
+                    source_pe = task_data[task]['source_pe']
+                    dest_pe = task_data[task]['dest_pe']
                     
-                source_pe = task_data[task]['source_pe']
-                dest_pe = task_data[task]['dest_pe']
-                
-                task_info = {
-                    'task_id': task,
-                    'source_pe': source_pe,
-                    'dest_pe': dest_pe,
-                    'data_size': task_data[task]['data_size'],
-                    'source_pe_chiplet': pe_assignments.get(source_pe, chiplet),  # Should match task chiplet
-                    'dest_pe_chiplet': pe_assignments.get(dest_pe, -1),  # May be on different chiplet
-                    'execution_cycle': cycle
-                }
-                schedule[cycle][chiplet].append(task_info)
+                    task_info = {
+                        'task_id': task,
+                        'source_pe': source_pe,
+                        'dest_pe': dest_pe,
+                        'data_size': task_data[task]['data_size'],
+                        'source_pe_chiplet': pe_assignments.get(source_pe, chiplet),
+                        'dest_pe_chiplet': pe_assignments.get(dest_pe, -1),
+                        'execution_cycle': cycle,
+                        'start_cycle': start_cycle,
+                        'duration': duration,
+                        'cycle_offset': cycle_offset  # 0 for first cycle, 1 for second cycle, etc.
+                    }
+                    schedule[cycle][chiplet].append(task_info)
     
     # Create solution data structure
     solution_data = {
@@ -171,8 +182,23 @@ class ChipletProblem:
         
     def _load_data(self):
         """Load and parse the problem data"""
-        df = pd.read_csv(self.data_file, sep='\t', comment='#', 
-                         names=['task_id', 'source_pe', 'dest_pe', 'data_size', 'wait_ids'])
+        try:
+            df = pd.read_csv(self.data_file, sep='\t', comment='#', 
+                           names=['task_id', 'source_pe', 'dest_pe', 'data_size', 'wait_ids'])
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Data file not found: {self.data_file}")
+        except pd.errors.EmptyDataError:
+            raise ValueError(f"Data file is empty: {self.data_file}")
+        except Exception as e:
+            raise ValueError(f"Error reading data file {self.data_file}: {e}")
+        
+        if df.empty:
+            raise ValueError(f"Data file contains no data: {self.data_file}")
+        
+        # Validate required columns exist
+        required_columns = ['task_id', 'source_pe', 'dest_pe', 'data_size', 'wait_ids']
+        if len(df.columns) != len(required_columns):
+            raise ValueError(f"Data file must have exactly {len(required_columns)} columns, got {len(df.columns)}")
         
         self.tasks = df['task_id'].tolist()
         
@@ -290,11 +316,66 @@ class ILPSolver(Solver):
         for c in range(max_chiplets):
             chiplet_pe_used[c] = LpVariable(f"chiplet_pe_used_{c}", cat='Binary')
         
+        # GLOBAL TASK DURATION AND INTER-CHIP VARIABLES
+        # These will be used by multiple constraints
+        task_duration = {}
+        task_inter_chip = {}
+        task_both_in_chiplet = {}  # task_both_in_chiplet[task, c] = both PEs of task in chiplet c
+        
+        for task in tasks:
+            source_pe = task_data[task]['source_pe']
+            dest_pe = task_data[task]['dest_pe']
+            data_size = task_data[task]['data_size']
+            
+            # Task duration: 1 cycle (intra/small) or 2 cycles (large inter-chip)
+            task_duration[task] = LpVariable(f"duration_{task}", lowBound=1, upBound=2, cat='Integer')
+            
+            # Inter-chip detection: 1 if source_pe and dest_pe in different chiplets
+            task_inter_chip[task] = LpVariable(f"inter_chip_{task}", cat='Binary')
+            
+            # Auxiliary variables for detecting both PEs in same chiplet
+            # Only create these for tasks that actually need inter-chip detection
+            if source_pe != dest_pe:
+                for c in range(max_chiplets):
+                    task_both_in_chiplet[task, c] = LpVariable(f"both_in_c{c}_{task}", cat='Binary')
+        
         # CREATE PROBLEM
         prob = LpProblem("ChipletAssignment", LpMinimize)
         
+        # Add global task duration constraints AFTER creating the problem
+        for task in tasks:
+            source_pe = task_data[task]['source_pe']
+            dest_pe = task_data[task]['dest_pe']
+            data_size = task_data[task]['data_size']
+            
+            if source_pe == dest_pe:
+                # Intra-PE task: always intra-chip, no need for complex inter-chip detection
+                prob += task_inter_chip[task] == 0
+                prob += task_duration[task] == 1  # Always 1 cycle for intra-PE
+            else:
+                # Inter-PE task: need to determine if PEs are in same or different chiplets
+                for c in range(max_chiplets):
+                    # both_in_chiplet[task, c] = 1 iff both source_pe and dest_pe are in chiplet c
+                    prob += task_both_in_chiplet[task, c] <= pe_used[source_pe, c]
+                    prob += task_both_in_chiplet[task, c] <= pe_used[dest_pe, c]  
+                    prob += task_both_in_chiplet[task, c] >= pe_used[source_pe, c] + pe_used[dest_pe, c] - 1
+                    
+                    # If both PEs in this chiplet, then NOT inter-chip
+                    prob += task_inter_chip[task] <= 1 - task_both_in_chiplet[task, c]
+                
+                # Force inter_chip = 1 if no chiplet contains both PEs
+                # Only sum over chiplets where the variable exists (task has different PEs)
+                both_vars = [task_both_in_chiplet[task, c] for c in range(max_chiplets) if (task, c) in task_both_in_chiplet]
+                prob += task_inter_chip[task] >= 1 - lpSum(both_vars)
+                
+                # Link duration to data size and inter-chip status
+                if data_size > 8192:  # Large data transfers
+                    prob += task_duration[task] == 1 + task_inter_chip[task]  # 1 intra, 2 inter
+                else:  # Small data transfers
+                    prob += task_duration[task] == 1  # Always 1 cycle
+        
         # OBJECTIVE: Minimize time + heavily penalize chiplet usage
-        prob += 1000 * total_time_var + 500 * lpSum([chiplet_pe_used[c] for c in range(max_chiplets)])
+        prob.objective = 1000 * total_time_var + 500 * lpSum([chiplet_pe_used[c] for c in range(max_chiplets)])
         
         # TRANSLATE CONSTRAINTS
         print("Translating constraints...")
@@ -313,10 +394,11 @@ class ILPSolver(Solver):
                         prob += z[task, c] <= y[c]
                         
             elif isinstance(constraint, TaskDependencyConstraint):
-                # Dependent tasks must execute in correct order
+                # Dependent tasks must execute in correct order with actual task durations
                 for task in tasks:
                     for dep_task in dependencies[task]:
-                        prob += task_time[task] >= task_time[dep_task] + 1
+                        # Task must wait for dependency to complete: start_time >= dep_start_time + dep_duration
+                        prob += task_time[task] >= task_time[dep_task] + task_duration[dep_task]
                         
             elif isinstance(constraint, ChipletCapacityConstraint):
                 # Enforce PE-task co-location: tasks are assigned to chiplet where their source_pe is located
@@ -366,28 +448,14 @@ class ILPSolver(Solver):
                                 pe_comm_volume[pe] = 0
                             pe_comm_volume[pe] += data_size
                         
-                        # Add explicit timing constraint for large data transfers
-                        if data_size > constraint.bandwidth:  # > 8192 bytes
-                            # Find tasks that depend on this task
-                            for dep_task in tasks:
-                                if task in dependencies[dep_task]:
-                                    # Check if source and dest PEs are in different chiplets
-                                    # Add binary variables to detect inter-chiplet communication
-                                    inter_chiplet_var = LpVariable(f"inter_chiplet_{task}_{dep_task}", cat='Binary')
-                                    
-                                    # inter_chiplet_var = 1 if source_pe and dest_pe are in different chiplets
-                                    for c1 in range(max_chiplets):
-                                        for c2 in range(max_chiplets):
-                                            if c1 != c2:
-                                                # If source_pe in chiplet c1 AND dest_pe in chiplet c2, then inter_chiplet = 1
-                                                prob += inter_chiplet_var >= pe_used[source_pe, c1] + pe_used[dest_pe, c2] - 1
-                                    
-                                    # If inter-chiplet communication with large data, add 1 extra cycle
-                                    prob += task_time[dep_task] >= task_time[task] + 1 + inter_chiplet_var
+                        # Note: Timing constraints for inter-chiplet communication are now handled
+                        # by the global task_duration[task] variables, so no additional timing
+                        # constraints are needed here. The task_duration already accounts for 
+                        # inter-chip delays based on data size and chiplet placement.
                 
                 # Add communication penalty to objective (keep existing penalty system)
                 for pe, volume in pe_comm_volume.items():
-                    if volume > constraint.bandwidth:
+                    if constraint.bandwidth > 0 and volume > constraint.bandwidth:
                         penalty_weight = (volume // constraint.bandwidth) * 0.1
                         for c in range(max_chiplets):
                             comm_penalty += penalty_weight * pe_used[pe, c]
@@ -396,15 +464,42 @@ class ILPSolver(Solver):
                 prob.objective += comm_penalty
                 
             elif isinstance(constraint, TimeBoundsConstraint):
-                # Total time must cover all task completion times
+                # Total time must cover all task completion times with actual task durations
                 for task in tasks:
-                    prob += total_time_var >= task_time[task] + 1
+                    # Total time must be at least when each task finishes: start_time + duration
+                    prob += total_time_var >= task_time[task] + task_duration[task]
+                    
+            elif isinstance(constraint, NoMulticastingConstraint):
+                # Forbid multicasting: each source PE can only send to one destination at a time
+                # Use the global task_duration variables that account for inter-chip communication
+                
+                # Group tasks by source PE
+                source_pe_tasks = defaultdict(list)
+                for task in tasks:
+                    source_pe = task_data[task]['source_pe']
+                    source_pe_tasks[source_pe].append(task)
+                
+                # For each source PE with multiple tasks, prevent overlapping execution
+                for source_pe, pe_tasks in source_pe_tasks.items():
+                    if len(pe_tasks) > 1:
+                        for i, task1 in enumerate(pe_tasks):
+                            for task2 in pe_tasks[i+1:]:
+                                # Prevent overlap: either task1 finishes before task2 starts, or vice versa
+                                # task1 finishes before task2 starts: task_time[task1] + duration1 <= task_time[task2]
+                                # task2 finishes before task1 starts: task_time[task2] + duration2 <= task_time[task1]
+                                
+                                # Use binary variable to choose one of the two orderings
+                                task1_before_task2 = LpVariable(f"order_{task1}_before_{task2}", cat='Binary')
+                                
+                                # If task1_before_task2 = 1, then task1 finishes before task2 starts
+                                prob += task_time[task2] >= task_time[task1] + task_duration[task1] - max_time * (1 - task1_before_task2)
+                                
+                                # If task1_before_task2 = 0, then task2 finishes before task1 starts  
+                                prob += task_time[task1] >= task_time[task2] + task_duration[task2] - max_time * task1_before_task2
         
         # Add chiplet PE usage constraints: chiplet_pe_used[c] = 1 if any PE is assigned to chiplet c
         for c in range(max_chiplets):
             # If any PE is assigned to chiplet c, then chiplet_pe_used[c] must be 1
-            prob += chiplet_pe_used[c] >= lpSum([pe_used[pe, c] for pe in pes]) / len(pes)
-            # If no PEs are assigned to chiplet c, then chiplet_pe_used[c] can be 0
             for pe in pes:
                 prob += chiplet_pe_used[c] >= pe_used[pe, c]
         
@@ -431,7 +526,7 @@ class ILPSolver(Solver):
             
             for task in tasks:
                 for c in range(max_chiplets):
-                    if z[task, c].value() and z[task, c].value() > 0.5:  # Handle numerical precision
+                    if z[task, c].value() is not None and z[task, c].value() > 0.5:  # Handle numerical precision
                         task_assignments[task] = c
                         chiplet_tasks[c].append(task)
                         break
@@ -442,7 +537,7 @@ class ILPSolver(Solver):
                 pe_assignments = {}
                 for pe in pes:
                     for c in range(max_chiplets):
-                        if pe_used[pe, c].value() and pe_used[pe, c].value() > 0.5:
+                        if pe_used[pe, c].value() is not None and pe_used[pe, c].value() > 0.5:
                             pe_assignments[pe] = c
                             break
                 
@@ -450,19 +545,31 @@ class ILPSolver(Solver):
                 # which are constrained to match source_pe assignments. Keep original task_assignments.
                 # The PE assignments will be used for validation, not for changing task placement.
                 
-                # Extract task times
+                # Extract task times and durations
                 task_times = {}
+                task_durations = {}
                 for task in tasks:
                     if task_time[task].value() is not None:
                         task_times[task] = int(round(task_time[task].value()))
                     else:
                         task_times[task] = 0
+                    
+                    if task_duration[task].value() is not None:
+                        task_durations[task] = int(round(task_duration[task].value()))
+                    else:
+                        task_durations[task] = 1
                 
                 active_chiplets = len([c for c in chiplet_tasks if chiplet_tasks[c]])
                 
-                # Calculate total_time as the maximum task completion time + 1
-                if task_times:
-                    total_time = max(task_times.values()) + 1
+                # Calculate total_time as the maximum task completion time (start + duration)
+                if task_times and task_durations:
+                    # Only consider tasks that are actually assigned and have valid times/durations
+                    assigned_tasks = [task for task in tasks if task in task_times and task in task_durations]
+                    if assigned_tasks:
+                        max_completion_time = max(task_times[task] + task_durations[task] for task in assigned_tasks)
+                        total_time = max_completion_time
+                    else:
+                        total_time = max_time
                 elif total_time_var.value() is not None:
                     total_time = int(round(total_time_var.value()))
                 else:
@@ -486,6 +593,7 @@ class ILPSolver(Solver):
                     'solve_time': solve_time,
                     'task_assignments': task_assignments,
                     'task_times': task_times,
+                    'task_durations': task_durations,  # Include task durations for validation
                     'chiplet_tasks': dict(chiplet_tasks)
                 }
             else:
@@ -497,10 +605,11 @@ class ILPSolver(Solver):
                 }
         
         # No solution found
+        status_name = LpStatus.get(status, f'Unknown({status})')
         return {
             'status': 'infeasible',
             'solve_time': solve_time,
-            'note': f'ILP failed with status {LpStatus[status]}'
+            'note': f'ILP failed with status {status_name}'
         }
     
 
@@ -519,6 +628,7 @@ if __name__ == "__main__":
     problem.add_constraint(PEExclusivityConstraint())
     problem.add_constraint(InterChipletCommConstraint(bandwidth=8192))
     problem.add_constraint(TimeBoundsConstraint())
+    problem.add_constraint(NoMulticastingConstraint())  # Add the new constraint
     
     print("Problem loaded:")
     stats = problem.get_problem_stats()
