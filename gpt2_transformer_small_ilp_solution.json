@@ -2,148 +2,152 @@
   "metadata": {
     "solver": "ILP",
     "data_file": "gpt2_transformer_small.txt",
-    "timestamp": "2025-08-27 22:25:31",
+    "timestamp": "2025-08-28 10:20:43",
     "status": "timeout_feasible",
-    "total_cycles": 13,
+    "total_cycles": 12,
     "num_chiplets": 4,
-    "solve_time_seconds": 9.782212495803833,
+    "solve_time_seconds": 9.859111309051514,
     "total_tasks": 399
   },
   "pe_assignments": {
-    "0": 1,
-    "1": 1,
-    "2": 4,
-    "3": 0,
-    "4": 4,
-    "5": 0,
-    "6": 0,
-    "20": 2,
-    "21": 0,
+    "0": 5,
+    "1": 4,
+    "2": 0,
+    "3": 5,
+    "4": 1,
+    "5": 1,
+    "6": 4,
+    "20": 0,
+    "21": 4,
     "22": 0,
-    "23": 4,
-    "24": 0,
-    "25": 4,
-    "26": 4,
-    "40": 2,
-    "41": 0,
-    "42": 0,
-    "43": 2,
-    "44": 4,
-    "45": 4,
-    "46": 0,
-    "60": 2,
+    "23": 5,
+    "24": 5,
+    "25": 5,
+    "26": 5,
+    "40": 0,
+    "41": 4,
+    "42": 1,
+    "43": 5,
+    "44": 5,
+    "45": 5,
+    "46": 5,
+    "60": 1,
     "61": 4,
-    "62": 1,
-    "63": 0,
-    "64": 0,
-    "65": 0,
+    "62": 4,
+    "63": 4,
+    "64": 4,
+    "65": 1,
     "66": 0,
-    "80": 2,
-    "81": 0,
-    "82": 1,
-    "83": 0,
-    "84": 0,
-    "85": 0,
-    "86": 1,
+    "80": 5,
+    "81": 4,
+    "82": 4,
+    "83": 5,
+    "84": 5,
+    "85": 5,
+    "86": 5,
     "100": 4,
-    "101": 0,
-    "102": 1,
-    "103": 1,
-    "104": 1,
-    "105": 1,
-    "106": 0,
-    "120": 4,
+    "101": 4,
+    "102": 0,
+    "103": 5,
+    "104": 5,
+    "105": 5,
+    "106": 5,
+    "120": 5,
     "121": 4,
-    "122": 2,
-    "123": 4,
-    "140": 4,
+    "122": 5,
+    "123": 0,
+    "140": 1,
     "141": 1,
-    "142": 4,
-    "143": 4,
+    "142": 1,
+    "143": 1,
     "144": 1,
     "160": 1,
-    "161": 2,
-    "162": 4,
-    "163": 2,
-    "164": 0,
+    "161": 0,
+    "162": 1,
+    "163": 4,
+    "164": 5,
     "165": 4,
-    "180": 2,
-    "181": 0,
+    "180": 5,
+    "181": 1,
     "182": 0,
-    "183": 4,
-    "184": 4,
-    "200": 4,
+    "183": 1,
+    "184": 1,
+    "200": 1,
     "201": 1,
-    "202": 4,
-    "203": 2,
+    "202": 5,
+    "203": 4,
     "204": 1,
     "205": 1,
-    "206": 2,
-    "220": 2,
+    "206": 5,
+    "220": 0,
     "221": 1,
-    "222": 4,
-    "223": 2,
+    "222": 0,
+    "223": 4,
     "224": 4,
-    "225": 4,
-    "226": 2,
-    "240": 0,
-    "241": 2,
-    "242": 2,
-    "243": 0,
+    "225": 0,
+    "226": 5,
+    "240": 5,
+    "241": 0,
+    "242": 0,
+    "243": 1,
     "244": 1,
-    "245": 4,
+    "245": 5,
     "246": 4,
-    "260": 2,
-    "261": 2,
-    "262": 2,
-    "263": 2,
-    "280": 4,
-    "281": 2,
-    "282": 2,
-    "283": 2,
-    "300": 2,
-    "301": 2,
-    "302": 2,
-    "303": 2,
-    "320": 4,
-    "321": 2,
-    "322": 2,
+    "260": 0,
+    "261": 5,
+    "262": 0,
+    "263": 0,
+    "280": 0,
+    "281": 5,
+    "282": 0,
+    "283": 0,
+    "300": 0,
+    "301": 0,
+    "302": 5,
+    "303": 0,
+    "320": 0,
+    "321": 0,
+    "322": 0,
     "323": 1,
     "340": 0,
     "341": 4,
     "342": 1,
-    "343": 1,
+    "343": 4,
     "344": 1,
-    "345": 1,
-    "346": 1,
-    "360": 4,
-    "361": 1,
-    "362": 1,
+    "345": 0,
+    "346": 4,
+    "360": 0,
+    "361": 0,
+    "362": 4,
     "363": 1,
-    "364": 1,
-    "365": 1,
+    "364": 0,
+    "365": 5,
     "366": 1,
-    "380": 0,
-    "381": 1,
+    "380": 1,
+    "381": 4,
     "382": 1,
-    "383": 4,
-    "384": 1,
-    "385": 0,
-    "386": 4
+    "383": 1,
+    "384": 4,
+    "385": 1,
+    "386": 1
   },
   "schedule": [
     {
       "cycle": 0,
       "chiplets": {
         "0": [],
-        "1": [
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [
           {
             "task_id": 1,
             "source_pe": 0,
             "dest_pe": 1,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -151,8 +155,8 @@
             "source_pe": 0,
             "dest_pe": 2,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 0
           },
           {
@@ -160,8 +164,8 @@
             "source_pe": 0,
             "dest_pe": 3,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -169,8 +173,8 @@
             "source_pe": 0,
             "dest_pe": 4,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
           {
@@ -178,8 +182,8 @@
             "source_pe": 0,
             "dest_pe": 5,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
           {
@@ -187,8 +191,8 @@
             "source_pe": 0,
             "dest_pe": 6,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -196,8 +200,8 @@
             "source_pe": 0,
             "dest_pe": 21,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -205,7 +209,7 @@
             "source_pe": 0,
             "dest_pe": 22,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 0,
             "execution_cycle": 0
           },
@@ -214,8 +218,8 @@
             "source_pe": 0,
             "dest_pe": 23,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -223,8 +227,8 @@
             "source_pe": 0,
             "dest_pe": 24,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -232,8 +236,8 @@
             "source_pe": 0,
             "dest_pe": 25,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -241,8 +245,8 @@
             "source_pe": 0,
             "dest_pe": 26,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -250,8 +254,8 @@
             "source_pe": 0,
             "dest_pe": 41,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -259,8 +263,8 @@
             "source_pe": 0,
             "dest_pe": 42,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
           {
@@ -268,8 +272,8 @@
             "source_pe": 0,
             "dest_pe": 43,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -277,8 +281,8 @@
             "source_pe": 0,
             "dest_pe": 44,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -286,8 +290,8 @@
             "source_pe": 0,
             "dest_pe": 45,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -295,8 +299,8 @@
             "source_pe": 0,
             "dest_pe": 46,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -304,7 +308,7 @@
             "source_pe": 0,
             "dest_pe": 61,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
@@ -313,8 +317,8 @@
             "source_pe": 0,
             "dest_pe": 62,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -322,8 +326,8 @@
             "source_pe": 0,
             "dest_pe": 63,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -331,8 +335,8 @@
             "source_pe": 0,
             "dest_pe": 64,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -340,8 +344,8 @@
             "source_pe": 0,
             "dest_pe": 65,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
           {
@@ -349,7 +353,7 @@
             "source_pe": 0,
             "dest_pe": 66,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 0,
             "execution_cycle": 0
           },
@@ -358,8 +362,8 @@
             "source_pe": 0,
             "dest_pe": 81,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -367,8 +371,8 @@
             "source_pe": 0,
             "dest_pe": 82,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -376,8 +380,8 @@
             "source_pe": 0,
             "dest_pe": 83,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -385,8 +389,8 @@
             "source_pe": 0,
             "dest_pe": 84,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -394,8 +398,8 @@
             "source_pe": 0,
             "dest_pe": 85,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -403,8 +407,8 @@
             "source_pe": 0,
             "dest_pe": 86,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -412,8 +416,8 @@
             "source_pe": 0,
             "dest_pe": 101,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -421,8 +425,8 @@
             "source_pe": 0,
             "dest_pe": 102,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 0
           },
           {
@@ -430,8 +434,8 @@
             "source_pe": 0,
             "dest_pe": 103,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -439,8 +443,8 @@
             "source_pe": 0,
             "dest_pe": 104,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -448,8 +452,8 @@
             "source_pe": 0,
             "dest_pe": 105,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -457,8 +461,8 @@
             "source_pe": 0,
             "dest_pe": 106,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -466,7 +470,7 @@
             "source_pe": 0,
             "dest_pe": 341,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
@@ -475,7 +479,7 @@
             "source_pe": 0,
             "dest_pe": 342,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
@@ -484,8 +488,8 @@
             "source_pe": 0,
             "dest_pe": 343,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -493,7 +497,7 @@
             "source_pe": 0,
             "dest_pe": 344,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
@@ -502,8 +506,8 @@
             "source_pe": 0,
             "dest_pe": 345,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 0
           },
           {
@@ -511,8 +515,8 @@
             "source_pe": 0,
             "dest_pe": 346,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -520,8 +524,8 @@
             "source_pe": 0,
             "dest_pe": 361,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 0
           },
           {
@@ -529,8 +533,8 @@
             "source_pe": 0,
             "dest_pe": 362,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -538,7 +542,7 @@
             "source_pe": 0,
             "dest_pe": 363,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
@@ -547,8 +551,8 @@
             "source_pe": 0,
             "dest_pe": 364,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 0
           },
           {
@@ -556,8 +560,8 @@
             "source_pe": 0,
             "dest_pe": 365,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 0
           },
           {
@@ -565,7 +569,7 @@
             "source_pe": 0,
             "dest_pe": 366,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
@@ -574,8 +578,8 @@
             "source_pe": 0,
             "dest_pe": 381,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -583,7 +587,7 @@
             "source_pe": 0,
             "dest_pe": 382,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
@@ -592,8 +596,8 @@
             "source_pe": 0,
             "dest_pe": 383,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
           {
@@ -601,8 +605,8 @@
             "source_pe": 0,
             "dest_pe": 384,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 0
           },
           {
@@ -610,8 +614,8 @@
             "source_pe": 0,
             "dest_pe": 385,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 0
           },
           {
@@ -619,55 +623,146 @@
             "source_pe": 0,
             "dest_pe": 386,
             "data_size": 16384,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 0
           }
-        ],
-        "2": [],
-        "3": [],
-        "4": []
+        ]
       }
     },
     {
       "cycle": 1,
       "chiplets": {
         "0": [],
-        "1": [
+        "1": [],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [
           {
-            "task_id": 19,
-            "source_pe": 1,
-            "dest_pe": 1,
+            "task_id": 21,
+            "source_pe": 3,
+            "dest_pe": 3,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 1
           },
           {
-            "task_id": 74,
-            "source_pe": 62,
-            "dest_pe": 62,
+            "task_id": 27,
+            "source_pe": 23,
+            "dest_pe": 23,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 1
           },
           {
-            "task_id": 80,
-            "source_pe": 82,
-            "dest_pe": 82,
+            "task_id": 28,
+            "source_pe": 24,
+            "dest_pe": 24,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 1
           },
           {
-            "task_id": 86,
-            "source_pe": 102,
-            "dest_pe": 102,
+            "task_id": 29,
+            "source_pe": 25,
+            "dest_pe": 25,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 30,
+            "source_pe": 26,
+            "dest_pe": 26,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 33,
+            "source_pe": 43,
+            "dest_pe": 43,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 34,
+            "source_pe": 44,
+            "dest_pe": 44,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 35,
+            "source_pe": 45,
+            "dest_pe": 45,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 36,
+            "source_pe": 46,
+            "dest_pe": 46,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 81,
+            "source_pe": 83,
+            "dest_pe": 83,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 82,
+            "source_pe": 84,
+            "dest_pe": 84,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 83,
+            "source_pe": 85,
+            "dest_pe": 85,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 84,
+            "source_pe": 86,
+            "dest_pe": 86,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 1
+          },
+          {
+            "task_id": 87,
+            "source_pe": 103,
+            "dest_pe": 103,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 1
           },
           {
@@ -675,8 +770,8 @@
             "source_pe": 104,
             "dest_pe": 104,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 1
           },
           {
@@ -684,89 +779,17 @@
             "source_pe": 105,
             "dest_pe": 105,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 1
           },
           {
-            "task_id": 128,
-            "source_pe": 342,
-            "dest_pe": 342,
+            "task_id": 90,
+            "source_pe": 106,
+            "dest_pe": 106,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 129,
-            "source_pe": 343,
-            "dest_pe": 343,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 130,
-            "source_pe": 344,
-            "dest_pe": 344,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 131,
-            "source_pe": 345,
-            "dest_pe": 345,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 132,
-            "source_pe": 346,
-            "dest_pe": 346,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 133,
-            "source_pe": 361,
-            "dest_pe": 361,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 134,
-            "source_pe": 362,
-            "dest_pe": 362,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 135,
-            "source_pe": 363,
-            "dest_pe": 363,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 136,
-            "source_pe": 364,
-            "dest_pe": 364,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 1
           },
           {
@@ -774,50 +797,11 @@
             "source_pe": 365,
             "dest_pe": 365,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 138,
-            "source_pe": 366,
-            "dest_pe": 366,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 139,
-            "source_pe": 381,
-            "dest_pe": 381,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 140,
-            "source_pe": 382,
-            "dest_pe": 382,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 1
-          },
-          {
-            "task_id": 142,
-            "source_pe": 384,
-            "dest_pe": 384,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 1
           }
-        ],
-        "2": [],
-        "3": [],
-        "4": []
+        ]
       }
     },
     {
@@ -825,36 +809,9 @@
       "chiplets": {
         "0": [
           {
-            "task_id": 21,
-            "source_pe": 3,
-            "dest_pe": 3,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 23,
-            "source_pe": 5,
-            "dest_pe": 5,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 24,
-            "source_pe": 6,
-            "dest_pe": 6,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 25,
-            "source_pe": 21,
-            "dest_pe": 21,
+            "task_id": 20,
+            "source_pe": 2,
+            "dest_pe": 2,
             "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
@@ -870,69 +827,6 @@
             "execution_cycle": 2
           },
           {
-            "task_id": 28,
-            "source_pe": 24,
-            "dest_pe": 24,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 31,
-            "source_pe": 41,
-            "dest_pe": 41,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 32,
-            "source_pe": 42,
-            "dest_pe": 42,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 36,
-            "source_pe": 46,
-            "dest_pe": 46,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 75,
-            "source_pe": 63,
-            "dest_pe": 63,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 76,
-            "source_pe": 64,
-            "dest_pe": 64,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 77,
-            "source_pe": 65,
-            "dest_pe": 65,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
             "task_id": 78,
             "source_pe": 66,
             "dest_pe": 66,
@@ -942,63 +836,36 @@
             "execution_cycle": 2
           },
           {
-            "task_id": 79,
-            "source_pe": 81,
-            "dest_pe": 81,
+            "task_id": 86,
+            "source_pe": 102,
+            "dest_pe": 102,
             "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
             "execution_cycle": 2
           },
           {
-            "task_id": 81,
-            "source_pe": 83,
-            "dest_pe": 83,
+            "task_id": 131,
+            "source_pe": 345,
+            "dest_pe": 345,
             "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
             "execution_cycle": 2
           },
           {
-            "task_id": 82,
-            "source_pe": 84,
-            "dest_pe": 84,
+            "task_id": 133,
+            "source_pe": 361,
+            "dest_pe": 361,
             "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
             "execution_cycle": 2
           },
           {
-            "task_id": 83,
-            "source_pe": 85,
-            "dest_pe": 85,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 85,
-            "source_pe": 101,
-            "dest_pe": 101,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 90,
-            "source_pe": 106,
-            "dest_pe": 106,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 143,
-            "source_pe": 385,
-            "dest_pe": 385,
+            "task_id": 136,
+            "source_pe": 364,
+            "dest_pe": 364,
             "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
@@ -1007,221 +874,202 @@
         ],
         "1": [
           {
-            "task_id": 84,
-            "source_pe": 86,
-            "dest_pe": 86,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 87,
-            "source_pe": 103,
-            "dest_pe": 103,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 94,
-            "source_pe": 82,
-            "dest_pe": 62,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 95,
-            "source_pe": 102,
-            "dest_pe": 62,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 101,
-            "source_pe": 104,
-            "dest_pe": 64,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 104,
-            "source_pe": 105,
-            "dest_pe": 65,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 145,
-            "source_pe": 361,
-            "dest_pe": 341,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 146,
-            "source_pe": 381,
-            "dest_pe": 341,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 148,
-            "source_pe": 362,
-            "dest_pe": 342,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 149,
-            "source_pe": 382,
-            "dest_pe": 342,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 151,
-            "source_pe": 363,
-            "dest_pe": 343,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 154,
-            "source_pe": 364,
-            "dest_pe": 344,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 155,
-            "source_pe": 384,
-            "dest_pe": 344,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 157,
-            "source_pe": 365,
-            "dest_pe": 345,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          },
-          {
-            "task_id": 160,
-            "source_pe": 366,
-            "dest_pe": 346,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 2
-          }
-        ],
-        "2": [
-          {
-            "task_id": 33,
-            "source_pe": 43,
-            "dest_pe": 43,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 2
-          }
-        ],
-        "3": [],
-        "4": [
-          {
-            "task_id": 20,
-            "source_pe": 2,
-            "dest_pe": 2,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 2
-          },
-          {
             "task_id": 22,
             "source_pe": 4,
             "dest_pe": 4,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 2
           },
           {
-            "task_id": 27,
-            "source_pe": 23,
-            "dest_pe": 23,
+            "task_id": 23,
+            "source_pe": 5,
+            "dest_pe": 5,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 32,
+            "source_pe": 42,
+            "dest_pe": 42,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 77,
+            "source_pe": 65,
+            "dest_pe": 65,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 128,
+            "source_pe": 342,
+            "dest_pe": 342,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 130,
+            "source_pe": 344,
+            "dest_pe": 344,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 135,
+            "source_pe": 363,
+            "dest_pe": 363,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 138,
+            "source_pe": 366,
+            "dest_pe": 366,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 140,
+            "source_pe": 382,
+            "dest_pe": 382,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 141,
+            "source_pe": 383,
+            "dest_pe": 383,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 143,
+            "source_pe": 385,
+            "dest_pe": 385,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 144,
+            "source_pe": 386,
+            "dest_pe": 386,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 19,
+            "source_pe": 1,
+            "dest_pe": 1,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 2
           },
           {
-            "task_id": 29,
-            "source_pe": 25,
-            "dest_pe": 25,
+            "task_id": 24,
+            "source_pe": 6,
+            "dest_pe": 6,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 2
           },
           {
-            "task_id": 30,
-            "source_pe": 26,
-            "dest_pe": 26,
+            "task_id": 25,
+            "source_pe": 21,
+            "dest_pe": 21,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 2
           },
           {
-            "task_id": 34,
-            "source_pe": 44,
-            "dest_pe": 44,
+            "task_id": 31,
+            "source_pe": 41,
+            "dest_pe": 41,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 2
           },
           {
-            "task_id": 35,
-            "source_pe": 45,
-            "dest_pe": 45,
+            "task_id": 74,
+            "source_pe": 62,
+            "dest_pe": 62,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 2
           },
           {
-            "task_id": 73,
-            "source_pe": 61,
-            "dest_pe": 61,
+            "task_id": 75,
+            "source_pe": 63,
+            "dest_pe": 63,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 76,
+            "source_pe": 64,
+            "dest_pe": 64,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 79,
+            "source_pe": 81,
+            "dest_pe": 81,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 80,
+            "source_pe": 82,
+            "dest_pe": 82,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 85,
+            "source_pe": 101,
+            "dest_pe": 101,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
@@ -1237,21 +1085,203 @@
             "execution_cycle": 2
           },
           {
-            "task_id": 141,
-            "source_pe": 383,
-            "dest_pe": 383,
+            "task_id": 129,
+            "source_pe": 343,
+            "dest_pe": 343,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 2
           },
           {
-            "task_id": 144,
-            "source_pe": 386,
-            "dest_pe": 386,
+            "task_id": 132,
+            "source_pe": 346,
+            "dest_pe": 346,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 134,
+            "source_pe": 362,
+            "dest_pe": 362,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 139,
+            "source_pe": 381,
+            "dest_pe": 381,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 142,
+            "source_pe": 384,
+            "dest_pe": 384,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          }
+        ],
+        "5": [
+          {
+            "task_id": 43,
+            "source_pe": 23,
+            "dest_pe": 3,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 44,
+            "source_pe": 43,
+            "dest_pe": 3,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 46,
+            "source_pe": 24,
+            "dest_pe": 4,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 47,
+            "source_pe": 44,
+            "dest_pe": 4,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 49,
+            "source_pe": 25,
+            "dest_pe": 5,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 50,
+            "source_pe": 45,
+            "dest_pe": 5,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 52,
+            "source_pe": 26,
+            "dest_pe": 6,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 53,
+            "source_pe": 46,
+            "dest_pe": 6,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 97,
+            "source_pe": 83,
+            "dest_pe": 63,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 98,
+            "source_pe": 103,
+            "dest_pe": 63,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 100,
+            "source_pe": 84,
+            "dest_pe": 64,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 101,
+            "source_pe": 104,
+            "dest_pe": 64,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 103,
+            "source_pe": 85,
+            "dest_pe": 65,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 104,
+            "source_pe": 105,
+            "dest_pe": 65,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 106,
+            "source_pe": 86,
+            "dest_pe": 66,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 107,
+            "source_pe": 106,
+            "dest_pe": 66,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 2
+          },
+          {
+            "task_id": 157,
+            "source_pe": 365,
+            "dest_pe": 345,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 2
           }
         ]
@@ -1262,107 +1292,26 @@
       "chiplets": {
         "0": [
           {
-            "task_id": 37,
-            "source_pe": 21,
-            "dest_pe": 1,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 38,
-            "source_pe": 41,
-            "dest_pe": 1,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 3
-          },
-          {
             "task_id": 40,
             "source_pe": 22,
             "dest_pe": 2,
             "data_size": 8192,
             "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 41,
-            "source_pe": 42,
-            "dest_pe": 2,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 46,
-            "source_pe": 24,
-            "dest_pe": 4,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 53,
-            "source_pe": 46,
-            "dest_pe": 6,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
             "execution_cycle": 3
           },
           {
-            "task_id": 91,
-            "source_pe": 81,
-            "dest_pe": 61,
+            "task_id": 95,
+            "source_pe": 102,
+            "dest_pe": 62,
             "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 4,
             "execution_cycle": 3
           },
           {
-            "task_id": 92,
-            "source_pe": 101,
-            "dest_pe": 61,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 97,
-            "source_pe": 83,
-            "dest_pe": 63,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 100,
-            "source_pe": 84,
-            "dest_pe": 64,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 103,
-            "source_pe": 85,
-            "dest_pe": 65,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 107,
-            "source_pe": 106,
+            "task_id": 108,
+            "source_pe": 66,
             "dest_pe": 66,
             "data_size": 8192,
             "source_pe_chiplet": 0,
@@ -1370,9 +1319,18 @@
             "execution_cycle": 3
           },
           {
-            "task_id": 158,
-            "source_pe": 385,
-            "dest_pe": 345,
+            "task_id": 145,
+            "source_pe": 361,
+            "dest_pe": 341,
+            "data_size": 8192,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 154,
+            "source_pe": 364,
+            "dest_pe": 344,
             "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 1,
@@ -1381,35 +1339,44 @@
         ],
         "1": [
           {
-            "task_id": 96,
-            "source_pe": 62,
-            "dest_pe": 62,
+            "task_id": 41,
+            "source_pe": 42,
+            "dest_pe": 2,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 48,
+            "source_pe": 4,
+            "dest_pe": 4,
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 3
           },
           {
-            "task_id": 98,
-            "source_pe": 103,
-            "dest_pe": 63,
+            "task_id": 51,
+            "source_pe": 5,
+            "dest_pe": 5,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 3
           },
           {
-            "task_id": 106,
-            "source_pe": 86,
-            "dest_pe": 66,
+            "task_id": 105,
+            "source_pe": 65,
+            "dest_pe": 65,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 3
           },
           {
-            "task_id": 150,
-            "source_pe": 342,
+            "task_id": 149,
+            "source_pe": 382,
             "dest_pe": 342,
             "data_size": 8192,
             "source_pe_chiplet": 1,
@@ -1417,79 +1384,11 @@
             "execution_cycle": 3
           },
           {
-            "task_id": 156,
-            "source_pe": 344,
-            "dest_pe": 344,
+            "task_id": 151,
+            "source_pe": 363,
+            "dest_pe": 343,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 3
-          }
-        ],
-        "2": [
-          {
-            "task_id": 44,
-            "source_pe": 43,
-            "dest_pe": 3,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 3
-          }
-        ],
-        "3": [],
-        "4": [
-          {
-            "task_id": 43,
-            "source_pe": 23,
-            "dest_pe": 3,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 47,
-            "source_pe": 44,
-            "dest_pe": 4,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 49,
-            "source_pe": 25,
-            "dest_pe": 5,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 50,
-            "source_pe": 45,
-            "dest_pe": 5,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 52,
-            "source_pe": 26,
-            "dest_pe": 6,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 3
-          },
-          {
-            "task_id": 147,
-            "source_pe": 341,
-            "dest_pe": 341,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 3
           },
@@ -1498,8 +1397,26 @@
             "source_pe": 383,
             "dest_pe": 343,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 158,
+            "source_pe": 385,
+            "dest_pe": 345,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 160,
+            "source_pe": 366,
+            "dest_pe": 346,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 3
           },
           {
@@ -1507,8 +1424,131 @@
             "source_pe": 386,
             "dest_pe": 346,
             "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 37,
+            "source_pe": 21,
+            "dest_pe": 1,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 38,
+            "source_pe": 41,
+            "dest_pe": 1,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 54,
+            "source_pe": 6,
+            "dest_pe": 6,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 73,
+            "source_pe": 61,
+            "dest_pe": 61,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 91,
+            "source_pe": 81,
+            "dest_pe": 61,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 92,
+            "source_pe": 101,
+            "dest_pe": 61,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 94,
+            "source_pe": 82,
+            "dest_pe": 62,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 99,
+            "source_pe": 63,
+            "dest_pe": 63,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 102,
+            "source_pe": 64,
+            "dest_pe": 64,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 146,
+            "source_pe": 381,
+            "dest_pe": 341,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 148,
+            "source_pe": 362,
+            "dest_pe": 342,
+            "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 1,
+            "execution_cycle": 3
+          },
+          {
+            "task_id": 155,
+            "source_pe": 384,
+            "dest_pe": 344,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 3
+          }
+        ],
+        "5": [
+          {
+            "task_id": 45,
+            "source_pe": 3,
+            "dest_pe": 3,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 3
           }
         ]
@@ -1519,86 +1559,12 @@
       "chiplets": {
         "0": [
           {
-            "task_id": 45,
-            "source_pe": 3,
-            "dest_pe": 3,
+            "task_id": 42,
+            "source_pe": 2,
+            "dest_pe": 2,
             "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 51,
-            "source_pe": 5,
-            "dest_pe": 5,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 54,
-            "source_pe": 6,
-            "dest_pe": 6,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 99,
-            "source_pe": 63,
-            "dest_pe": 63,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 102,
-            "source_pe": 64,
-            "dest_pe": 64,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 105,
-            "source_pe": 65,
-            "dest_pe": 65,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 108,
-            "source_pe": 66,
-            "dest_pe": 66,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          }
-        ],
-        "1": [
-          {
-            "task_id": 39,
-            "source_pe": 1,
-            "dest_pe": 1,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 153,
-            "source_pe": 343,
-            "dest_pe": 343,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
             "execution_cycle": 4
           },
           {
@@ -1606,71 +1572,100 @@
             "source_pe": 345,
             "dest_pe": 345,
             "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 4
           },
           {
-            "task_id": 162,
-            "source_pe": 346,
-            "dest_pe": 346,
+            "task_id": 214,
+            "source_pe": 66,
+            "dest_pe": 182,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 219,
+            "source_pe": 66,
+            "dest_pe": 184,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 4
+          }
+        ],
+        "1": [
+          {
+            "task_id": 150,
+            "source_pe": 342,
+            "dest_pe": 342,
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 4
           },
           {
-            "task_id": 174,
-            "source_pe": 62,
-            "dest_pe": 162,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 176,
-            "source_pe": 342,
-            "dest_pe": 162,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 179,
-            "source_pe": 62,
-            "dest_pe": 164,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 181,
-            "source_pe": 342,
-            "dest_pe": 164,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 196,
+            "task_id": 156,
             "source_pe": 344,
+            "dest_pe": 344,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 193,
+            "source_pe": 4,
             "dest_pe": 142,
             "data_size": 4096,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 4
           },
           {
-            "task_id": 201,
-            "source_pe": 344,
+            "task_id": 198,
+            "source_pe": 4,
             "dest_pe": 144,
             "data_size": 4096,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 203,
+            "source_pe": 5,
+            "dest_pe": 161,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 204,
+            "source_pe": 65,
+            "dest_pe": 161,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 208,
+            "source_pe": 5,
+            "dest_pe": 165,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 209,
+            "source_pe": 65,
+            "dest_pe": 165,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 4
           }
         ],
@@ -1678,18 +1673,9 @@
         "3": [],
         "4": [
           {
-            "task_id": 42,
-            "source_pe": 2,
-            "dest_pe": 2,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 4
-          },
-          {
-            "task_id": 48,
-            "source_pe": 4,
-            "dest_pe": 4,
+            "task_id": 39,
+            "source_pe": 1,
+            "dest_pe": 1,
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
@@ -1705,21 +1691,113 @@
             "execution_cycle": 4
           },
           {
-            "task_id": 166,
-            "source_pe": 341,
-            "dest_pe": 163,
-            "data_size": 4096,
+            "task_id": 96,
+            "source_pe": 62,
+            "dest_pe": 62,
+            "data_size": 8192,
             "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 4
           },
           {
-            "task_id": 171,
+            "task_id": 147,
             "source_pe": 341,
-            "dest_pe": 143,
-            "data_size": 4096,
+            "dest_pe": 341,
+            "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 153,
+            "source_pe": 343,
+            "dest_pe": 343,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 162,
+            "source_pe": 346,
+            "dest_pe": 346,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 184,
+            "source_pe": 63,
+            "dest_pe": 183,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 189,
+            "source_pe": 63,
+            "dest_pe": 123,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 194,
+            "source_pe": 64,
+            "dest_pe": 142,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 199,
+            "source_pe": 64,
+            "dest_pe": 144,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 213,
+            "source_pe": 6,
+            "dest_pe": 182,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 218,
+            "source_pe": 6,
+            "dest_pe": 184,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 4
+          }
+        ],
+        "5": [
+          {
+            "task_id": 183,
+            "source_pe": 3,
+            "dest_pe": 183,
+            "data_size": 4096,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 4
+          },
+          {
+            "task_id": 188,
+            "source_pe": 3,
+            "dest_pe": 123,
+            "data_size": 4096,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 4
           }
         ]
@@ -1730,234 +1808,12 @@
       "chiplets": {
         "0": [
           {
-            "task_id": 183,
-            "source_pe": 3,
-            "dest_pe": 183,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 184,
-            "source_pe": 63,
-            "dest_pe": 183,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 188,
-            "source_pe": 3,
-            "dest_pe": 123,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 189,
-            "source_pe": 63,
-            "dest_pe": 123,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 194,
-            "source_pe": 64,
-            "dest_pe": 142,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 199,
-            "source_pe": 64,
-            "dest_pe": 144,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 203,
-            "source_pe": 5,
-            "dest_pe": 161,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 204,
-            "source_pe": 65,
-            "dest_pe": 161,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 208,
-            "source_pe": 5,
-            "dest_pe": 165,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 209,
-            "source_pe": 65,
-            "dest_pe": 165,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 213,
-            "source_pe": 6,
-            "dest_pe": 182,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 214,
-            "source_pe": 66,
-            "dest_pe": 182,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 218,
-            "source_pe": 6,
-            "dest_pe": 184,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 219,
-            "source_pe": 66,
-            "dest_pe": 184,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          }
-        ],
-        "1": [
-          {
-            "task_id": 163,
-            "source_pe": 1,
-            "dest_pe": 163,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 168,
-            "source_pe": 1,
-            "dest_pe": 143,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 186,
-            "source_pe": 343,
-            "dest_pe": 183,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 191,
-            "source_pe": 343,
-            "dest_pe": 123,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 206,
-            "source_pe": 345,
-            "dest_pe": 161,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 211,
-            "source_pe": 345,
-            "dest_pe": 165,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 216,
-            "source_pe": 346,
-            "dest_pe": 182,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 221,
-            "source_pe": 346,
-            "dest_pe": 184,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          }
-        ],
-        "2": [],
-        "3": [],
-        "4": [
-          {
-            "task_id": 164,
-            "source_pe": 61,
-            "dest_pe": 163,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 169,
-            "source_pe": 61,
-            "dest_pe": 143,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
             "task_id": 173,
             "source_pe": 2,
             "dest_pe": 162,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 5
           },
           {
@@ -1965,43 +1821,45 @@
             "source_pe": 2,
             "dest_pe": 164,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 5
           },
           {
-            "task_id": 193,
-            "source_pe": 4,
-            "dest_pe": 142,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 5
-          },
-          {
-            "task_id": 198,
-            "source_pe": 4,
-            "dest_pe": 144,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 5
-          }
-        ]
-      }
-    },
-    {
-      "cycle": 6,
-      "chiplets": {
-        "0": [
-          {
-            "task_id": 180,
-            "source_pe": 164,
-            "dest_pe": 164,
+            "task_id": 190,
+            "source_pe": 123,
+            "dest_pe": 123,
             "data_size": 2048,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
-            "execution_cycle": 6
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 205,
+            "source_pe": 161,
+            "dest_pe": 161,
+            "data_size": 2048,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 206,
+            "source_pe": 345,
+            "dest_pe": 161,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 211,
+            "source_pe": 345,
+            "dest_pe": 165,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 5
           },
           {
             "task_id": 215,
@@ -2010,10 +1868,55 @@
             "data_size": 2048,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
-            "execution_cycle": 6
+            "execution_cycle": 5
           }
         ],
         "1": [
+          {
+            "task_id": 176,
+            "source_pe": 342,
+            "dest_pe": 162,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 181,
+            "source_pe": 342,
+            "dest_pe": 164,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 185,
+            "source_pe": 183,
+            "dest_pe": 183,
+            "data_size": 2048,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 195,
+            "source_pe": 142,
+            "dest_pe": 142,
+            "data_size": 2048,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 196,
+            "source_pe": 344,
+            "dest_pe": 142,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
+          },
           {
             "task_id": 200,
             "source_pe": 144,
@@ -2021,75 +1924,119 @@
             "data_size": 2048,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 6
-          }
-        ],
-        "2": [
-          {
-            "task_id": 165,
-            "source_pe": 163,
-            "dest_pe": 163,
-            "data_size": 2048,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 6
+            "execution_cycle": 5
           },
           {
-            "task_id": 205,
-            "source_pe": 161,
-            "dest_pe": 161,
+            "task_id": 201,
+            "source_pe": 344,
+            "dest_pe": 144,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 220,
+            "source_pe": 184,
+            "dest_pe": 184,
             "data_size": 2048,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 6
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
           }
         ],
+        "2": [],
         "3": [],
         "4": [
           {
-            "task_id": 170,
-            "source_pe": 143,
+            "task_id": 163,
+            "source_pe": 1,
+            "dest_pe": 163,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 164,
+            "source_pe": 61,
+            "dest_pe": 163,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 166,
+            "source_pe": 341,
+            "dest_pe": 163,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 168,
+            "source_pe": 1,
             "dest_pe": 143,
-            "data_size": 2048,
+            "data_size": 4096,
             "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 6
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
           },
           {
-            "task_id": 175,
-            "source_pe": 162,
+            "task_id": 169,
+            "source_pe": 61,
+            "dest_pe": 143,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 171,
+            "source_pe": 341,
+            "dest_pe": 143,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 174,
+            "source_pe": 62,
             "dest_pe": 162,
-            "data_size": 2048,
+            "data_size": 4096,
             "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 6
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
           },
           {
-            "task_id": 185,
-            "source_pe": 183,
+            "task_id": 179,
+            "source_pe": 62,
+            "dest_pe": 164,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 186,
+            "source_pe": 343,
             "dest_pe": 183,
-            "data_size": 2048,
+            "data_size": 4096,
             "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 6
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
           },
           {
-            "task_id": 190,
-            "source_pe": 123,
+            "task_id": 191,
+            "source_pe": 343,
             "dest_pe": 123,
-            "data_size": 2048,
+            "data_size": 4096,
             "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 6
-          },
-          {
-            "task_id": 195,
-            "source_pe": 142,
-            "dest_pe": 142,
-            "data_size": 2048,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 6
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 5
           },
           {
             "task_id": 210,
@@ -2098,15 +2045,148 @@
             "data_size": 2048,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 216,
+            "source_pe": 346,
+            "dest_pe": 182,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 5
+          },
+          {
+            "task_id": 221,
+            "source_pe": 346,
+            "dest_pe": 184,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 5
+          }
+        ],
+        "5": []
+      }
+    },
+    {
+      "cycle": 6,
+      "chiplets": {
+        "0": [
+          {
+            "task_id": 192,
+            "source_pe": 123,
+            "dest_pe": 123,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 6
           },
           {
-            "task_id": 220,
+            "task_id": 207,
+            "source_pe": 161,
+            "dest_pe": 161,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 6
+          },
+          {
+            "task_id": 217,
+            "source_pe": 182,
+            "dest_pe": 182,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 6
+          }
+        ],
+        "1": [
+          {
+            "task_id": 170,
+            "source_pe": 143,
+            "dest_pe": 143,
+            "data_size": 2048,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 6
+          },
+          {
+            "task_id": 175,
+            "source_pe": 162,
+            "dest_pe": 162,
+            "data_size": 2048,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 6
+          },
+          {
+            "task_id": 187,
+            "source_pe": 183,
+            "dest_pe": 183,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 6
+          },
+          {
+            "task_id": 197,
+            "source_pe": 142,
+            "dest_pe": 142,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 6
+          },
+          {
+            "task_id": 202,
+            "source_pe": 144,
+            "dest_pe": 144,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 6
+          },
+          {
+            "task_id": 222,
             "source_pe": 184,
             "dest_pe": 184,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 6
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 165,
+            "source_pe": 163,
+            "dest_pe": 163,
             "data_size": 2048,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
+            "execution_cycle": 6
+          },
+          {
+            "task_id": 212,
+            "source_pe": 165,
+            "dest_pe": 165,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 6
+          }
+        ],
+        "5": [
+          {
+            "task_id": 180,
+            "source_pe": 164,
+            "dest_pe": 164,
+            "data_size": 2048,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 6
           }
         ]
@@ -2117,64 +2197,176 @@
       "chiplets": {
         "0": [
           {
-            "task_id": 182,
-            "source_pe": 164,
-            "dest_pe": 164,
+            "task_id": 248,
+            "source_pe": 123,
+            "dest_pe": 221,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 252,
+            "source_pe": 123,
+            "dest_pe": 222,
             "data_size": 4096,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
             "execution_cycle": 7
           },
           {
-            "task_id": 217,
-            "source_pe": 182,
-            "dest_pe": 182,
+            "task_id": 256,
+            "source_pe": 123,
+            "dest_pe": 223,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 260,
+            "source_pe": 123,
+            "dest_pe": 224,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 264,
+            "source_pe": 123,
+            "dest_pe": 225,
             "data_size": 4096,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 268,
+            "source_pe": 123,
+            "dest_pe": 226,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 271,
+            "source_pe": 161,
+            "dest_pe": 241,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 273,
+            "source_pe": 182,
+            "dest_pe": 241,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 275,
+            "source_pe": 161,
+            "dest_pe": 242,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 277,
+            "source_pe": 182,
+            "dest_pe": 242,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 279,
+            "source_pe": 161,
+            "dest_pe": 243,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 281,
+            "source_pe": 182,
+            "dest_pe": 243,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 283,
+            "source_pe": 161,
+            "dest_pe": 244,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 285,
+            "source_pe": 182,
+            "dest_pe": 244,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 287,
+            "source_pe": 161,
+            "dest_pe": 245,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 289,
+            "source_pe": 182,
+            "dest_pe": 245,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 291,
+            "source_pe": 161,
+            "dest_pe": 246,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 293,
+            "source_pe": 182,
+            "dest_pe": 246,
+            "data_size": 4096,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 7
           }
         ],
         "1": [
           {
-            "task_id": 202,
-            "source_pe": 144,
-            "dest_pe": 144,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 7
-          }
-        ],
-        "2": [
-          {
-            "task_id": 167,
-            "source_pe": 163,
-            "dest_pe": 163,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 7
-          },
-          {
-            "task_id": 207,
-            "source_pe": 161,
-            "dest_pe": 161,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 7
-          }
-        ],
-        "3": [],
-        "4": [
-          {
             "task_id": 172,
             "source_pe": 143,
             "dest_pe": 143,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 7
           },
           {
@@ -2182,53 +2374,302 @@
             "source_pe": 162,
             "dest_pe": 162,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 7
           },
           {
-            "task_id": 187,
+            "task_id": 247,
             "source_pe": 183,
-            "dest_pe": 183,
+            "dest_pe": 221,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 7
           },
           {
-            "task_id": 192,
-            "source_pe": 123,
-            "dest_pe": 123,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 7
-          },
-          {
-            "task_id": 197,
+            "task_id": 249,
             "source_pe": 142,
-            "dest_pe": 142,
+            "dest_pe": 221,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 250,
+            "source_pe": 144,
+            "dest_pe": 221,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 251,
+            "source_pe": 183,
+            "dest_pe": 222,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 253,
+            "source_pe": 142,
+            "dest_pe": 222,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 254,
+            "source_pe": 144,
+            "dest_pe": 222,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 255,
+            "source_pe": 183,
+            "dest_pe": 223,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 4,
             "execution_cycle": 7
           },
           {
-            "task_id": 212,
-            "source_pe": 165,
-            "dest_pe": 165,
+            "task_id": 257,
+            "source_pe": 142,
+            "dest_pe": 223,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 4,
             "execution_cycle": 7
           },
           {
-            "task_id": 222,
+            "task_id": 258,
+            "source_pe": 144,
+            "dest_pe": 223,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 259,
+            "source_pe": 183,
+            "dest_pe": 224,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 261,
+            "source_pe": 142,
+            "dest_pe": 224,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 262,
+            "source_pe": 144,
+            "dest_pe": 224,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 263,
+            "source_pe": 183,
+            "dest_pe": 225,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 265,
+            "source_pe": 142,
+            "dest_pe": 225,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 266,
+            "source_pe": 144,
+            "dest_pe": 225,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 267,
+            "source_pe": 183,
+            "dest_pe": 226,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 269,
+            "source_pe": 142,
+            "dest_pe": 226,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 270,
+            "source_pe": 144,
+            "dest_pe": 226,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 274,
             "source_pe": 184,
-            "dest_pe": 184,
+            "dest_pe": 241,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 278,
+            "source_pe": 184,
+            "dest_pe": 242,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 282,
+            "source_pe": 184,
+            "dest_pe": 243,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 286,
+            "source_pe": 184,
+            "dest_pe": 244,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 290,
+            "source_pe": 184,
+            "dest_pe": 245,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 294,
+            "source_pe": 184,
+            "dest_pe": 246,
+            "data_size": 4096,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 167,
+            "source_pe": 163,
+            "dest_pe": 163,
             "data_size": 4096,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 272,
+            "source_pe": 165,
+            "dest_pe": 241,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 276,
+            "source_pe": 165,
+            "dest_pe": 242,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 280,
+            "source_pe": 165,
+            "dest_pe": 243,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 284,
+            "source_pe": 165,
+            "dest_pe": 244,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 288,
+            "source_pe": 165,
+            "dest_pe": 245,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 7
+          },
+          {
+            "task_id": 292,
+            "source_pe": 165,
+            "dest_pe": 246,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 7
+          }
+        ],
+        "5": [
+          {
+            "task_id": 182,
+            "source_pe": 164,
+            "dest_pe": 164,
+            "data_size": 4096,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 7
           }
         ]
@@ -2239,288 +2680,49 @@
       "chiplets": {
         "0": [
           {
-            "task_id": 226,
-            "source_pe": 164,
-            "dest_pe": 201,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 230,
-            "source_pe": 164,
-            "dest_pe": 202,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 234,
-            "source_pe": 164,
-            "dest_pe": 203,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 238,
-            "source_pe": 164,
-            "dest_pe": 204,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 242,
-            "source_pe": 164,
-            "dest_pe": 205,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 246,
-            "source_pe": 164,
-            "dest_pe": 206,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 273,
-            "source_pe": 182,
-            "dest_pe": 241,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 277,
-            "source_pe": 182,
-            "dest_pe": 242,
-            "data_size": 4096,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 281,
-            "source_pe": 182,
-            "dest_pe": 243,
-            "data_size": 4096,
+            "task_id": 302,
+            "source_pe": 222,
+            "dest_pe": 222,
+            "data_size": 8192,
             "source_pe_chiplet": 0,
             "dest_pe_chiplet": 0,
             "execution_cycle": 8
           },
           {
-            "task_id": 285,
-            "source_pe": 182,
-            "dest_pe": 244,
-            "data_size": 4096,
+            "task_id": 305,
+            "source_pe": 225,
+            "dest_pe": 225,
+            "data_size": 8192,
             "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 1,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 8
           },
           {
-            "task_id": 289,
-            "source_pe": 182,
-            "dest_pe": 245,
-            "data_size": 4096,
+            "task_id": 307,
+            "source_pe": 241,
+            "dest_pe": 241,
+            "data_size": 8192,
             "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 8
           },
           {
-            "task_id": 293,
-            "source_pe": 182,
-            "dest_pe": 246,
-            "data_size": 4096,
+            "task_id": 308,
+            "source_pe": 242,
+            "dest_pe": 242,
+            "data_size": 8192,
             "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
             "execution_cycle": 8
           }
         ],
         "1": [
           {
-            "task_id": 250,
-            "source_pe": 144,
-            "dest_pe": 221,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 254,
-            "source_pe": 144,
-            "dest_pe": 222,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 258,
-            "source_pe": 144,
-            "dest_pe": 223,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 262,
-            "source_pe": 144,
-            "dest_pe": 224,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 266,
-            "source_pe": 144,
-            "dest_pe": 225,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 270,
-            "source_pe": 144,
-            "dest_pe": 226,
-            "data_size": 4096,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          }
-        ],
-        "2": [
-          {
-            "task_id": 223,
-            "source_pe": 163,
-            "dest_pe": 201,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 227,
-            "source_pe": 163,
-            "dest_pe": 202,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 231,
-            "source_pe": 163,
-            "dest_pe": 203,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 235,
-            "source_pe": 163,
-            "dest_pe": 204,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 239,
-            "source_pe": 163,
-            "dest_pe": 205,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 243,
-            "source_pe": 163,
-            "dest_pe": 206,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 271,
-            "source_pe": 161,
-            "dest_pe": 241,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 275,
-            "source_pe": 161,
-            "dest_pe": 242,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 279,
-            "source_pe": 161,
-            "dest_pe": 243,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 283,
-            "source_pe": 161,
-            "dest_pe": 244,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 287,
-            "source_pe": 161,
-            "dest_pe": 245,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 291,
-            "source_pe": 161,
-            "dest_pe": 246,
-            "data_size": 4096,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          }
-        ],
-        "3": [],
-        "4": [
-          {
             "task_id": 224,
             "source_pe": 143,
             "dest_pe": 201,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
@@ -2529,7 +2731,7 @@
             "source_pe": 162,
             "dest_pe": 201,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
@@ -2538,8 +2740,8 @@
             "source_pe": 143,
             "dest_pe": 202,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 8
           },
           {
@@ -2547,8 +2749,8 @@
             "source_pe": 162,
             "dest_pe": 202,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 8
           },
           {
@@ -2556,8 +2758,8 @@
             "source_pe": 143,
             "dest_pe": 203,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 8
           },
           {
@@ -2565,8 +2767,8 @@
             "source_pe": 162,
             "dest_pe": 203,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
             "execution_cycle": 8
           },
           {
@@ -2574,7 +2776,7 @@
             "source_pe": 143,
             "dest_pe": 204,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
@@ -2583,7 +2785,7 @@
             "source_pe": 162,
             "dest_pe": 204,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
@@ -2592,7 +2794,7 @@
             "source_pe": 143,
             "dest_pe": 205,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
@@ -2601,7 +2803,7 @@
             "source_pe": 162,
             "dest_pe": 205,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
@@ -2610,8 +2812,8 @@
             "source_pe": 143,
             "dest_pe": 206,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 8
           },
           {
@@ -2619,278 +2821,194 @@
             "source_pe": 162,
             "dest_pe": 206,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 8
           },
           {
-            "task_id": 247,
-            "source_pe": 183,
+            "task_id": 301,
+            "source_pe": 221,
             "dest_pe": 221,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
           {
-            "task_id": 248,
-            "source_pe": 123,
-            "dest_pe": 221,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 249,
-            "source_pe": 142,
-            "dest_pe": 221,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 251,
-            "source_pe": 183,
-            "dest_pe": 222,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 252,
-            "source_pe": 123,
-            "dest_pe": 222,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 253,
-            "source_pe": 142,
-            "dest_pe": 222,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 255,
-            "source_pe": 183,
-            "dest_pe": 223,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 256,
-            "source_pe": 123,
-            "dest_pe": 223,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 257,
-            "source_pe": 142,
-            "dest_pe": 223,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 259,
-            "source_pe": 183,
-            "dest_pe": 224,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 260,
-            "source_pe": 123,
-            "dest_pe": 224,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 261,
-            "source_pe": 142,
-            "dest_pe": 224,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 263,
-            "source_pe": 183,
-            "dest_pe": 225,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 264,
-            "source_pe": 123,
-            "dest_pe": 225,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 265,
-            "source_pe": 142,
-            "dest_pe": 225,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 267,
-            "source_pe": 183,
-            "dest_pe": 226,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 268,
-            "source_pe": 123,
-            "dest_pe": 226,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 269,
-            "source_pe": 142,
-            "dest_pe": 226,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 272,
-            "source_pe": 165,
-            "dest_pe": 241,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 274,
-            "source_pe": 184,
-            "dest_pe": 241,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 276,
-            "source_pe": 165,
-            "dest_pe": 242,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 278,
-            "source_pe": 184,
-            "dest_pe": 242,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 280,
-            "source_pe": 165,
+            "task_id": 309,
+            "source_pe": 243,
             "dest_pe": 243,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
           {
-            "task_id": 282,
-            "source_pe": 184,
-            "dest_pe": 243,
-            "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 8
-          },
-          {
-            "task_id": 284,
-            "source_pe": 165,
+            "task_id": 310,
+            "source_pe": 244,
             "dest_pe": 244,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 8
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 223,
+            "source_pe": 163,
+            "dest_pe": 201,
             "data_size": 4096,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
           {
-            "task_id": 286,
-            "source_pe": 184,
-            "dest_pe": 244,
+            "task_id": 227,
+            "source_pe": 163,
+            "dest_pe": 202,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 231,
+            "source_pe": 163,
+            "dest_pe": 203,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 235,
+            "source_pe": 163,
+            "dest_pe": 204,
             "data_size": 4096,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 1,
             "execution_cycle": 8
           },
           {
-            "task_id": 288,
-            "source_pe": 165,
-            "dest_pe": 245,
+            "task_id": 239,
+            "source_pe": 163,
+            "dest_pe": 205,
             "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 243,
+            "source_pe": 163,
+            "dest_pe": 206,
+            "data_size": 4096,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 303,
+            "source_pe": 223,
+            "dest_pe": 223,
+            "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 8
           },
           {
-            "task_id": 290,
-            "source_pe": 184,
-            "dest_pe": 245,
-            "data_size": 4096,
+            "task_id": 304,
+            "source_pe": 224,
+            "dest_pe": 224,
+            "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
             "execution_cycle": 8
           },
           {
-            "task_id": 292,
-            "source_pe": 165,
+            "task_id": 312,
+            "source_pe": 246,
             "dest_pe": 246,
-            "data_size": 4096,
+            "data_size": 8192,
             "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 8
+          }
+        ],
+        "5": [
+          {
+            "task_id": 226,
+            "source_pe": 164,
+            "dest_pe": 201,
+            "data_size": 4096,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 230,
+            "source_pe": 164,
+            "dest_pe": 202,
+            "data_size": 4096,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 234,
+            "source_pe": 164,
+            "dest_pe": 203,
+            "data_size": 4096,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 4,
             "execution_cycle": 8
           },
           {
-            "task_id": 294,
-            "source_pe": 184,
-            "dest_pe": 246,
+            "task_id": 238,
+            "source_pe": 164,
+            "dest_pe": 204,
             "data_size": 4096,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 242,
+            "source_pe": 164,
+            "dest_pe": 205,
+            "data_size": 4096,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 246,
+            "source_pe": 164,
+            "dest_pe": 206,
+            "data_size": 4096,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 306,
+            "source_pe": 226,
+            "dest_pe": 226,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 8
+          },
+          {
+            "task_id": 311,
+            "source_pe": 245,
+            "dest_pe": 245,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 8
           }
         ]
@@ -2901,12 +3019,39 @@
       "chiplets": {
         "0": [
           {
-            "task_id": 309,
-            "source_pe": 243,
-            "dest_pe": 243,
+            "task_id": 314,
+            "source_pe": 241,
+            "dest_pe": 201,
             "data_size": 8192,
             "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 9
+          },
+          {
+            "task_id": 316,
+            "source_pe": 222,
+            "dest_pe": 202,
+            "data_size": 8192,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 9
+          },
+          {
+            "task_id": 317,
+            "source_pe": 242,
+            "dest_pe": 202,
+            "data_size": 8192,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 9
+          },
+          {
+            "task_id": 325,
+            "source_pe": 225,
+            "dest_pe": 205,
+            "data_size": 8192,
+            "source_pe_chiplet": 0,
+            "dest_pe_chiplet": 1,
             "execution_cycle": 9
           }
         ],
@@ -2939,162 +3084,22 @@
             "execution_cycle": 9
           },
           {
-            "task_id": 301,
-            "source_pe": 221,
-            "dest_pe": 221,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 310,
-            "source_pe": 244,
-            "dest_pe": 244,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 9
-          }
-        ],
-        "2": [
-          {
-            "task_id": 297,
-            "source_pe": 203,
-            "dest_pe": 203,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 300,
-            "source_pe": 206,
-            "dest_pe": 206,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 303,
-            "source_pe": 223,
-            "dest_pe": 223,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 306,
-            "source_pe": 226,
-            "dest_pe": 226,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 307,
-            "source_pe": 241,
-            "dest_pe": 241,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 308,
-            "source_pe": 242,
-            "dest_pe": 242,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 9
-          }
-        ],
-        "3": [],
-        "4": [
-          {
-            "task_id": 296,
-            "source_pe": 202,
-            "dest_pe": 202,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 302,
-            "source_pe": 222,
-            "dest_pe": 222,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 304,
-            "source_pe": 224,
-            "dest_pe": 224,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 305,
-            "source_pe": 225,
-            "dest_pe": 225,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 311,
-            "source_pe": 245,
-            "dest_pe": 245,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 9
-          },
-          {
-            "task_id": 312,
-            "source_pe": 246,
-            "dest_pe": 246,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 9
-          }
-        ]
-      }
-    },
-    {
-      "cycle": 10,
-      "chiplets": {
-        "0": [
-          {
-            "task_id": 320,
-            "source_pe": 243,
-            "dest_pe": 203,
-            "data_size": 8192,
-            "source_pe_chiplet": 0,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 10
-          }
-        ],
-        "1": [
-          {
             "task_id": 313,
             "source_pe": 221,
             "dest_pe": 201,
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 10
+            "execution_cycle": 9
+          },
+          {
+            "task_id": 320,
+            "source_pe": 243,
+            "dest_pe": 203,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 9
           },
           {
             "task_id": 323,
@@ -3103,57 +3108,29 @@
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 10
+            "execution_cycle": 9
           }
         ],
-        "2": [
+        "2": [],
+        "3": [],
+        "4": [
           {
-            "task_id": 314,
-            "source_pe": 241,
-            "dest_pe": 201,
+            "task_id": 297,
+            "source_pe": 203,
+            "dest_pe": 203,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 10
-          },
-          {
-            "task_id": 317,
-            "source_pe": 242,
-            "dest_pe": 202,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
+            "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
-            "execution_cycle": 10
+            "execution_cycle": 9
           },
           {
             "task_id": 319,
             "source_pe": 223,
             "dest_pe": 203,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 10
-          },
-          {
-            "task_id": 328,
-            "source_pe": 226,
-            "dest_pe": 206,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 10
-          }
-        ],
-        "3": [],
-        "4": [
-          {
-            "task_id": 316,
-            "source_pe": 222,
-            "dest_pe": 202,
-            "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 4,
-            "execution_cycle": 10
+            "execution_cycle": 9
           },
           {
             "task_id": 322,
@@ -3162,25 +3139,7 @@
             "data_size": 8192,
             "source_pe_chiplet": 4,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 10
-          },
-          {
-            "task_id": 325,
-            "source_pe": 225,
-            "dest_pe": 205,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 10
-          },
-          {
-            "task_id": 326,
-            "source_pe": 245,
-            "dest_pe": 205,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 10
+            "execution_cycle": 9
           },
           {
             "task_id": 329,
@@ -3188,7 +3147,113 @@
             "dest_pe": 206,
             "data_size": 8192,
             "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 9
+          }
+        ],
+        "5": [
+          {
+            "task_id": 296,
+            "source_pe": 202,
+            "dest_pe": 202,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 9
+          },
+          {
+            "task_id": 300,
+            "source_pe": 206,
+            "dest_pe": 206,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 9
+          },
+          {
+            "task_id": 326,
+            "source_pe": 245,
+            "dest_pe": 205,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 9
+          },
+          {
+            "task_id": 328,
+            "source_pe": 226,
+            "dest_pe": 206,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 9
+          }
+        ]
+      }
+    },
+    {
+      "cycle": 10,
+      "chiplets": {
+        "0": [],
+        "1": [
+          {
+            "task_id": 315,
+            "source_pe": 201,
+            "dest_pe": 201,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 10
+          },
+          {
+            "task_id": 324,
+            "source_pe": 204,
+            "dest_pe": 204,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 10
+          },
+          {
+            "task_id": 327,
+            "source_pe": 205,
+            "dest_pe": 205,
+            "data_size": 8192,
+            "source_pe_chiplet": 1,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 10
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": [
+          {
+            "task_id": 321,
+            "source_pe": 203,
+            "dest_pe": 203,
+            "data_size": 8192,
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 4,
+            "execution_cycle": 10
+          }
+        ],
+        "5": [
+          {
+            "task_id": 318,
+            "source_pe": 202,
+            "dest_pe": 202,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 10
+          },
+          {
+            "task_id": 330,
+            "source_pe": 206,
+            "dest_pe": 206,
+            "data_size": 8192,
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
             "execution_cycle": 10
           }
         ]
@@ -3200,80 +3265,13 @@
         "0": [],
         "1": [
           {
-            "task_id": 315,
-            "source_pe": 201,
-            "dest_pe": 201,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 11
-          },
-          {
-            "task_id": 324,
-            "source_pe": 204,
-            "dest_pe": 204,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 11
-          },
-          {
-            "task_id": 327,
-            "source_pe": 205,
-            "dest_pe": 205,
-            "data_size": 8192,
-            "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 1,
-            "execution_cycle": 11
-          }
-        ],
-        "2": [
-          {
-            "task_id": 321,
-            "source_pe": 203,
-            "dest_pe": 203,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 11
-          },
-          {
-            "task_id": 330,
-            "source_pe": 206,
-            "dest_pe": 206,
-            "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 11
-          }
-        ],
-        "3": [],
-        "4": [
-          {
-            "task_id": 318,
-            "source_pe": 202,
-            "dest_pe": 202,
-            "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 11
-          }
-        ]
-      }
-    },
-    {
-      "cycle": 12,
-      "chiplets": {
-        "0": [],
-        "1": [
-          {
             "task_id": 332,
             "source_pe": 201,
             "dest_pe": 20,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 334,
@@ -3281,8 +3279,8 @@
             "dest_pe": 40,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 336,
@@ -3290,8 +3288,8 @@
             "dest_pe": 60,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 338,
@@ -3299,8 +3297,8 @@
             "dest_pe": 80,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 340,
@@ -3309,7 +3307,7 @@
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 342,
@@ -3317,8 +3315,8 @@
             "dest_pe": 120,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 344,
@@ -3326,8 +3324,8 @@
             "dest_pe": 140,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 346,
@@ -3336,7 +3334,7 @@
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 348,
@@ -3344,8 +3342,8 @@
             "dest_pe": 180,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 350,
@@ -3353,8 +3351,8 @@
             "dest_pe": 200,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 352,
@@ -3362,8 +3360,8 @@
             "dest_pe": 220,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 354,
@@ -3371,8 +3369,8 @@
             "dest_pe": 240,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 356,
@@ -3380,8 +3378,8 @@
             "dest_pe": 260,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 358,
@@ -3389,8 +3387,8 @@
             "dest_pe": 280,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 360,
@@ -3398,8 +3396,8 @@
             "dest_pe": 300,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 362,
@@ -3407,8 +3405,8 @@
             "dest_pe": 320,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 364,
@@ -3417,7 +3415,7 @@
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 0,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 366,
@@ -3425,8 +3423,8 @@
             "dest_pe": 360,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 368,
@@ -3434,8 +3432,8 @@
             "dest_pe": 380,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 370,
@@ -3444,7 +3442,7 @@
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 372,
@@ -3453,7 +3451,7 @@
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 374,
@@ -3461,8 +3459,8 @@
             "dest_pe": 181,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 376,
@@ -3470,8 +3468,8 @@
             "dest_pe": 261,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 378,
@@ -3479,8 +3477,8 @@
             "dest_pe": 281,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 379,
@@ -3488,8 +3486,8 @@
             "dest_pe": 301,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 381,
@@ -3497,8 +3495,8 @@
             "dest_pe": 321,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 383,
@@ -3506,8 +3504,8 @@
             "dest_pe": 122,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 385,
@@ -3515,8 +3513,8 @@
             "dest_pe": 262,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 387,
@@ -3524,8 +3522,8 @@
             "dest_pe": 282,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 389,
@@ -3533,8 +3531,8 @@
             "dest_pe": 302,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 391,
@@ -3542,8 +3540,8 @@
             "dest_pe": 322,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 393,
@@ -3551,8 +3549,8 @@
             "dest_pe": 263,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 395,
@@ -3560,8 +3558,8 @@
             "dest_pe": 283,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 397,
@@ -3569,8 +3567,8 @@
             "dest_pe": 303,
             "data_size": 8192,
             "source_pe_chiplet": 1,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 399,
@@ -3579,318 +3577,319 @@
             "data_size": 8192,
             "source_pe_chiplet": 1,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 12
+            "execution_cycle": 11
           }
         ],
-        "2": [
+        "2": [],
+        "3": [],
+        "4": [
           {
             "task_id": 380,
             "source_pe": 203,
             "dest_pe": 301,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 382,
             "source_pe": 203,
             "dest_pe": 321,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 384,
             "source_pe": 203,
             "dest_pe": 122,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 386,
             "source_pe": 203,
             "dest_pe": 262,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 388,
             "source_pe": 203,
             "dest_pe": 282,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 390,
             "source_pe": 203,
             "dest_pe": 302,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 392,
             "source_pe": 203,
             "dest_pe": 322,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 394,
             "source_pe": 203,
             "dest_pe": 263,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 396,
             "source_pe": 203,
             "dest_pe": 283,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 398,
             "source_pe": 203,
             "dest_pe": 303,
             "data_size": 8192,
-            "source_pe_chiplet": 2,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 4,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           }
         ],
-        "3": [],
-        "4": [
+        "5": [
           {
             "task_id": 331,
             "source_pe": 202,
             "dest_pe": 20,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 333,
             "source_pe": 202,
             "dest_pe": 40,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 335,
             "source_pe": 202,
             "dest_pe": 60,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 337,
             "source_pe": 202,
             "dest_pe": 80,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 339,
             "source_pe": 202,
             "dest_pe": 100,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 341,
             "source_pe": 202,
             "dest_pe": 120,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 343,
             "source_pe": 202,
             "dest_pe": 140,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 345,
             "source_pe": 202,
             "dest_pe": 160,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 347,
             "source_pe": 202,
             "dest_pe": 180,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 349,
             "source_pe": 202,
             "dest_pe": 200,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 351,
             "source_pe": 202,
             "dest_pe": 220,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 353,
             "source_pe": 202,
             "dest_pe": 240,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 355,
             "source_pe": 202,
             "dest_pe": 260,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 357,
             "source_pe": 202,
             "dest_pe": 280,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 359,
             "source_pe": 202,
             "dest_pe": 300,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 361,
             "source_pe": 202,
             "dest_pe": 320,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 363,
             "source_pe": 202,
             "dest_pe": 340,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 0,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 365,
             "source_pe": 202,
             "dest_pe": 360,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 0,
+            "execution_cycle": 11
           },
           {
             "task_id": 367,
             "source_pe": 202,
             "dest_pe": 380,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 369,
             "source_pe": 202,
             "dest_pe": 121,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 4,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 371,
             "source_pe": 202,
             "dest_pe": 141,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
+            "source_pe_chiplet": 5,
             "dest_pe_chiplet": 1,
-            "execution_cycle": 12
+            "execution_cycle": 11
           },
           {
             "task_id": 373,
             "source_pe": 202,
             "dest_pe": 181,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 0,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 1,
+            "execution_cycle": 11
           },
           {
             "task_id": 375,
             "source_pe": 202,
             "dest_pe": 261,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           },
           {
             "task_id": 377,
             "source_pe": 202,
             "dest_pe": 281,
             "data_size": 8192,
-            "source_pe_chiplet": 4,
-            "dest_pe_chiplet": 2,
-            "execution_cycle": 12
+            "source_pe_chiplet": 5,
+            "dest_pe_chiplet": 5,
+            "execution_cycle": 11
           }
         ]
       }
