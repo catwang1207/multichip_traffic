@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from chiplet_framework import *
+from ilp_chiplet_framework import *
 
 if __name__ == "__main__":
     print("=== TESTING NO MULTICASTING CONSTRAINT (SMALL DATASET) ===")
