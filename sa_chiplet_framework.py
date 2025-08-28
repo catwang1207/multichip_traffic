@@ -277,55 +277,31 @@ class SimulatedAnnealingSolution:
         return violations
     
     def get_neighbors(self):
-        """Generate neighbor solutions using PE slot swapping"""
-        neighbors = []
+        """Generate ONE neighbor solution quickly (SPEED OPTIMIZED)"""
+        # SPEED OPTIMIZATION: Generate only 1 neighbor per iteration
+        neighbor = copy.deepcopy(self)
         
-        # Primary operation: swap PE positions between chiplet slots
-        for _ in range(20):
-            neighbor = copy.deepcopy(self)
-            
-            # Pick two random chiplets
-            chiplet1 = random.randint(0, self.max_chiplets - 1)
-            chiplet2 = random.randint(0, self.max_chiplets - 1)
-            
-            # Pick random slots within each chiplet
-            slot1 = random.randint(0, 31)
-            slot2 = random.randint(0, 31)
-            
-            # Swap the PE contents (can be real PE or -1)
-            pe1 = neighbor.pe_slots[chiplet1][slot1]
-            pe2 = neighbor.pe_slots[chiplet2][slot2]
-            
-            neighbor.pe_slots[chiplet1][slot1] = pe2
-            neighbor.pe_slots[chiplet2][slot2] = pe1
-            
-            # Update PE assignments and task assignments
-            neighbor._update_pe_assignments_from_slots()
-            neighbor._update_task_assignments_from_pe_slots()
-            neighbor._create_feasible_schedule()
-            neighbor._dirty = True
-            neighbors.append(neighbor)
+        # Simple random PE swap between chiplets
+        chiplet1 = random.randint(0, self.max_chiplets - 1)
+        chiplet2 = random.randint(0, self.max_chiplets - 1)
         
-        # Secondary operation: swap slots within same chiplet (for diversity)
-        for _ in range(5):
-            neighbor = copy.deepcopy(self)
-            chiplet = random.randint(0, self.max_chiplets - 1)
-            slot1, slot2 = random.sample(range(32), 2)
-            
-            # Swap slots within chiplet
-            pe1 = neighbor.pe_slots[chiplet][slot1]
-            pe2 = neighbor.pe_slots[chiplet][slot2]
-            neighbor.pe_slots[chiplet][slot1] = pe2
-            neighbor.pe_slots[chiplet][slot2] = pe1
-            
-            # Update assignments
-            neighbor._update_pe_assignments_from_slots()
-            neighbor._update_task_assignments_from_pe_slots()
-            neighbor._create_feasible_schedule()
-            neighbor._dirty = True
-            neighbors.append(neighbor)
+        slot1 = random.randint(0, 31)
+        slot2 = random.randint(0, 31)
         
-        return neighbors
+        # Swap PE contents
+        pe1 = neighbor.pe_slots[chiplet1][slot1]
+        pe2 = neighbor.pe_slots[chiplet2][slot2]
+        
+        neighbor.pe_slots[chiplet1][slot1] = pe2
+        neighbor.pe_slots[chiplet2][slot2] = pe1
+        
+        # Update assignments
+        neighbor._update_pe_assignments_from_slots()
+        neighbor._update_task_assignments_from_pe_slots()
+        neighbor._create_feasible_schedule()
+        neighbor._dirty = True
+        
+        return [neighbor]
     
     def _update_pe_assignments_from_slots(self):
         """Update PE assignments based on current slot configuration"""
@@ -446,15 +422,22 @@ class SimulatedAnnealingSolver:
                no_improvement_count < max_no_improvement and
                time_module.time() - start_time < timeout):
             
+            # Performance timing
+            iter_start = time_module.time()
+            
             # Generate neighbors
+            neighbor_start = time_module.time()
             neighbors = current_solution.get_neighbors()
+            neighbor_time = time_module.time() - neighbor_start
             
             if not neighbors:
                 break
                 
             # Select a random neighbor
             neighbor = random.choice(neighbors)
+            eval_start = time_module.time()
             neighbor_cost = neighbor.evaluate_cost()
+            eval_time = time_module.time() - eval_start
             
             # Acceptance criteria
             if neighbor_cost < current_cost:
@@ -467,7 +450,16 @@ class SimulatedAnnealingSolver:
                 if current_cost < best_cost:
                     best_solution = copy.deepcopy(current_solution)
                     best_cost = current_cost
-                    print(f"New best: iter={iteration}, cost={best_cost}, temp={temperature:.2f}")
+                    
+                    # Detailed improvement reporting
+                    violations = best_solution.count_violations()
+                    total_violations = sum(violations.values())
+                    max_time = best_solution._cached_cost // 100 if best_solution._cached_cost else 0
+                    chiplets_used = len(set(best_solution.task_assignments.values()))
+                    elapsed = time_module.time() - start_time
+                    
+                    print(f"🔥 NEW BEST: iter={iteration}, cost={best_cost}, cycles={max_time}, "
+                          f"chiplets={chiplets_used}, violations={total_violations}, temp={temperature:.2f}, elapsed={elapsed:.1f}s")
                     
             else:
                 # Accept worse solutions with probability
@@ -485,10 +477,18 @@ class SimulatedAnnealingSolver:
             temperature *= cooling_rate
             iteration += 1
             
-            # Progress reporting
-            if iteration % 1000 == 0:
+            # Progress reporting - more frequent for large problems
+            if iteration % 100 == 0:
                 elapsed = time_module.time() - start_time
-                print(f"Iter {iteration}: best_cost={best_cost}, current_cost={current_cost}, temp={temperature:.2f}, elapsed={elapsed:.1f}s")
+                iter_total = time_module.time() - iter_start
+                violations = best_solution.count_violations()
+                total_violations = sum(violations.values())
+                max_time = best_solution._cached_cost // 100 if best_solution._cached_cost else 0
+                chiplets_used = len(set(best_solution.task_assignments.values()))
+                
+                print(f"Iter {iteration}: best_cost={best_cost}, temp={temperature:.2f}, "
+                      f"cycles={max_time}, chiplets={chiplets_used}, violations={total_violations}, elapsed={elapsed:.1f}s, "
+                      f"iter_time={iter_total:.3f}s (neighbors={neighbor_time:.3f}s, eval={eval_time:.3f}s)")
         
         solve_time = time_module.time() - start_time
         

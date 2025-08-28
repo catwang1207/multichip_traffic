@@ -51,16 +51,16 @@ if __name__ == "__main__":
         print(f"  ... and {multicast_count - 10} more PEs with multicasting")
     print(f"Total source PEs with multicasting: {multicast_count}")
     
-    # Solve with SA (60s timeout, higher iterations for large dataset)
-    print(f"\nSolving with Simulated Annealing (60s timeout)...")
+    # Solve with SA (300s timeout, much longer optimization for large dataset)
+    print(f"\nSolving with Simulated Annealing (300s timeout, extended optimization)...")
     solution = problem.solve(
-        timeout=60, 
+        timeout=300,             # 5 minutes for thorough optimization
         max_chiplets=12, 
         save_solution_file=True,
-        initial_temp=2000.0,     # Higher initial temp for large problem
-        max_iterations=50000,    # More iterations
-        cooling_rate=0.98,       # Slower cooling
-        max_no_improvement=5000  # More patience
+        initial_temp=5000.0,     # Higher initial temp for large problem
+        max_iterations=100000,   # Much more iterations
+        cooling_rate=0.995,      # Much slower cooling
+        max_no_improvement=2000  # More patience for large problems
     )
     
     # Print solution details
