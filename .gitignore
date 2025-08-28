@@ -3,3 +3,8 @@ __pycache__/
 *.pyc
 .env
 .venv/
+# Solver intermediate files
+ChipletAssignment-pulp.mps
+ChipletAssignment-pulp.sol
+*.mps
+*.sol

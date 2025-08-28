@@ -49,7 +49,7 @@ if __name__ == "__main__":
     
     # Solve with 60s timeout 
     print(f"\nSolving with NoMulticastingConstraint (60s timeout)...")
-    solution = problem.solve(timeout=60, max_chiplets=6, save_solution_file=True)
+    solution = problem.solve(timeout=300, max_chiplets=6, save_solution_file=True)
     
     # Print solution details with safe access to optional fields
     status = solution['status']
