@@ -59,8 +59,8 @@ if __name__ == "__main__":
         save_solution_file=True,
         initial_temp=5000.0,     # Higher initial temp for large problem
         max_iterations=100000,   # Much more iterations
-        cooling_rate=0.995,      # Much slower cooling
-        max_no_improvement=2000  # More patience for large problems
+        cooling_rate=0.998,      # Much slower cooling
+        max_no_improvement=10000  # More patience for large problems
     )
     
     # Print solution details
