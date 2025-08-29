@@ -40,6 +40,13 @@ class SimulatedAnnealingSolution:
         self._cached_violations: Optional[Dict[str, int]] = None
         self._dirty = True
 
+        # Communication map (pair -> frequency). Built at initialization.
+        self.pe_communication: Optional[Dict[Tuple[int, int], int]] = None
+        # Outgoing edges: src_pe -> list[(dest_pe, data_size)]
+        self.out_edges: Dict[int, List[Tuple[int, int]]] = defaultdict(list)
+
+    # -------------------- Initialization --------------------
+
     def random_initialize(self):
         """Initialize with MINIMUM chiplets, expanding only if cycle improvement justifies cost."""
         print(f"Chiplet-minimizing initialization for {len(self.pes)} PEs")
@@ -47,13 +54,18 @@ class SimulatedAnnealingSolution:
         # STEP 1: Theoretical minimum chiplets by PE capacity
         min_chiplets_capacity = (len(self.pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET
 
-        # STEP 2: Analyze communication patterns
+        # STEP 2: Analyze communication patterns & build maps
         pe_communication: Dict[Tuple[int, int], int] = {}
+        out_edges: Dict[int, List[Tuple[int, int]]] = defaultdict(list)
         for task in self.tasks:
             src = self.problem.task_data[task]['source_pe']
             dst = self.problem.task_data[task]['dest_pe']
+            data = int(self.problem.task_data[task]['data_size'])
             pair = tuple(sorted((src, dst)))
             pe_communication[pair] = pe_communication.get(pair, 0) + 1
+            out_edges[src].append((dst, data))
+        self.pe_communication = pe_communication  # store for guided moves
+        self.out_edges = out_edges
 
         print(f"Minimum chiplets by capacity: {min_chiplets_capacity}")
         print(f"Found {len(pe_communication)} PE communication pairs")
@@ -75,10 +87,7 @@ class SimulatedAnnealingSolution:
 
             # EXPONENTIAL penalty for additional chiplets
             extra_chiplets = max(0, target_chiplets - min_chiplets_capacity)
-            if extra_chiplets == 0:
-                chiplet_penalty = 0
-            else:
-                chiplet_penalty = COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra_chiplets - 1)
+            chiplet_penalty = 0 if extra_chiplets == 0 else COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra_chiplets - 1)
             adjusted_cost = test_cost + chiplet_penalty
 
             if adjusted_cost < best_cost:
@@ -107,6 +116,9 @@ class SimulatedAnnealingSolution:
 
         # Create a feasible schedule respecting dependencies
         self._create_feasible_schedule()
+
+        # NEW: greedy post-init refinement (fast, targeted)
+        self._post_init_refine(limit_sources=min(30, len(self.pes)))
 
         # Mark caches dirty
         self._dirty = True
@@ -177,8 +189,6 @@ class SimulatedAnnealingSolution:
         # We must have enough total slots if target_chiplets >= capacity minimum.
         write_slots = [(c, s) for c in range(target_chiplets) for s in range(MAX_PES_PER_CHIPLET)]
         if len(all_pes) > len(write_slots):
-            # This should not happen when target_chiplets >= min by capacity
-            # but guard anyway: place as many as possible
             print("WARNING: more PEs than available slots; truncating assignment.")
         for i, (c, s) in enumerate(write_slots):
             if i >= len(all_pes):
@@ -195,9 +205,6 @@ class SimulatedAnnealingSolution:
         old_task_assignments = copy.deepcopy(getattr(self, 'task_assignments', {}))
         old_task_times = copy.deepcopy(getattr(self, 'task_times', {}))
         old_task_durations = copy.deepcopy(getattr(self, 'task_durations', {}))
-        old_dirty = self._dirty
-        old_cc = self._cached_cost
-        old_cv = self._cached_violations
 
         try:
             # Apply test config
@@ -221,10 +228,19 @@ class SimulatedAnnealingSolution:
             self.task_assignments = old_task_assignments
             self.task_times = old_task_times
             self.task_durations = old_task_durations
-            # Recompute later when needed
             self._dirty = True
             self._cached_cost = None
             self._cached_violations = None
+
+    # -------------------- Cost & schedule --------------------
+
+    def _bandwidth_value(self) -> int:
+        bw = INTER_CHIPLET_BANDWIDTH
+        for constraint in self.problem.constraints:
+            if hasattr(constraint, 'bandwidth'):
+                bw = constraint.bandwidth
+                break
+        return bw
 
     def _calculate_task_duration(self, task):
         """Duration = 1 if intra-chiplet; else ceil(data_size / bandwidth)."""
@@ -240,12 +256,7 @@ class SimulatedAnnealingSolution:
             return 1
 
         # Inter-chiplet: based on bandwidth (take the first bandwidth constraint if present)
-        inter_chiplet_bandwidth = INTER_CHIPLET_BANDWIDTH
-        for constraint in self.problem.constraints:
-            if hasattr(constraint, 'bandwidth'):
-                inter_chiplet_bandwidth = constraint.bandwidth
-                break
-
+        inter_chiplet_bandwidth = self._bandwidth_value()
         duration = math.ceil(data_size / inter_chiplet_bandwidth)
         return max(1, duration)
 
@@ -259,6 +270,7 @@ class SimulatedAnnealingSolution:
             self.task_durations[task] = self._calculate_task_duration(task)
 
         visited = set()
+        in_stack = set()
         self.task_times = {}
         # Track last finish time per source PE to serialize sends (NoMulticasting)
         last_finish = defaultdict(int)
@@ -266,7 +278,9 @@ class SimulatedAnnealingSolution:
         def schedule_task(task: int) -> int:
             if task in visited:
                 return self.task_times.get(task, 0)
-            visited.add(task)
+            if task in in_stack:
+                raise ValueError(f"Cycle detected in dependencies involving task {task}")
+            in_stack.add(task)
 
             earliest_start = 0
             # Dependencies: successor cannot start before predecessor finishes
@@ -274,9 +288,6 @@ class SimulatedAnnealingSolution:
                 dep_start = schedule_task(dep_task)
                 dep_duration = self.task_durations[dep_task]
                 dep_required_end = dep_start + dep_duration
-
-                # NOTE: Avoid double-counting comm delay:
-                # durations already include inter-chiplet transfer time if any.
                 earliest_start = max(earliest_start, dep_required_end)
 
             # NoMulticasting: serialize sends from same source PE
@@ -286,6 +297,9 @@ class SimulatedAnnealingSolution:
             self.task_times[task] = earliest_start
             finish = earliest_start + self.task_durations[task]
             last_finish[source_pe] = finish
+
+            in_stack.remove(task)
+            visited.add(task)
             return self.task_times[task]
 
         # Schedule all tasks in deterministic order
@@ -345,7 +359,6 @@ class SimulatedAnnealingSolution:
         violations['task_assignment'] = len(unassigned_tasks)
 
         # Chiplet capacity violations:
-        # With slots enforcing capacity by construction, this should be zero unless code changes.
         for chiplet in range(self.max_chiplets):
             used_slots = sum(1 for pe in self.pe_slots.get(chiplet, []) if pe != -1)
             if used_slots > MAX_PES_PER_CHIPLET:
@@ -371,7 +384,7 @@ class SimulatedAnnealingSolution:
                 dep_start = self.task_times[dep_task]
                 dep_duration = self.task_durations.get(dep_task, 1)
                 dep_end = dep_start + dep_duration
-                required_start = dep_end  # no extra comm delay; already inside duration
+                required_start = dep_end
                 if task_start < required_start:
                     violations['task_dependencies'] += 1
 
@@ -393,56 +406,225 @@ class SimulatedAnnealingSolution:
                     if len(unique_dests) > 1:
                         violations['no_multicasting'] += len(unique_dests) - 1
 
-        # Note: inter_chiplet_comm could check per-cycle link loads vs bandwidth.
-        # Not implemented here to keep evaluation light.
-
+        # Note: inter_chiplet_comm could check per-cycle link loads vs bandwidth (optional).
         return violations
 
-    def get_neighbors(self):
-        """Generate ONE neighbor solution (ensures a non no-op swap)."""
-        neighbor = copy.deepcopy(self)
+    # -------------------- Greedy post-init refinement --------------------
 
-        # All positions across chiplet slots
+    def _post_init_refine(self, limit_sources: int = 20):
+        """Fast, deterministic improvements: relocate hot sources to best chiplets, then repack a few dests."""
+        hot_sources = self._top_hot_sources(limit_sources)
+        improved = False
+        for src in hot_sources:
+            if self._try_move_source_to_best_chiplet(src):
+                improved = True
+        # small repack for each hot source (uses available slack only)
+        for src in hot_sources:
+            if self._pack_top_dests_into_source_chiplet(src, k_max=3):
+                improved = True
+        if improved:
+            self._update_pe_assignments_from_slots()
+            self._update_task_assignments_from_pe_slots()
+            self._create_feasible_schedule()
+            self._dirty = True
+
+    # -------------------- Guided neighbor helpers --------------------
+
+    def _find_slot_of_pe(self, pe: int) -> Optional[Tuple[int, int]]:
+        for c in range(self.max_chiplets):
+            for s, val in enumerate(self.pe_slots[c]):
+                if val == pe:
+                    return (c, s)
+        return None
+
+    def _find_free_slot_in_chiplet(self, chiplet: int) -> Optional[int]:
+        slots = self.pe_slots.get(chiplet, [])
+        for idx, pe in enumerate(slots):
+            if pe == -1:
+                return idx
+        return None
+
+    def _top_hot_sources(self, k: int) -> List[int]:
+        totals = defaultdict(int)
+        for t in self.tasks:
+            src = self.problem.task_data[t]['source_pe']
+            totals[src] += self.task_durations.get(t, 1)
+        return [pe for pe, _ in sorted(totals.items(), key=lambda kv: kv[1], reverse=True)[:k]]
+
+    def _intra_benefit(self, src_pe: int, dst_pe: int, data_size: int) -> int:
+        """Estimated cycles saved if we co-locate src and dst."""
+        a = self.pe_assignments.get(src_pe)
+        b = self.pe_assignments.get(dst_pe)
+        if a is None or b is None or a == b:
+            return 0
+        bw = self._bandwidth_value()
+        inter = math.ceil(data_size / bw)
+        return max(0, inter - 1)
+
+    def _benefit_move_source_to_chiplet(self, src_pe: int, chiplet: int) -> int:
+        """Total cycles saved by moving src_pe to `chiplet` (approx)."""
+        cur = self.pe_assignments.get(src_pe)
+        if cur is None or chiplet == cur:
+            return 0
+        total = 0
+        for dst, data in self.out_edges.get(src_pe, []):
+            dst_chip = self.pe_assignments.get(dst)
+            if dst_chip == chiplet and dst_chip != cur:
+                total += self._intra_benefit(src_pe, dst, data)
+        return total
+
+    def _choose_victim_low_synergy(self, chiplet: int, avoid: Optional[int] = None) -> Optional[Tuple[int, int]]:
+        """Pick a PE in chiplet to evict with minimal damage (lowest comm with local set)."""
+        best_score = None
+        best = None
+        local = [pe for pe in self.pe_slots[chiplet] if pe != -1 and pe != avoid]
+        for s, pe in enumerate(self.pe_slots[chiplet]):
+            if pe == -1 or pe == avoid:
+                continue
+            score = 0
+            if self.pe_communication is not None:
+                for other in local:
+                    if other == pe:
+                        continue
+                    key = tuple(sorted((pe, other)))
+                    score += self.pe_communication.get(key, 0)
+            if best_score is None or score < best_score:
+                best_score = score
+                best = (pe, s)
+        return best
+
+    def _try_move_source_to_best_chiplet(self, src_pe: int) -> bool:
+        """Move `src_pe` to the chiplet where most of its dests already are (benefit-weighted)."""
+        src_loc = self._find_slot_of_pe(src_pe)
+        if src_loc is None:
+            return False
+        src_chip, src_slot = src_loc
+        # Evaluate benefits across chiplets
+        best_chip = None
+        best_gain = 0
+        for c in range(self.max_chiplets):
+            if c == src_chip:
+                continue
+            gain = self._benefit_move_source_to_chiplet(src_pe, c)
+            if gain > best_gain:
+                best_gain, best_chip = gain, c
+        if best_chip is None or best_gain <= 0:
+            return False
+        # Try to move: prefer free slot, else swap with low-synergy victim
+        free = self._find_free_slot_in_chiplet(best_chip)
+        if free is not None:
+            # move src to best_chip: free origin slot
+            self.pe_slots[best_chip][free] = src_pe
+            self.pe_slots[src_chip][src_slot] = -1
+        else:
+            victim = self._choose_victim_low_synergy(best_chip, avoid=None)
+            if victim is None:
+                return False
+            vic_pe, vic_slot = victim
+            # swap src <-> victim
+            self.pe_slots[best_chip][vic_slot], self.pe_slots[src_chip][src_slot] = src_pe, vic_pe
+        return True
+
+    def _pack_top_dests_into_source_chiplet(self, src_pe: int, k_max: int = 3) -> bool:
+        """Bring up to k_max best-benefit dests into src's chiplet using available slack only."""
+        src_loc = self._find_slot_of_pe(src_pe)
+        if src_loc is None:
+            return False
+        src_chip, _ = src_loc
+        # Count slack
+        slack = sum(1 for pe in self.pe_slots[src_chip] if pe == -1)
+        if slack <= 0:
+            return False
+        # Rank candidate dests by benefit
+        cand = []
+        for dst, data in self.out_edges.get(src_pe, []):
+            dst_chip = self.pe_assignments.get(dst)
+            if dst_chip is None or dst_chip == src_chip:
+                continue
+            b = self._intra_benefit(src_pe, dst, data)
+            if b > 0:
+                cand.append((b, dst))
+        if not cand:
+            return False
+        cand.sort(reverse=True)
+        moved_any = False
+        for _, dst in cand[:min(slack, k_max)]:
+            dst_loc = self._find_slot_of_pe(dst)
+            if dst_loc is None:
+                continue
+            dst_chip, dst_slot = dst_loc
+            # move dst into a free slot on src_chip
+            free = self._find_free_slot_in_chiplet(src_chip)
+            if free is None:
+                break
+            self.pe_slots[src_chip][free] = dst
+            self.pe_slots[dst_chip][dst_slot] = -1
+            moved_any = True
+        return moved_any
+
+    # -------------------- Neighbor generator --------------------
+
+    def get_neighbors(self):
+        """Generate ONE neighbor using macro-moves; fallback to random swap."""
+        neighbor = copy.deepcopy(self)
+        r = random.random()
+        # 0.45: move hottest source to best chiplet
+        if r < 0.45:
+            srcs = neighbor._top_hot_sources(1)
+            src = srcs[0] if srcs else None
+            if src is not None and neighbor._try_move_source_to_best_chiplet(src):
+                neighbor._update_pe_assignments_from_slots()
+                neighbor._update_task_assignments_from_pe_slots()
+                neighbor._create_feasible_schedule()
+                neighbor._dirty = True
+                neighbor._cached_cost = None
+                neighbor._cached_violations = None
+                return [neighbor]
+        # 0.45 - 0.90: pack a few best dests into source chiplet (uses slack only)
+        if r < 0.90:
+            srcs = neighbor._top_hot_sources(1)
+            src = srcs[0] if srcs else None
+            if src is not None and neighbor._pack_top_dests_into_source_chiplet(src, k_max=3):
+                neighbor._update_pe_assignments_from_slots()
+                neighbor._update_task_assignments_from_pe_slots()
+                neighbor._create_feasible_schedule()
+                neighbor._dirty = True
+                neighbor._cached_cost = None
+                neighbor._cached_violations = None
+                return [neighbor]
+        # Fallback: the original random non–no-op swap
         positions = [(c, s) for c in range(self.max_chiplets) for s in range(MAX_PES_PER_CHIPLET)]
         random.shuffle(positions)
-
-        # Find two positions s.t. at least one holds a real PE
-        swapped = False
         for i in range(len(positions) - 1):
             c1, s1 = positions[i]
             c2, s2 = positions[i + 1]
             pe1 = neighbor.pe_slots[c1][s1]
             pe2 = neighbor.pe_slots[c2][s2]
             if pe1 == -1 and pe2 == -1:
-                continue  # swapping empties is a no-op
+                continue
             if c1 == c2 and s1 == s2:
                 continue
-            # perform swap
             neighbor.pe_slots[c1][s1], neighbor.pe_slots[c2][s2] = pe2, pe1
-            swapped = True
-            break
-
-        if not swapped:
-            # Fallback: return a deep-copied neighbor anyway (rare)
-            pass
-
-        # Update downstream structures
-        neighbor._update_pe_assignments_from_slots()
-        neighbor._update_task_assignments_from_pe_slots()
-        neighbor._create_feasible_schedule()
-        neighbor._dirty = True
-        neighbor._cached_cost = None
-        neighbor._cached_violations = None
-
+            neighbor._update_pe_assignments_from_slots()
+            neighbor._update_task_assignments_from_pe_slots()
+            neighbor._create_feasible_schedule()
+            neighbor._dirty = True
+            neighbor._cached_cost = None
+            neighbor._cached_violations = None
+            return [neighbor]
         return [neighbor]
+
+    # -------------------- Mapping updates --------------------
 
     def _update_pe_assignments_from_slots(self):
         """Update PE assignments based on current slot configuration."""
         self.pe_assignments = {}
+        seen = set()
         for chiplet in range(self.max_chiplets):
             for pe in self.pe_slots.get(chiplet, []):
                 if pe != -1:
-                    # Note: if duplicates ever occur in slots, the last one wins
+                    assert pe not in seen, f"PE {pe} placed twice across chiplets"
+                    seen.add(pe)
                     self.pe_assignments[pe] = chiplet
         self._dirty = True
         self._cached_cost = None
@@ -492,7 +674,7 @@ class SimulatedAnnealingSolution:
 
         # Report provisioned chiplets (consistent with penalty)
         num_chiplets = len({ch for ch in range(self.max_chiplets)
-                            if any(pe != -1 for pe in self.pe_slots.get(ch, []))})
+                            if any(pe != -1 for pe in self.pe_slots.get(ch, []) )})
 
         filtered_pe_assignments = {pe: chiplet for pe, chiplet in self.pe_assignments.items() if pe != -1}
 
@@ -522,7 +704,8 @@ class SimulatedAnnealingSolver:
               max_iterations: int = 10000,
               max_no_improvement: int = 1000,
               timeout: float = 300.0,
-              save_solution_file: bool = True) -> Dict[str, Any]:
+              save_solution_file: bool = True,
+              seed: Optional[int] = None) -> Dict[str, Any]:
         """
         Solve using simulated annealing.
 
@@ -535,11 +718,15 @@ class SimulatedAnnealingSolver:
             max_no_improvement: Stop if no improvement for this many iterations
             timeout: Timeout in seconds
             save_solution_file: Whether to save solution to file
+            seed: Optional RNG seed for reproducibility
         """
 
         print("=== SIMULATED ANNEALING SOLVER ===")
         print(f"Problem: {len(self.problem.tasks)} tasks, {len(self.problem.pes)} PEs")
         print(f"Parameters: temp {initial_temp}→{final_temp}, max_iter {max_iterations}, timeout {timeout}s")
+
+        if seed is not None:
+            random.seed(seed)
 
         start_time = time_module.time()
 
@@ -583,12 +770,10 @@ class SimulatedAnnealingSolver:
 
             # Acceptance criteria
             if neighbor_cost < current_cost:
-                # Always accept better solutions
                 current_solution = neighbor
                 current_cost = neighbor_cost
                 no_improvement_count = 0
 
-                # Update best solution
                 if current_cost < best_cost:
                     best_solution = copy.deepcopy(current_solution)
                     best_cost = current_cost
@@ -754,44 +939,9 @@ class ChipletProblemSA:
             'final_temp': sa_params.get('final_temp', 0.1),
             'cooling_rate': sa_params.get('cooling_rate', 0.95),
             'max_iterations': sa_params.get('max_iterations', 10000),
-            'max_no_improvement': sa_params.get('max_no_improvement', 1000)
+            'max_no_improvement': sa_params.get('max_no_improvement', 1000),
+            'seed': sa_params.get('seed', None)
         }
 
         return solver.solve(**sa_config)
 
-# ================== EXAMPLE USAGE ==================
-
-if __name__ == "__main__":
-    # Create problem
-    problem = ChipletProblemSA('gpt2_transformer_small.txt')
-
-    # Add all constraints
-    problem.add_constraint(TaskAssignmentConstraint())
-    problem.add_constraint(ChipletUsageConstraint())
-    problem.add_constraint(TaskDependencyConstraint())
-    problem.add_constraint(ChipletCapacityConstraint(max_pes=MAX_PES_PER_CHIPLET))
-    problem.add_constraint(PEExclusivityConstraint())
-    problem.add_constraint(InterChipletCommConstraint(bandwidth=INTER_CHIPLET_BANDWIDTH))
-    problem.add_constraint(TimeBoundsConstraint())
-    problem.add_constraint(NoMulticastingConstraint())
-
-    print(f"Problem setup: {len(problem.tasks)} tasks, {len(problem.pes)} PEs")
-    print(f"Constraints: {len(problem.constraints)}")
-
-    # Solve with SA
-    solution = problem.solve(
-        timeout=60,
-        max_chiplets=6,
-        save_solution_file=True,
-        initial_temp=1000.0,
-        max_iterations=5000
-    )
-
-    print(f"\nSA Solution: {solution['status']}")
-    if solution['status'] != 'infeasible':
-        print(f"Total time: {solution['total_time']} cycles")
-        print(f"Chiplets used: {solution['num_chiplets']}")
-        print(f"Tasks assigned: {len(solution.get('task_assignments', {}))}")
-
-        if 'violations' in solution:
-            print(f"Constraint violations: {solution['violations']}")

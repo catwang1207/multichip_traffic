@@ -102,8 +102,3 @@ if __name__ == "__main__":
         missing = len(problem.tasks) - len(task_assignments)
         print(f"❌ {missing} tasks still missing")
         
-    # Compare with ILP
-    print(f"\n=== COMPARISON WITH ILP ===")
-    print(f"SA: {total_time} cycles, {num_chiplets} chiplets, {solution.get('solve_time', 0):.1f}s")
-    print(f"ILP: INFEASIBLE within 60s (too complex)")
-    print(f"SA successfully handles large instances that ILP cannot solve!")

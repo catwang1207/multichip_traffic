@@ -20,7 +20,7 @@ INTER_CHIPLET_BANDWIDTH = 4096
 # Small dataset parameters
 SMALL_DATASET = {
     'max_chiplets': 6,
-    'timeout_seconds': 60,
+    'timeout_seconds': 10,
     'max_iterations': 100000,
     'initial_temp': 2000.0,
     'cooling_rate': 0.998,
@@ -30,7 +30,7 @@ SMALL_DATASET = {
 # Large dataset parameters  
 LARGE_DATASET = {
     'max_chiplets': 8,
-    'timeout_seconds': 60,
+    'timeout_seconds': 10,
     'max_iterations': 100000,
     'initial_temp': 2000.0,
     'cooling_rate': 0.998,
