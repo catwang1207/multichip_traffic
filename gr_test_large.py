@@ -4,16 +4,16 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from sa_chiplet_framework import *
+from gr_chiplet_framework import *
 from config import MAX_PES_PER_CHIPLET, INTER_CHIPLET_BANDWIDTH, LARGE_DATASET
 
 if __name__ == "__main__":
-    print("=== TESTING SIMULATED ANNEALING (LARGE DATASET) ===")
-    print("Testing SA with large dataset that has multicasting...")
-    print("Parameters: 60s timeout, max 12 chiplets")
+    print("=== TESTING GRASP (LARGE DATASET) ===")
+    print("Testing GRASP with large dataset that has multicasting...")
+    print("Parameters: 60s timeout, max 8 chiplets, RCL=1")
     
     # Load problem
-    problem = ChipletProblemSA('gpt2_transformer.txt')
+    problem = ChipletProblemGRASP('gpt2_transformer.txt')
     
     # Add constraints INCLUDING the new no-multicasting constraint
     problem.add_constraint(TaskAssignmentConstraint())
@@ -52,16 +52,15 @@ if __name__ == "__main__":
         print(f"  ... and {multicast_count - 10} more PEs with multicasting")
     print(f"Total source PEs with multicasting: {multicast_count}")
     
-    # Solve with SA (60s timeout, much longer optimization for large dataset)
-    print(f"\nSolving with Simulated Annealing (60s timeout, extended optimization)...")
+    # Solve with GRASP (60s timeout, optimized parameters for large dataset)
+    print(f"\nSolving with GRASP (60s timeout, optimized search)...")
     solution = problem.solve(
         timeout=LARGE_DATASET['timeout_seconds'],
         max_chiplets=LARGE_DATASET['max_chiplets'], 
         save_solution_file=True,
-        initial_temp=LARGE_DATASET['initial_temp'],
-        max_iterations=LARGE_DATASET['max_iterations'],
-        cooling_rate=LARGE_DATASET['cooling_rate'],
-        max_no_improvement=LARGE_DATASET['max_no_improvement']
+        rcl_size=LARGE_DATASET['rcl_size'],
+        ls_max_passes=LARGE_DATASET['ls_max_passes'],
+        pair_swap_samples=LARGE_DATASET['pair_swap_samples']
     )
     
     # Print solution details

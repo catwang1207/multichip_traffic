@@ -14,30 +14,28 @@ MAX_PES_PER_CHIPLET = 36
 INTER_CHIPLET_BANDWIDTH = 4096
 
 # =============================================================================
-# OPTIMIZATION PARAMETERS  
+# GRASP OPTIMIZATION PARAMETERS  
 # =============================================================================
 
 # Small dataset parameters
 SMALL_DATASET = {
     'max_chiplets': 6,
-    'timeout_seconds': 10,
-    'max_iterations': 100000,
-    'initial_temp': 2000.0,
-    'cooling_rate': 0.998,
-    'max_no_improvement': 10000
+    'timeout_seconds': 15,
+    'rcl_size': 4,
+    'ls_max_passes': 4,
+    'pair_swap_samples': 300
 }
 
 # Large dataset parameters  
 LARGE_DATASET = {
     'max_chiplets': 8,
-    'timeout_seconds': 10,
-    'max_iterations': 100000,
-    'initial_temp': 2000.0,
-    'cooling_rate': 0.998,
-    'max_no_improvement': 10000
+    'timeout_seconds': 60,
+    'rcl_size': 8,
+    'ls_max_passes': 4,
+    'pair_swap_samples': 1000
 }
 
-# ILP parameters (legacy)
+# ILP parameters (legacy - kept for backward compatibility)
 ILP_CONFIG = {
     'max_pes_per_chiplet': 32,  # Legacy ILP used 32
     'inter_chiplet_bandwidth': 8192,  # Legacy ILP used 8192

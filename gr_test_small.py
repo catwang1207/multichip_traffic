@@ -4,16 +4,16 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from sa_chiplet_framework import *
+from gr_chiplet_framework import *
 from config import MAX_PES_PER_CHIPLET, INTER_CHIPLET_BANDWIDTH, SMALL_DATASET
 
 if __name__ == "__main__":
-    print("=== TESTING SIMULATED ANNEALING (SMALL DATASET) ===")
-    print("Testing SA with small dataset that has multicasting...")
-    print("Parameters: 60s timeout, max 6 chiplets")
+    print("=== TESTING GRASP (SMALL DATASET) ===")
+    print("Testing GRASP with small dataset that has multicasting...")
+    print("Parameters: 60s timeout, max 6 chiplets, RCL=1")
     
     # Load problem
-    problem = ChipletProblemSA('gpt2_transformer_small.txt')
+    problem = ChipletProblemGRASP('gpt2_transformer_small.txt')
     
     # Add constraints INCLUDING the new no-multicasting constraint
     problem.add_constraint(TaskAssignmentConstraint())
@@ -48,17 +48,16 @@ if __name__ == "__main__":
     
     print(f"Total source PEs with multicasting: {multicast_count}")
     
-    # Solve with SA (60s timeout, extended parameters)
-    print(f"\nSolving with Simulated Annealing (60s timeout, extended search)...")
+    # Solve with GRASP (60s timeout, optimized parameters)
+    print(f"\nSolving with GRASP (60s timeout, optimized search)...")
     solution = problem.solve(
         timeout=SMALL_DATASET['timeout_seconds'], 
         max_chiplets=SMALL_DATASET['max_chiplets'], 
         save_solution_file=True,
-        solution_prefix='solution_gpt2_small_sa',
-        initial_temp=SMALL_DATASET['initial_temp'],
-        max_iterations=SMALL_DATASET['max_iterations'],
-        cooling_rate=SMALL_DATASET['cooling_rate'],
-        max_no_improvement=SMALL_DATASET['max_no_improvement']
+        solution_prefix='solution_gpt2_small_grasp',
+        rcl_size=SMALL_DATASET['rcl_size'],
+        ls_max_passes=SMALL_DATASET['ls_max_passes'],
+        pair_swap_samples=SMALL_DATASET['pair_swap_samples']
     )
     
     # Print solution details
