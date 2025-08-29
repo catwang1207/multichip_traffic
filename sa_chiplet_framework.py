@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Any, Optional, Tuple
 from collections import defaultdict
 from ilp_chiplet_framework import *  # Import constraint definitions
+from config import MAX_PES_PER_CHIPLET, INTER_CHIPLET_BANDWIDTH, COST_WEIGHTS
 
 # ================== SIMULATED ANNEALING SOLUTION ==================
 
@@ -40,7 +41,7 @@ class SimulatedAnnealingSolution:
         print(f"Chiplet-minimizing initialization for {len(self.pes)} PEs")
         
         # STEP 1: Calculate theoretical minimum chiplets needed
-        min_chiplets_capacity = (len(self.pes) + 31) // 32  # Ceiling division for PE capacity
+        min_chiplets_capacity = (len(self.pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET  # Ceiling division for PE capacity
         
         # STEP 2: Analyze communication patterns
         pe_communication = {}  # (pe1, pe2) -> frequency
@@ -77,7 +78,7 @@ class SimulatedAnnealingSolution:
             if extra_chiplets == 0:
                 chiplet_penalty = 0
             else:
-                chiplet_penalty = 2000 * (2 ** extra_chiplets - 1)  # Exponential growth
+                chiplet_penalty = COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra_chiplets - 1)  # Exponential growth
             adjusted_cost = test_cost + chiplet_penalty
             
             if adjusted_cost < best_cost:
@@ -151,7 +152,7 @@ class SimulatedAnnealingSolution:
             used_pes.add(pe2)
             
             # Expand cluster greedily
-            max_size = min(32, len(self.pes) // target_chiplets + 5)  # Target balanced sizes
+            max_size = min(MAX_PES_PER_CHIPLET, len(self.pes) // target_chiplets + 5)  # Target balanced sizes
             for other_pe in self.pes:
                 if (other_pe in used_pes or len(cluster) >= max_size):
                     continue
@@ -171,7 +172,7 @@ class SimulatedAnnealingSolution:
             # Find best cluster (smallest that has room)
             best_cluster = None
             for cluster in clusters:
-                if len(cluster) < 32:
+                if len(cluster) < MAX_PES_PER_CHIPLET:
                     if best_cluster is None or len(cluster) < len(best_cluster):
                         best_cluster = cluster
             
@@ -192,12 +193,12 @@ class SimulatedAnnealingSolution:
         """Assign clusters to chiplet slots"""
         pe_slots = {}
         for chiplet in range(self.max_chiplets):
-            pe_slots[chiplet] = [-1] * 32
+            pe_slots[chiplet] = [-1] * MAX_PES_PER_CHIPLET  # slots per chiplet
         
         for chiplet_idx, cluster in enumerate(clusters[:target_chiplets]):
             slot_idx = 0
             for pe in cluster:
-                if slot_idx < 32:
+                if slot_idx < MAX_PES_PER_CHIPLET:
                     pe_slots[chiplet_idx][slot_idx] = pe
                     slot_idx += 1
         
@@ -257,7 +258,7 @@ class SimulatedAnnealingSolution:
         
                 
     def _calculate_task_duration(self, task):
-        """Calculate duration for a task based on chiplet assignments"""
+        """Calculate duration for a task based on chiplet assignments and bandwidth constraint"""
         source_pe = self.problem.task_data[task]['source_pe']
         dest_pe = self.problem.task_data[task]['dest_pe']
         data_size = self.problem.task_data[task]['data_size']
@@ -265,11 +266,23 @@ class SimulatedAnnealingSolution:
         source_chiplet = self.pe_assignments.get(source_pe)
         dest_chiplet = self.pe_assignments.get(dest_pe)
         
-        if (source_chiplet is not None and dest_chiplet is not None and 
-            dest_chiplet != source_chiplet and data_size > 8192):
-            return 2  # Inter-chiplet large transfer
-        else:
-            return 1  # Intra-chiplet or small transfer
+        # Intra-chiplet tasks always take 1 cycle
+        if (source_chiplet is None or dest_chiplet is None or 
+            source_chiplet == dest_chiplet):
+            return 1
+        
+        # Inter-chiplet tasks: calculate based on bandwidth constraint
+        # Find the bandwidth constraint
+        inter_chiplet_bandwidth = INTER_CHIPLET_BANDWIDTH  # Default, but should find from constraints
+        for constraint in self.problem.constraints:
+            if hasattr(constraint, 'bandwidth'):
+                inter_chiplet_bandwidth = constraint.bandwidth
+                break
+        
+        # Duration = ceiling(data_size / bandwidth)
+        import math
+        duration = math.ceil(data_size / inter_chiplet_bandwidth)
+        return max(1, duration)  # At least 1 cycle
 
     def _create_feasible_schedule(self):
         """Create a feasible schedule respecting task dependencies and timing constraints"""
@@ -344,16 +357,16 @@ class SimulatedAnnealingSolution:
         used_chiplets = len(set(self.task_assignments.values()))
         
         # Calculate exponential chiplet penalty
-        min_chiplets_capacity = (len(self.pes) + 31) // 32  # Theoretical minimum
+        min_chiplets_capacity = (len(self.pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET  # Theoretical minimum
         extra_chiplets = max(0, used_chiplets - min_chiplets_capacity)
         if extra_chiplets == 0:
             chiplet_penalty = 500 * used_chiplets  # Base cost for minimum chiplets
         else:
             base_cost = 500 * min_chiplets_capacity
-            exponential_penalty = 2000 * (2 ** extra_chiplets - 1)
+            exponential_penalty = COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra_chiplets - 1)
             chiplet_penalty = base_cost + exponential_penalty
         
-        cost = 100 * max_time + chiplet_penalty + 1000000 * total_violations
+        cost = COST_WEIGHTS['cycle_weight'] * max_time + chiplet_penalty + COST_WEIGHTS['violation_penalty'] * total_violations
         
         self._cached_cost = cost
         self._cached_violations = violations
@@ -376,13 +389,19 @@ class SimulatedAnnealingSolution:
         unassigned_tasks = [task for task in self.tasks if task not in self.task_assignments]
         violations['task_assignment'] = len(unassigned_tasks)
         
-        # Chiplet capacity violations - use slot-based counting
+        # Chiplet capacity violations - get max_pes from constraint
+        max_pes_limit = MAX_PES_PER_CHIPLET  # Default from config
+        for constraint in self.problem.constraints:
+            if hasattr(constraint, 'max_pes'):
+                max_pes_limit = constraint.max_pes
+                break
+                
         if hasattr(self, 'pe_slots'):
             # Slot-based approach - capacity is guaranteed by construction
             for chiplet in range(self.max_chiplets):
                 used_slots = sum(1 for pe in self.pe_slots[chiplet] if pe != -1)
-                if used_slots > 32:
-                    violations['chiplet_capacity'] += used_slots - 32
+                if used_slots > max_pes_limit:
+                    violations['chiplet_capacity'] += used_slots - max_pes_limit
         else:
             # Fallback to old method if pe_slots not available
             chiplet_pe_count = defaultdict(set)
@@ -395,8 +414,8 @@ class SimulatedAnnealingSolution:
                     chiplet_pe_count[chiplet].add(dest_pe)
                     
             for chiplet, pes in chiplet_pe_count.items():
-                if len(pes) > 32:
-                    violations['chiplet_capacity'] += len(pes) - 32
+                if len(pes) > max_pes_limit:
+                    violations['chiplet_capacity'] += len(pes) - max_pes_limit
         
         # PE exclusivity violations
         pe_chiplet_count = defaultdict(set)
@@ -460,8 +479,8 @@ class SimulatedAnnealingSolution:
         chiplet1 = random.randint(0, self.max_chiplets - 1)
         chiplet2 = random.randint(0, self.max_chiplets - 1)
         
-        slot1 = random.randint(0, 31)
-        slot2 = random.randint(0, 31)
+        slot1 = random.randint(0, MAX_PES_PER_CHIPLET - 1)
+        slot2 = random.randint(0, MAX_PES_PER_CHIPLET - 1)
         
         # Swap PE contents
         pe1 = neighbor.pe_slots[chiplet1][slot1]
@@ -508,6 +527,13 @@ class SimulatedAnnealingSolution:
                     # Fallback
                     self.task_assignments[task] = 0
     
+    def get_total_time(self):
+        """Calculate total execution time (max finish time across all tasks)"""
+        if not self.task_times:
+            return 0
+        return max(self.task_times[task] + self.task_durations.get(task, 1) 
+                  for task in self.tasks if task in self.task_times)
+    
     def to_dict(self):
         """Convert solution to dictionary format"""
         if not self.task_times:
@@ -521,8 +547,7 @@ class SimulatedAnnealingSolution:
                 'pe_assignments': {}
             }
             
-        total_time = max(self.task_times[task] + self.task_durations.get(task, 1) 
-                        for task in self.tasks if task in self.task_times)
+        total_time = self.get_total_time()
         
         num_chiplets = len(set(self.task_assignments.values()))
         
@@ -629,9 +654,8 @@ class SimulatedAnnealingSolver:
                     # Detailed improvement reporting
                     violations = best_solution.count_violations()
                     total_violations = sum(violations.values())
-                    # Calculate actual max_time from task schedule
-                    actual_max_time = max(best_solution.task_times[task] + best_solution.task_durations.get(task, 1) 
-                                        for task in best_solution.tasks if task in best_solution.task_times) if best_solution.task_times else 0
+                    # Calculate actual max_time from task schedule using helper method
+                    actual_max_time = best_solution.get_total_time()
                     chiplets_used = len(set(best_solution.task_assignments.values()))
                     elapsed = time_module.time() - start_time
                     
@@ -660,9 +684,8 @@ class SimulatedAnnealingSolver:
                 iter_total = time_module.time() - iter_start
                 violations = best_solution.count_violations()
                 total_violations = sum(violations.values())
-                # Calculate actual max_time from task schedule
-                actual_max_time = max(best_solution.task_times[task] + best_solution.task_durations.get(task, 1) 
-                                    for task in best_solution.tasks if task in best_solution.task_times) if best_solution.task_times else 0
+                # Calculate actual max_time from task schedule using helper method
+                actual_max_time = best_solution.get_total_time()
                 chiplets_used = len(set(best_solution.task_assignments.values()))
                 
                 print(f"Iter {iteration}: best_cost={best_cost}, temp={temperature:.2f}, "
@@ -805,9 +828,9 @@ if __name__ == "__main__":
     problem.add_constraint(TaskAssignmentConstraint())
     problem.add_constraint(ChipletUsageConstraint())
     problem.add_constraint(TaskDependencyConstraint())
-    problem.add_constraint(ChipletCapacityConstraint(max_pes=32))
+    problem.add_constraint(ChipletCapacityConstraint(max_pes=MAX_PES_PER_CHIPLET))
     problem.add_constraint(PEExclusivityConstraint())
-    problem.add_constraint(InterChipletCommConstraint(bandwidth=8192))
+    problem.add_constraint(InterChipletCommConstraint(bandwidth=INTER_CHIPLET_BANDWIDTH))
     problem.add_constraint(TimeBoundsConstraint())
     problem.add_constraint(NoMulticastingConstraint())
     

@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from ilp_chiplet_framework import *
+from config import ILP_CONFIG
 
 if __name__ == "__main__":
     print("=== TESTING NO MULTICASTING CONSTRAINT (SMALL DATASET) ===")
@@ -18,9 +19,9 @@ if __name__ == "__main__":
     problem.add_constraint(TaskAssignmentConstraint())
     problem.add_constraint(ChipletUsageConstraint()) 
     problem.add_constraint(TaskDependencyConstraint())
-    problem.add_constraint(ChipletCapacityConstraint(max_pes=32))
+    problem.add_constraint(ChipletCapacityConstraint(max_pes=ILP_CONFIG['max_pes_per_chiplet']))
     problem.add_constraint(PEExclusivityConstraint())
-    problem.add_constraint(InterChipletCommConstraint(bandwidth=8192))
+    problem.add_constraint(InterChipletCommConstraint(bandwidth=ILP_CONFIG['inter_chiplet_bandwidth']))
     problem.add_constraint(TimeBoundsConstraint())
     problem.add_constraint(NoMulticastingConstraint())  # NEW CONSTRAINT
     
@@ -49,7 +50,7 @@ if __name__ == "__main__":
     
     # Solve with 60s timeout 
     print(f"\nSolving with NoMulticastingConstraint (60s timeout)...")
-    solution = problem.solve(timeout=300, max_chiplets=6, save_solution_file=True)
+    solution = problem.solve(timeout=ILP_CONFIG['timeout_seconds'], max_chiplets=6, save_solution_file=True)
     
     # Print solution details with safe access to optional fields
     status = solution['status']

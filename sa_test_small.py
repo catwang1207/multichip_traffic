@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from sa_chiplet_framework import *
+from config import MAX_PES_PER_CHIPLET, INTER_CHIPLET_BANDWIDTH, SMALL_DATASET
 
 if __name__ == "__main__":
     print("=== TESTING SIMULATED ANNEALING (SMALL DATASET) ===")
@@ -18,9 +19,9 @@ if __name__ == "__main__":
     problem.add_constraint(TaskAssignmentConstraint())
     problem.add_constraint(ChipletUsageConstraint()) 
     problem.add_constraint(TaskDependencyConstraint())
-    problem.add_constraint(ChipletCapacityConstraint(max_pes=32))
+    problem.add_constraint(ChipletCapacityConstraint(max_pes=MAX_PES_PER_CHIPLET))
     problem.add_constraint(PEExclusivityConstraint())
-    problem.add_constraint(InterChipletCommConstraint(bandwidth=8192))
+    problem.add_constraint(InterChipletCommConstraint(bandwidth=INTER_CHIPLET_BANDWIDTH))
     problem.add_constraint(TimeBoundsConstraint())
     problem.add_constraint(NoMulticastingConstraint())  # NEW CONSTRAINT
     
@@ -50,14 +51,14 @@ if __name__ == "__main__":
     # Solve with SA (60s timeout, extended parameters)
     print(f"\nSolving with Simulated Annealing (60s timeout, extended search)...")
     solution = problem.solve(
-        timeout=60, 
-        max_chiplets=6, 
+        timeout=SMALL_DATASET['timeout_seconds'], 
+        max_chiplets=SMALL_DATASET['max_chiplets'], 
         save_solution_file=True,
         solution_prefix='solution_gpt2_small_sa',
-        initial_temp=2000.0,      # Higher initial temperature
-        max_iterations=100000,    # 10x more iterations
-        cooling_rate=0.999,        # Slower cooling for better exploration
-        max_no_improvement=15000  # More patience before stopping
+        initial_temp=SMALL_DATASET['initial_temp'],
+        max_iterations=SMALL_DATASET['max_iterations'],
+        cooling_rate=SMALL_DATASET['cooling_rate'],
+        max_no_improvement=SMALL_DATASET['max_no_improvement']
     )
     
     # Print solution details

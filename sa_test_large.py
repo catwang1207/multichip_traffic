@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from sa_chiplet_framework import *
+from config import MAX_PES_PER_CHIPLET, INTER_CHIPLET_BANDWIDTH, LARGE_DATASET
 
 if __name__ == "__main__":
     print("=== TESTING SIMULATED ANNEALING (LARGE DATASET) ===")
@@ -18,9 +19,9 @@ if __name__ == "__main__":
     problem.add_constraint(TaskAssignmentConstraint())
     problem.add_constraint(ChipletUsageConstraint()) 
     problem.add_constraint(TaskDependencyConstraint())
-    problem.add_constraint(ChipletCapacityConstraint(max_pes=32))
+    problem.add_constraint(ChipletCapacityConstraint(max_pes=MAX_PES_PER_CHIPLET))
     problem.add_constraint(PEExclusivityConstraint())
-    problem.add_constraint(InterChipletCommConstraint(bandwidth=8192))
+    problem.add_constraint(InterChipletCommConstraint(bandwidth=INTER_CHIPLET_BANDWIDTH))
     problem.add_constraint(TimeBoundsConstraint())
     problem.add_constraint(NoMulticastingConstraint())  # NEW CONSTRAINT
     
@@ -51,16 +52,16 @@ if __name__ == "__main__":
         print(f"  ... and {multicast_count - 10} more PEs with multicasting")
     print(f"Total source PEs with multicasting: {multicast_count}")
     
-    # Solve with SA (300s timeout, much longer optimization for large dataset)
-    print(f"\nSolving with Simulated Annealing (300s timeout, extended optimization)...")
+    # Solve with SA (60s timeout, much longer optimization for large dataset)
+    print(f"\nSolving with Simulated Annealing (60s timeout, extended optimization)...")
     solution = problem.solve(
-        timeout=300,             # 5 minutes for thorough optimization
-        max_chiplets=12, 
+        timeout=LARGE_DATASET['timeout_seconds'],
+        max_chiplets=LARGE_DATASET['max_chiplets'], 
         save_solution_file=True,
-        initial_temp=5000.0,     # Higher initial temp for large problem
-        max_iterations=100000,   # Much more iterations
-        cooling_rate=0.998,      # Much slower cooling
-        max_no_improvement=10000  # More patience for large problems
+        initial_temp=LARGE_DATASET['initial_temp'],
+        max_iterations=LARGE_DATASET['max_iterations'],
+        cooling_rate=LARGE_DATASET['cooling_rate'],
+        max_no_improvement=LARGE_DATASET['max_no_improvement']
     )
     
     # Print solution details

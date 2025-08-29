@@ -5,6 +5,7 @@ import pandas as pd
 import sys
 import os
 from collections import defaultdict
+from config import VALIDATION_CONFIG
 
 class SolutionValidator:
     """Standalone solution validator that reads solution files and validates constraints"""
@@ -142,7 +143,9 @@ class SolutionValidator:
         print(f"  {'✅' if not comm_violations else '❌'} Inter-chiplet communication violations: {len(comm_violations)}")
         return len(comm_violations) == 0
     
-    def validate_chiplet_capacity_constraint(self, task_assignments, max_pes=32):
+    def validate_chiplet_capacity_constraint(self, task_assignments, max_pes=None):
+        if max_pes is None:
+            max_pes = VALIDATION_CONFIG['max_pes_per_chiplet']
         """Each chiplet can use at most max_pes PEs (only source_pe counts, dest_pe can be anywhere)"""
         print("Validating Chiplet Capacity Constraint...")
         
@@ -267,9 +270,19 @@ class SolutionValidator:
         print(f"  {'✅' if not multicast_violations else '❌'} Multicasting violations: {len(multicast_violations)}")
         return len(multicast_violations) == 0
     
-    def validate_task_duration_constraint(self, task_assignments, task_times, bandwidth=8192):
-        """Tasks with large data (>8192B) on different chiplets must take 2 cycles"""
+    def validate_task_duration_constraint(self, task_assignments, task_times, bandwidth=None):
+        if bandwidth is None:
+            bandwidth = VALIDATION_CONFIG['inter_chiplet_bandwidth']
+        """Tasks on different chiplets must take ceiling(data_size/bandwidth) cycles"""
         print("Validating Task Duration Constraint...")
+        
+        # Build PE-to-chiplet mapping for O(1) lookup (performance optimization)
+        pe_to_chiplet = {}
+        for _, row in self.traffic_data.iterrows():
+            task_id = row['task_id']
+            if task_id in task_assignments:
+                source_pe = row['source_pe']
+                pe_to_chiplet[source_pe] = task_assignments[task_id]
         
         duration_violations = []
         
@@ -283,41 +296,32 @@ class SolutionValidator:
                 task_time = task_times[task_id]
                 task_chiplet = task_assignments[task_id]
                 
-                # Find which chiplet the destination PE belongs to
-                dest_chiplet = None
-                for other_task_id in task_assignments:
-                    if other_task_id != task_id:
-                        other_row = self.traffic_data[self.traffic_data['task_id'] == other_task_id]
-                        if not other_row.empty:
-                            other_source_pe = other_row.iloc[0]['source_pe']
-                            if other_source_pe == dest_pe:
-                                dest_chiplet = task_assignments[other_task_id]
-                                break
+                # Find which chiplet the destination PE belongs to (O(1) lookup)
+                dest_chiplet = pe_to_chiplet.get(dest_pe)
                 
                 # If we can determine dest_chiplet and it's different from source chiplet
                 if dest_chiplet is not None and dest_chiplet != task_chiplet:
-                    # Inter-chiplet task
-                    if data_size > bandwidth:
-                        # Should take 2 cycles - check if task appears in next cycle too
-                        task_appears_next_cycle = False
-                        next_time = task_time + 1
-                        
-                        # Look for this task in the next cycle in solution schedule
-                        if hasattr(self, 'solution') and 'schedule' in self.solution:
-                            for cycle_data in self.solution['schedule']:
-                                if cycle_data['cycle'] == next_time:
-                                    chiplets = cycle_data.get('chiplets', {})
-                                    for chiplet_id, tasks in chiplets.items():
-                                        for task_info in tasks:
-                                            if task_info['task_id'] == task_id:
-                                                task_appears_next_cycle = True
-                                                break
-                        
-                        if not task_appears_next_cycle:
-                            duration_violations.append(
-                                f"Task {task_id} (inter-chiplet, {data_size}B) should take 2 cycles but only appears at time {task_time}"
-                            )
-                    # Small inter-chiplet tasks should take 1 cycle (no violation check needed)
+                    # Inter-chiplet task - calculate expected duration
+                    import math
+                    expected_duration = max(1, math.ceil(data_size / bandwidth))
+                    
+                    # Check actual duration from schedule
+                    actual_duration = 1  # Default
+                    if hasattr(self, 'solution') and 'schedule' in self.solution:
+                        task_cycles = set()
+                        for cycle_data in self.solution['schedule']:
+                            chiplets = cycle_data.get('chiplets', {})
+                            for chiplet_id, tasks in chiplets.items():
+                                for task_info in tasks:
+                                    if task_info['task_id'] == task_id:
+                                        task_cycles.add(cycle_data['cycle'])
+                        actual_duration = len(task_cycles)
+                    
+                    # Validate duration matches expected
+                    if actual_duration != expected_duration:
+                        duration_violations.append(
+                            f"Task {task_id} (inter-chiplet, {data_size}B): expected {expected_duration} cycles, actual {actual_duration} cycles"
+                        )
                 # Intra-chiplet tasks always take 1 cycle (no violation check needed)
         
         if duration_violations:
@@ -370,16 +374,21 @@ class SolutionValidator:
                             if current_chiplet == wait_chiplet:
                                 intra_count += 1
                             else:
-                                if row['data_size'] > 8192:
-                                    inter_large_count += 1
-                                else:
+                                # Calculate expected cycles with configured bandwidth
+                                import math
+                                bandwidth = VALIDATION_CONFIG['inter_chiplet_bandwidth']
+                                expected_cycles = max(1, math.ceil(row['data_size'] / bandwidth))
+                                if expected_cycles == 1:
                                     inter_small_count += 1
+                                else:
+                                    inter_large_count += 1
         
         if total_deps > 0:
             print(f"\nCommunication analysis ({total_deps} total dependencies):")
             print(f"  Intra-chiplet: {intra_count} ({100*intra_count/total_deps:.1f}%)")
-            print(f"  Inter-chiplet small (≤8192B): {inter_small_count} ({100*inter_small_count/total_deps:.1f}%)")
-            print(f"  Inter-chiplet large (>8192B): {inter_large_count} ({100*inter_large_count/total_deps:.1f}%)")
+            bandwidth = VALIDATION_CONFIG['inter_chiplet_bandwidth']
+            print(f"  Inter-chiplet single-cycle (≤{bandwidth}B): {inter_small_count} ({100*inter_small_count/total_deps:.1f}%)")
+            print(f"  Inter-chiplet multi-cycle (>{bandwidth}B): {inter_large_count} ({100*inter_large_count/total_deps:.1f}%)")
     
     def validate(self):
         """Run all validations and return overall result"""
