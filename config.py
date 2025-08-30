@@ -32,7 +32,7 @@ LARGE_DATASET = {
     'timeout_seconds': 60,
     'rcl_size': 8,
     'ls_max_passes': 4,
-    'pair_swap_samples': 1000
+    'pair_swap_samples': 500
 }
 
 # ILP parameters (legacy - kept for backward compatibility)
