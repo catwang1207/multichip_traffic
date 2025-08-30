@@ -70,9 +70,14 @@ class HeuristicSolution:
         self.out_edges = out_edges
 
         min_chiplets_capacity = (len(self.pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET
-        print(f"Chiplet-minimizing constructive build for {len(self.pes)} PEs")
-        print(f"Minimum chiplets by capacity: {min_chiplets_capacity}")
-        print(f"Found {len(pe_communication)} PE communication pairs")
+        print(f"\n🔧 GRASP Construction Phase")
+        print(f"   PEs to assign: {len(self.pes)}")
+        print(f"   Max PEs per chiplet: {MAX_PES_PER_CHIPLET}")
+        print(f"   Minimum chiplets needed: {min_chiplets_capacity} (by capacity)")
+        print(f"   Maximum chiplets allowed: {self.max_chiplets}")
+        print(f"   Communication pairs found: {len(pe_communication)}")
+        print(f"   RCL size: {rcl_size}")
+        print(f"\nEvaluating chiplet configurations...")
 
         best_slots = None
         best_adj_cost = float('inf')
@@ -80,7 +85,7 @@ class HeuristicSolution:
 
         # Try increasing chiplet counts; stop when adjusted cost worsens
         for target_chiplets in range(min_chiplets_capacity, self.max_chiplets + 1):
-            print(f"Trying {target_chiplets} chiplets (GRASP build)...")
+            print(f"\n--- Evaluating {target_chiplets} chiplets ---")
             clusters = self._create_comm_clusters_grasp(pe_communication, target_chiplets, rcl_size)
             if not clusters:
                 continue
@@ -89,18 +94,27 @@ class HeuristicSolution:
 
             # EXPONENTIAL penalty for > capacity-min chiplets
             extra = max(0, target_chiplets - min_chiplets_capacity)
-            chiplet_penalty = 0 if extra == 0 else COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra - 1)
+            if extra == 0:
+                chiplet_penalty = 0
+                penalty_msg = "no penalty (minimum capacity)"
+            else:
+                chiplet_penalty = COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra - 1)
+                penalty_msg = f"exponential penalty: 5000 * (2^{extra} - 1) = {chiplet_penalty}"
+            
             adjusted_cost = test_cost + chiplet_penalty
 
-            print(f"  {target_chiplets} chiplets → base_cost={test_cost}, adjusted={adjusted_cost}")
+            print(f"  Scheduling cost: {test_cost}")
+            print(f"  Chiplet penalty: {penalty_msg}")
+            print(f"  Total cost: {test_cost} + {chiplet_penalty} = {adjusted_cost}")
 
             if adjusted_cost < best_adj_cost:
                 best_adj_cost = adjusted_cost
                 best_slots = test_slots
                 best_target = target_chiplets
-                print(f"  ✅ New best at {target_chiplets} chiplets (adjusted={adjusted_cost})")
+                print(f"  ✅ NEW BEST: {target_chiplets} chiplets (cost={adjusted_cost})")
             else:
-                print("  ❌ Worse after penalty; stop expanding.")
+                print(f"  ❌ WORSE: {adjusted_cost} > {best_adj_cost} (current best)")
+                print("  Stopping chiplet expansion (cost increasing)")
                 break
 
         # Apply best
@@ -111,7 +125,8 @@ class HeuristicSolution:
             best_target = min_chiplets_capacity
 
         self.pe_slots = best_slots
-        print(f"OPTIMAL (constructive): {best_target} chiplets selected")
+        print(f"\n🎯 SELECTED: {best_target} chiplets (best cost: {best_adj_cost})")
+        print(f"   Reason: {'Minimum capacity required' if best_target == min_chiplets_capacity else 'Best cost after exponential penalty'}")
 
         # Map & schedule
         self._update_pe_assignments_from_slots()
@@ -625,10 +640,9 @@ class HeuristicSolution:
         min_chiplets_capacity = (len(self.pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET
         extra_chiplets = max(0, used_chiplets - min_chiplets_capacity)
         if extra_chiplets == 0:
-            chiplet_penalty = 500 * used_chiplets
+            chiplet_penalty = 0  # No penalty for minimum capacity
         else:
-            exponential_penalty = COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra_chiplets - 1)
-            chiplet_penalty = exponential_penalty
+            chiplet_penalty = COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra_chiplets - 1)
 
         cost = (COST_WEIGHTS['cycle_weight'] * max_time
                 + chiplet_penalty

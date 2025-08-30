@@ -9,7 +9,7 @@ import os
 import time as time_module
 
 
-def generate_solution_file(solution, solver_name, data_file, task_data):
+def generate_solution_file(solution, solver_name, data_file, task_data, suffix=""):
     """Generate a solution file showing task assignments per clock cycle with detailed PE assignments"""
     
     if solution['status'] == 'infeasible':
@@ -26,7 +26,7 @@ def generate_solution_file(solution, solver_name, data_file, task_data):
     
     # Create solution filename
     base_name = os.path.splitext(os.path.basename(data_file))[0]
-    solution_file = f"{base_name}_{solver_name.lower()}_solution.json"
+    solution_file = f"{base_name}_{solver_name.lower()}{suffix}_solution.json"
     
     # Organize tasks by clock cycle and chiplet
     schedule = {}

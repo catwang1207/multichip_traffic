@@ -11,7 +11,14 @@ from typing import List, Dict, Any, Optional, Tuple
 from collections import defaultdict
 
 # Utilities (generate_solution_file, etc.)
-from config import MAX_PES_PER_CHIPLET, INTER_CHIPLET_BANDWIDTH, COST_WEIGHTS
+from config import (
+    MAX_PES_PER_CHIPLET,
+    INTER_CHIPLET_BANDWIDTH,
+    COST_WEIGHTS,
+    DEFAULT_IMC_RATIO,
+    DEFAULT_PE_TYPE_STRATEGY,
+    get_imc_dig_counts,   # must exist in config
+)
 from chiplet_utils import generate_solution_file
 
 
@@ -22,19 +29,19 @@ class HeuristicSolution:
     Solution holder + schedule/cost/violations + constructive & local moves
     """
 
-    def __init__(self, problem, max_chiplets: int, rng: Optional[random.Random] = None, 
-                 pe_type_strategy: str = 'mixed', imc_ratio: float = 0.75):
+    def __init__(self, problem, max_chiplets: int, rng: Optional[random.Random] = None,
+                 pe_type_strategy: str = DEFAULT_PE_TYPE_STRATEGY, imc_ratio: float = DEFAULT_IMC_RATIO):
         self.problem = problem
         self.max_chiplets = max_chiplets
         self.rng = rng or random.Random()
-        self.pe_type_strategy = pe_type_strategy  # 'separated', 'mixed', or 'ignore'
-        self.imc_ratio = imc_ratio  # For mixed strategy: ratio of IMC PEs per chiplet
+        self.pe_type_strategy = pe_type_strategy  # 'separated' or 'mixed'
+        self.imc_ratio = imc_ratio  # For mixed strategy: IMC share per chiplet (e.g., 0.667)
 
         # Deterministic traversal order of ids (data itself is fixed)
         self.tasks = sorted(problem.tasks)
         self.pes = sorted(problem.pes)
-        
-        # PE type information
+
+        # PE type information (PE -> {'IMC','DIG',...})
         self.pe_types = getattr(problem, 'pe_types', {})
 
         # Representation
@@ -45,9 +52,13 @@ class HeuristicSolution:
 
         # Slots: chiplet -> list of PEs length MAX_PES_PER_CHIPLET (-1 = empty)
         self.pe_slots: Dict[int, List[int]] = {c: [-1] * MAX_PES_PER_CHIPLET for c in range(self.max_chiplets)}
-        
-        # Chiplet type designations (for separated strategy)
-        self.chiplet_types: Dict[int, str] = {}  # chiplet -> 'IMC' or 'DIG'
+
+        # Chiplet type designations (for constraint checking)
+        # 'IMC' / 'DIG' / 'OTHER' for separated, 'MIXED' for mixed
+        self.chiplet_types: Dict[int, str] = {}
+
+        # Strategy-aware minimum chiplets (computed in construct)
+        self.min_chiplets_required = 0
 
         # Caches
         self._cached_cost: Optional[float] = None
@@ -55,8 +66,8 @@ class HeuristicSolution:
         self._dirty = True
 
         # Communication maps
-        self.pe_communication: Optional[Dict[Tuple[int, int], int]] = None
-        self.out_edges: Dict[int, List[Tuple[int, int]]] = defaultdict(list)
+        self.pe_communication: Optional[Dict[Tuple[int, int], int]] = None  # weight by total bytes
+        self.out_edges: Dict[int, List[Tuple[int, int]]] = defaultdict(list)  # src -> list[(dst, bytes)]
 
     # -------------------- GRASP constructive phase --------------------
 
@@ -65,7 +76,7 @@ class HeuristicSolution:
         Build an initial solution using greedy randomized clustering with an RCL.
         Then schedule & do a fast greedy refine.
         """
-        # Build comm maps (deterministic from data)
+        # Build comm maps (deterministic from data); weight by BYTES not counts
         pe_communication: Dict[Tuple[int, int], int] = {}
         out_edges: Dict[int, List[Tuple[int, int]]] = defaultdict(list)
         for task in self.tasks:
@@ -73,51 +84,60 @@ class HeuristicSolution:
             dst = self.problem.task_data[task]['dest_pe']
             data = int(self.problem.task_data[task]['data_size'])
             pair = tuple(sorted((src, dst)))
-            pe_communication[pair] = pe_communication.get(pair, 0) + 1
+            pe_communication[pair] = pe_communication.get(pair, 0) + data
             out_edges[src].append((dst, data))
         self.pe_communication = pe_communication
         self.out_edges = out_edges
 
-        min_chiplets_capacity = (len(self.pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET
+        # Calculate strategy-aware minimum chiplets
+        min_by_strategy = self._calculate_min_chiplets_by_strategy()
+        self.min_chiplets_required = min_by_strategy
         print(f"Chiplet-minimizing constructive build for {len(self.pes)} PEs")
-        print(f"Minimum chiplets by capacity: {min_chiplets_capacity}")
-        print(f"Found {len(pe_communication)} PE communication pairs")
+        print(f"Minimum chiplets by strategy '{self.pe_type_strategy}': {min_by_strategy}")
+        print(f"Found {len(pe_communication)} PE communication pairs (weighted by bytes)")
 
         best_slots = None
         best_adj_cost = float('inf')
         best_target = None
 
         # Try increasing chiplet counts; stop when adjusted cost worsens
-        for target_chiplets in range(min_chiplets_capacity, self.max_chiplets + 1):
+        for target_chiplets in range(min_by_strategy, self.max_chiplets + 1):
             print(f"Trying {target_chiplets} chiplets (GRASP build)...")
-            clusters = self._create_comm_clusters_grasp(pe_communication, target_chiplets, rcl_size)
+            clusters, required = self._create_comm_clusters_grasp(pe_communication, target_chiplets, rcl_size)
             if not clusters:
                 continue
-            test_slots = self._assign_clusters_to_slots(clusters, target_chiplets)
+
+            # Ensure we don't under-provision: expand to cover all clustered PEs AND all clusters
+            used_pes_count = sum(len(cl) for cl in clusters)
+            needed_by_count = math.ceil(used_pes_count / MAX_PES_PER_CHIPLET)
+            target = max(target_chiplets, required, needed_by_count, min_by_strategy)
+            if target > self.max_chiplets:
+                print(f"  Required chiplets {target} exceeds max ({self.max_chiplets}); skipping.")
+                continue
+
+            test_slots = self._assign_clusters_to_slots(clusters, target)
             test_cost = self._evaluate_chiplet_configuration(test_slots)
+            adjusted_cost = test_cost  # cost already contains chiplet penalty vs min
 
-            # EXPONENTIAL penalty for > capacity-min chiplets
-            extra = max(0, target_chiplets - min_chiplets_capacity)
-            chiplet_penalty = 0 if extra == 0 else COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra - 1)
-            adjusted_cost = test_cost + chiplet_penalty
-
-            print(f"  {target_chiplets} chiplets → base_cost={test_cost}, adjusted={adjusted_cost}")
+            print(f"  {target} chiplets → cost={adjusted_cost}")
 
             if adjusted_cost < best_adj_cost:
                 best_adj_cost = adjusted_cost
                 best_slots = test_slots
-                best_target = target_chiplets
-                print(f"  ✅ New best at {target_chiplets} chiplets (adjusted={adjusted_cost})")
+                best_target = target
+                print(f"  ✅ New best at {target} chiplets (cost={adjusted_cost})")
             else:
-                print("  ❌ Worse after penalty; stop expanding.")
+                print("  ❌ Worse; stop expanding.")
                 break
 
         # Apply best
         if best_slots is None:
-            # Fallback minimal pack
-            clusters = self._create_comm_clusters_grasp(pe_communication, min_chiplets_capacity, rcl_size)
-            best_slots = self._assign_clusters_to_slots(clusters, min_chiplets_capacity)
-            best_target = min_chiplets_capacity
+            # Fallback minimal pack with strategy-aware min
+            clusters, required = self._create_comm_clusters_grasp(pe_communication, min_by_strategy, rcl_size)
+            target = max(min_by_strategy, required)
+            target = min(target, self.max_chiplets)
+            best_slots = self._assign_clusters_to_slots(clusters, target)
+            best_target = target
 
         self.pe_slots = best_slots
         print(f"OPTIMAL (constructive): {best_target} chiplets selected")
@@ -134,264 +154,338 @@ class HeuristicSolution:
         self._cached_cost = None
         self._cached_violations = None
 
-    def _create_comm_clusters_grasp(self, pe_communication, target_chiplets, rcl_size):
+    def _calculate_min_chiplets_by_strategy(self) -> int:
+        """
+        Strategy-aware minimum chiplets.
+        - 'separated': sum over types ceil(count(type)/K)
+        - 'mixed': max over types using per-chiplet quotas derived from imc_ratio
+        - default: ceil(|PEs|/K)
+        """
+        K = MAX_PES_PER_CHIPLET
+        imc_count = sum(1 for pe in self.pes if self.pe_types.get(pe) == 'IMC')
+        dig_count = sum(1 for pe in self.pes if self.pe_types.get(pe) == 'DIG')
+        other_count = len(self.pes) - imc_count - dig_count
+
+        if self.pe_type_strategy == 'separated':
+            total = 0
+            total += (imc_count + K - 1) // K
+            total += (dig_count + K - 1) // K
+            total += (other_count + K - 1) // K
+            return max(1, total)
+
+        if self.pe_type_strategy == 'mixed':
+            imc_per, dig_per = get_imc_dig_counts(self.imc_ratio, K)
+            print(f"  DEBUG: imc_ratio={self.imc_ratio}, K={K}")
+            print(f"  DEBUG: raw quotas: imc_per={imc_per}, dig_per={dig_per}")
+            imc_per = max(0, min(imc_per, K))
+            dig_per = max(0, min(dig_per, K))
+            print(f"  DEBUG: adjusted quotas: imc_per={imc_per}, dig_per={dig_per}")
+            print(f"  DEBUG: PE counts: imc={imc_count}, dig={dig_count}, other={other_count}")
+            # If one of the quotas is 0, avoid division by zero
+            need_imc = (imc_count + max(1, imc_per) - 1) // max(1, imc_per) if imc_count > 0 else 0
+            need_dig = (dig_count + max(1, dig_per) - 1) // max(1, dig_per) if dig_count > 0 else 0
+            need_other = (other_count + K - 1) // K
+            print(f"  DEBUG: chiplets needed: imc={need_imc}, dig={need_dig}, other={need_other}")
+            result = max(1, need_imc, need_dig, need_other)
+            print(f"  DEBUG: final result: max(1, {need_imc}, {need_dig}, {need_other}) = {result}")
+            return result
+
+        # default (type-agnostic)
+        return max(1, (len(self.pes) + K - 1) // K)
+
+    def _create_comm_clusters_grasp(self, pe_communication, target_chiplets, rcl_size) -> Tuple[List[set], int]:
         """
         Communication-aware cluster build with randomized selection from an RCL.
-        Now supports PE type-aware clustering strategies.
+        Two strategies: 'separated' and 'mixed'.
+        Returns (clusters, required_chiplets). Each cluster will map to ONE chiplet.
         """
         if self.pe_type_strategy == 'separated':
-            return self._create_type_separated_clusters(pe_communication, target_chiplets, rcl_size)
-        elif self.pe_type_strategy == 'mixed':
+            return self._create_type_separated_clusters(pe_communication, rcl_size)
+        if self.pe_type_strategy == 'mixed':
             return self._create_mixed_type_clusters(pe_communication, target_chiplets, rcl_size)
-        else:
-            # Original algorithm (ignore types)
-            return self._create_original_clusters(pe_communication, target_chiplets, rcl_size)
-    
-    def _create_type_separated_clusters(self, pe_communication, target_chiplets, rcl_size):
+        # Should not reach here, but keep default fallback
+        clusters = self._cluster_pes_by_communication(self.pes, pe_communication,
+                                                      (len(self.pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET,
+                                                      rcl_size)
+        # mark all as 'MIXED' for safety
+        for i in range(len(clusters)):
+            self.chiplet_types[i] = 'MIXED'
+        return clusters, len(clusters)
+
+    def _create_type_separated_clusters(self, pe_communication, rcl_size) -> Tuple[List[set], int]:
         """
-        Strategy 1: Create pure IMC and DIG chiplets (no mixing).
+        Strategy 1: Build IMC-only, DIG-only, OTHER-only clusters (no mixing).
         """
-        # Group PEs by type
+        K = MAX_PES_PER_CHIPLET
         imc_pes = [pe for pe in self.pes if self.pe_types.get(pe) == 'IMC']
         dig_pes = [pe for pe in self.pes if self.pe_types.get(pe) == 'DIG']
         other_pes = [pe for pe in self.pes if self.pe_types.get(pe) not in ['IMC', 'DIG']]
-        
-        print(f"Type separation: {len(imc_pes)} IMC, {len(dig_pes)} DIG, {len(other_pes)} other PEs")
-        
+
         clusters: List[set] = []
-        
-        # Determine chiplet allocation
-        imc_chiplets_needed = (len(imc_pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET
-        dig_chiplets_needed = (len(dig_pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET
-        total_needed = imc_chiplets_needed + dig_chiplets_needed
-        
-        if total_needed > target_chiplets:
-            print(f"Pure separation requires {total_needed} chiplets (IMC: {imc_chiplets_needed}, DIG: {dig_chiplets_needed})")
-            print(f"Target was {target_chiplets} chiplets - using {total_needed} chiplets for pure separation")
-            # Force the required number of chiplets for pure separation
-            target_chiplets = total_needed
-        
-        # Create IMC clusters
-        imc_clusters = self._cluster_pes_by_communication(imc_pes, pe_communication, imc_chiplets_needed, rcl_size)
-        for i, cluster in enumerate(imc_clusters):
-            clusters.append(cluster)
-            self.chiplet_types[len(clusters) - 1] = 'IMC'
-            
-        # Create DIG clusters  
-        dig_clusters = self._cluster_pes_by_communication(dig_pes, pe_communication, dig_chiplets_needed, rcl_size)
-        for i, cluster in enumerate(dig_clusters):
-            clusters.append(cluster)
-            self.chiplet_types[len(clusters) - 1] = 'DIG'
-            
-        # Handle other PEs (add to smallest compatible cluster or create new)
-        for pe in other_pes:
-            if clusters:
-                best_cluster = min(clusters, key=lambda c: len(c))
-                best_cluster.add(pe)
-            else:
-                clusters.append({pe})
-                
-        return clusters
-        
-    def _create_mixed_type_clusters(self, pe_communication, target_chiplets, rcl_size):
+
+        def add_typed_groups(pe_list: List[int], label: str):
+            nonlocal clusters
+            if not pe_list:
+                return
+            need = (len(pe_list) + K - 1) // K
+            typed_clusters = self._cluster_pes_by_communication(pe_list, pe_communication, need, rcl_size)
+            for cl in typed_clusters:
+                clusters.append(set(cl))
+                self.chiplet_types[len(clusters) - 1] = label
+
+        add_typed_groups(imc_pes, 'IMC')
+        add_typed_groups(dig_pes, 'DIG')
+        add_typed_groups(other_pes, 'OTHER')
+
+        required = len(clusters)
+        return clusters, required
+
+    def _create_mixed_type_clusters(self, pe_communication, target_chiplets, rcl_size) -> Tuple[List[set], int]:
         """
-        Strategy 2: Create mixed chiplets with specified IMC/DIG ratios.
+        Strategy 2: Create mixed chiplets with specified IMC/DIG quotas per chiplet.
+        If quotas fill up and PEs remain, we append more clusters until all PEs are assigned.
         """
-        imc_pes = [pe for pe in self.pes if self.pe_types.get(pe) == 'IMC']
-        dig_pes = [pe for pe in self.pes if self.pe_types.get(pe) == 'DIG']
-        other_pes = [pe for pe in self.pes if self.pe_types.get(pe) not in ['IMC', 'DIG']]
-        
+        K = MAX_PES_PER_CHIPLET
+        imc_quota_base, dig_quota_base = get_imc_dig_counts(self.imc_ratio, K)
+        imc_quota_base = max(0, min(imc_quota_base, K))
+        dig_quota_base = max(0, min(dig_quota_base, K))
+        # if rounding leaves slack, let other/any fill the remainder (neutral)
+        # (imc_quota_base + dig_quota_base) <= K always holds by design
+
+        imc_pool = [pe for pe in self.pes if self.pe_types.get(pe) == 'IMC']
+        dig_pool = [pe for pe in self.pes if self.pe_types.get(pe) == 'DIG']
+        other_pool = [pe for pe in self.pes if self.pe_types.get(pe) not in ['IMC', 'DIG']]
+
+        remaining_imc = set(imc_pool)
+        remaining_dig = set(dig_pool)
+        remaining_other = set(other_pool)
+
+        def score(pe, cluster):
+            if not cluster:
+                return 0
+            s = 0
+            for q in cluster:
+                key = tuple(sorted((pe, q)))
+                s += pe_communication.get(key, 0)
+            return s
+
         clusters: List[set] = []
-        imc_per_chiplet = int(MAX_PES_PER_CHIPLET * self.imc_ratio)
-        dig_per_chiplet = MAX_PES_PER_CHIPLET - imc_per_chiplet
-        
-        print(f"Mixed strategy: {imc_per_chiplet} IMC + {dig_per_chiplet} DIG per chiplet")
-        
-        imc_idx = 0
-        dig_idx = 0
-        
-        for chiplet_idx in range(target_chiplets):
-            cluster = set()
-            
-            # Add IMC PEs
-            for _ in range(min(imc_per_chiplet, len(imc_pes) - imc_idx)):
-                if imc_idx < len(imc_pes):
-                    cluster.add(imc_pes[imc_idx])
-                    imc_idx += 1
-                    
-            # Add DIG PEs  
-            for _ in range(min(dig_per_chiplet, len(dig_pes) - dig_idx)):
-                if dig_idx < len(dig_pes):
-                    cluster.add(dig_pes[dig_idx])
-                    dig_idx += 1
-                    
-            if cluster:
-                clusters.append(cluster)
-                self.chiplet_types[chiplet_idx] = 'MIXED'
-                
-        # Handle remaining PEs
-        remaining_imc = imc_pes[imc_idx:]
-        remaining_dig = dig_pes[dig_idx:]
-        all_remaining = remaining_imc + remaining_dig + other_pes
-        
-        for pe in all_remaining:
-            if clusters:
-                best_cluster = min(clusters, key=lambda c: len(c))
-                best_cluster.add(pe)
+        quotas: List[List[int]] = []  # [IMC_left, DIG_left, ANY_left]
+        # seed with the requested target, but we will add more if needed
+        def add_one_cluster():
+            clusters.append(set())
+            # ANY_left covers the remainder capacity
+            any_left = K - (imc_quota_base + dig_quota_base)
+            quotas.append([imc_quota_base, dig_quota_base, max(0, any_left)])
+            self.chiplet_types[len(clusters) - 1] = 'MIXED'
+
+        for _ in range(max(1, target_chiplets)):
+            add_one_cluster()
+
+        # fill while anything remains; if we stall due to 0 quotas, add more clusters
+        def quotas_total_left():
+            return sum(q[0] + q[1] + q[2] for q in quotas)
+
+        last_progress = -1
+        while remaining_imc or remaining_dig or remaining_other:
+            progress = 0
+
+            # fill IMC
+            if remaining_imc:
+                for c_idx in range(len(clusters)):
+                    if not remaining_imc:
+                        break
+                    IMC_left, DIG_left, ANY_left = quotas[c_idx]
+                    capacity_left = IMC_left + DIG_left + ANY_left
+                    if capacity_left <= 0 or (IMC_left <= 0 and ANY_left <= 0):
+                        continue
+                    cand = [(score(pe, clusters[c_idx]), pe) for pe in remaining_imc]
+                    if not cand:
+                        continue
+                    cand.sort(reverse=True)
+                    pick_set = cand[:min(len(cand), rcl_size)]
+                    _, chosen = self.rng.choice(pick_set)
+                    clusters[c_idx].add(chosen)
+                    if IMC_left > 0:
+                        quotas[c_idx][0] -= 1
+                    else:
+                        quotas[c_idx][2] -= 1  # consume ANY
+                    remaining_imc.remove(chosen)
+                    progress += 1
+
+            # fill DIG
+            if remaining_dig:
+                for c_idx in range(len(clusters)):
+                    if not remaining_dig:
+                        break
+                    IMC_left, DIG_left, ANY_left = quotas[c_idx]
+                    capacity_left = IMC_left + DIG_left + ANY_left
+                    if capacity_left <= 0 or (DIG_left <= 0 and ANY_left <= 0):
+                        continue
+                    cand = [(score(pe, clusters[c_idx]), pe) for pe in remaining_dig]
+                    if not cand:
+                        continue
+                    cand.sort(reverse=True)
+                    pick_set = cand[:min(len(cand), rcl_size)]
+                    _, chosen = self.rng.choice(pick_set)
+                    clusters[c_idx].add(chosen)
+                    if DIG_left > 0:
+                        quotas[c_idx][1] -= 1
+                    else:
+                        quotas[c_idx][2] -= 1  # consume ANY
+                    remaining_dig.remove(chosen)
+                    progress += 1
+
+            # fill OTHER (neutral)
+            if remaining_other:
+                for c_idx in range(len(clusters)):
+                    if not remaining_other:
+                        break
+                    IMC_left, DIG_left, ANY_left = quotas[c_idx]
+                    capacity_left = IMC_left + DIG_left + ANY_left
+                    if capacity_left <= 0:
+                        continue
+                    cand = [(score(pe, clusters[c_idx]), pe) for pe in remaining_other]
+                    if not cand:
+                        continue
+                    cand.sort(reverse=True)
+                    pick_set = cand[:min(len(cand), rcl_size)]
+                    _, chosen = self.rng.choice(pick_set)
+                    clusters[c_idx].add(chosen)
+                    # consume whichever capacity remains (prefer ANY, else larger of IMC/DIG slack)
+                    if ANY_left > 0:
+                        quotas[c_idx][2] -= 1
+                    elif IMC_left >= DIG_left and IMC_left > 0:
+                        quotas[c_idx][0] -= 1
+                    elif DIG_left > 0:
+                        quotas[c_idx][1] -= 1
+                    remaining_other.remove(chosen)
+                    progress += 1
+
+            if progress == 0:
+                # no room anywhere: add another cluster and continue
+                add_one_cluster()
+            last_progress = progress
+
+        # trim any empty trailing clusters (rare but safe)
+        nonempty = []
+        for i, cl in enumerate(clusters):
+            if len(cl) > 0:
+                nonempty.append(cl)
             else:
-                clusters.append({pe})
-                
-        return clusters
-        
+                # free the label if it somehow was empty
+                self.chiplet_types.pop(i, None)
+        clusters = nonempty
+
+        required = len(clusters)
+        return clusters, required
+
     def _cluster_pes_by_communication(self, pe_list, pe_communication, num_clusters, rcl_size):
         """
-        Helper to cluster a specific set of PEs based on communication patterns.
+        Helper to cluster a specific set of PEs based on communication patterns (bytes).
+        Guarantees: <= MAX_PES_PER_CHIPLET per cluster.
         """
         if not pe_list:
             return []
-            
+
+        K = MAX_PES_PER_CHIPLET
         clusters: List[set] = []
         used = set()
-        
+
         # Find communication pairs within this PE set
         internal_pairs = []
-        for (a, b), count in pe_communication.items():
+        for (a, b), weight in pe_communication.items():
             if a in pe_list and b in pe_list:
-                internal_pairs.append(((a, b), count))
+                internal_pairs.append(((a, b), weight))
         internal_pairs.sort(key=lambda x: x[1], reverse=True)
-        
+
         # Seed clusters with high-communication pairs
         pair_idx = 0
         while len(clusters) < num_clusters and pair_idx < len(internal_pairs):
             (a, b), _ = internal_pairs[pair_idx]
             if a not in used and b not in used:
-                cluster = {a, b}
-                used.add(a)
-                used.add(b)
-                clusters.append(cluster)
+                clusters.append({a, b})
+                used.add(a); used.add(b)
             pair_idx += 1
-            
+
         # Create singleton clusters for remaining slots
         remaining = [pe for pe in pe_list if pe not in used]
         while len(clusters) < num_clusters and remaining:
             pe = remaining.pop(0)
             clusters.append({pe})
             used.add(pe)
-            
-        # Expand clusters
-        for cluster in clusters:
-            max_size = min(MAX_PES_PER_CHIPLET, len(pe_list) // max(1, num_clusters) + 3)
-            while len(cluster) < max_size:
+
+        # Expand clusters by comm-score, cap by K
+        for ci, cluster in enumerate(clusters):
+            while len(cluster) < K:
                 # Find best candidate by communication with cluster
                 best_pe = None
                 best_score = 0
                 for pe in pe_list:
                     if pe in used:
                         continue
-                    score = 0
+                    s = 0
                     for cluster_pe in cluster:
                         key = tuple(sorted((pe, cluster_pe)))
-                        score += pe_communication.get(key, 0)
-                    if score > best_score:
-                        best_score = score
+                        s += pe_communication.get(key, 0)
+                    if s > best_score:
+                        best_score = s
                         best_pe = pe
-                        
                 if best_pe is None:
                     break
-                    
                 cluster.add(best_pe)
                 used.add(best_pe)
-                
-        # Distribute remaining PEs
+
+        # Distribute remaining PEs (if any) to smallest clusters with spare capacity
         remaining = [pe for pe in pe_list if pe not in used]
         for pe in remaining:
-            if clusters:
-                smallest = min(clusters, key=lambda c: len(c))
-                smallest.add(pe)
-                
-        return clusters
-        
-    def _create_original_clusters(self, pe_communication, target_chiplets, rcl_size):
-        """
-        Original clustering algorithm (type-agnostic).
-        """
-        clusters: List[set] = []
-        used = set()
-
-        # Candidate seeds: PE pairs sorted by comm count (desc)
-        pairs_sorted = sorted(pe_communication.items(), key=lambda x: x[1], reverse=True)
-        pair_idx = 0
-
-        # Seed up to target_chiplets clusters
-        while len(clusters) < target_chiplets and pair_idx < len(pairs_sorted):
-            # Build an RCL of high-comm pairs that don't overlap used PEs
-            rcl_pairs = []
-            scan = pair_idx
-            while len(rcl_pairs) < rcl_size and scan < len(pairs_sorted):
-                (a, b), cnt = pairs_sorted[scan]
-                if a not in used and b not in used:
-                    rcl_pairs.append((a, b, cnt))
-                scan += 1
-            if not rcl_pairs:
-                break
-            a, b, _ = self.rng.choice(rcl_pairs)
-            cluster = {a, b}
-            used.add(a); used.add(b)
-            clusters.append(cluster)
-            pair_idx = scan  # advance
-
-        # If we still need clusters, seed singletons
-        all_remaining = [pe for pe in self.pes if pe not in used]
-        while len(clusters) < target_chiplets and all_remaining:
-            pe = all_remaining.pop(0)
-            clusters.append({pe})
-            used.add(pe)
-
-        # Expand each cluster greedily with RCL picks by adjacency score
-        for cl in clusters:
-            # Keep sizes balanced
-            max_size = min(MAX_PES_PER_CHIPLET, len(self.pes) // max(1, target_chiplets) + 5)
-            while len(cl) < max_size:
-                # Score remaining PEs by comm sum to current cluster
-                scores = []
-                for pe in self.pes:
-                    if pe in used:
-                        continue
-                    s = 0
-                    for q in cl:
-                        key = tuple(sorted((pe, q)))
-                        s += pe_communication.get(key, 0)
-                    if s > 0:
-                        scores.append((pe, s))
-                if not scores:
-                    break
-                scores.sort(key=lambda t: t[1], reverse=True)
-                # RCL over top candidates
-                take = scores[:min(len(scores), rcl_size)]
-                choice_pe = self.rng.choice(take)[0]
-                cl.add(choice_pe)
-                used.add(choice_pe)
-
-        # Distribute any leftover PEs into smallest clusters first
-        remain = [pe for pe in self.pes if pe not in used]
-        for pe in remain:
-            best = min(clusters, key=lambda c: len(c))
-            best.add(pe)
+            candidates = [(len(c), idx) for idx, c in enumerate(clusters) if len(c) < K]
+            if not candidates:
+                # all full: start a new cluster
+                clusters.append({pe})
+            else:
+                _, idx = min(candidates)
+                clusters[idx].add(pe)
 
         return clusters
 
-    def _assign_clusters_to_slots(self, clusters, target_chiplets):
-        pe_slots = {i: [-1] * MAX_PES_PER_CHIPLET for i in range(self.max_chiplets)}
-        flat: List[int] = []
-        for cl in clusters:
-            flat.extend(sorted(list(cl)))
-        write_slots = [(c, s) for c in range(target_chiplets) for s in range(MAX_PES_PER_CHIPLET)]
-        if len(flat) > len(write_slots):
-            print("WARNING: more PEs than available slots; truncating assignment.")
-        for i, (c, s) in enumerate(write_slots):
-            if i >= len(flat):
-                break
-            pe_slots[c][s] = flat[i]
+    def _assign_clusters_to_slots(self, clusters: List[set], target_chiplets: int):
+        """
+        Preserve cluster boundaries: **one cluster per chiplet**.
+        If clusters exceed target_chiplets, we expand target (bounded by max_chiplets).
+        """
+        # ensure cluster sizes do not exceed capacity (safety, should already hold)
+        K = MAX_PES_PER_CHIPLET
+        fixed_clusters: List[List[int]] = []
+        fixed_types: List[str] = []
+        for idx, cl in enumerate(clusters):
+            cl_list = sorted(list(cl))
+            label = self.chiplet_types.get(idx, 'MIXED')
+            # split if needed (rare in our builders)
+            for start in range(0, len(cl_list), K):
+                chunk = cl_list[start:start + K]
+                fixed_clusters.append(chunk)
+                fixed_types.append(label)
+
+        required = len(fixed_clusters)
+        target = max(target_chiplets, required, self.min_chiplets_required)
+        target = min(target, self.max_chiplets)
+
+        if required > target:
+            # cannot place all clusters; truncate excess (shouldn't happen due to loop logic)
+            fixed_clusters = fixed_clusters[:target]
+            fixed_types = fixed_types[:target]
+            required = target
+
+        pe_slots = {i: [-1] * K for i in range(self.max_chiplets)}
+        self.chiplet_types = {}  # rebuild labels per physical chiplet we use
+
+        for chiplet_idx in range(required):
+            self.chiplet_types[chiplet_idx] = fixed_types[chiplet_idx]
+            for s, pe in enumerate(fixed_clusters[chiplet_idx]):
+                pe_slots[chiplet_idx][s] = pe
+
+        # leave remaining chiplets empty
         return pe_slots
 
     def _evaluate_chiplet_configuration(self, test_slots):
@@ -521,7 +615,6 @@ class HeuristicSolution:
             if a_chip is None or b_chip is None or a_chip == b_chip:
                 continue
 
-            # try moving a to b's chiplet or b to a's — pick better actual delta
             before = self.evaluate_cost()
 
             # Option 1: move a -> b_chip
@@ -557,20 +650,17 @@ class HeuristicSolution:
             best_cost = min(cost1, cost2)
             if best_cost < before:
                 improved = True
-                # keep the better modification
                 if cost1 <= cost2 and moved1:
-                    # reapply option 1
                     self.pe_slots = snap1
                     self._try_move_pe_to_chiplet(a, b_chip)
                 elif moved2:
-                    # snap2 already has the move; keep
+                    # keep snap2 state
                     pass
-                # finalize mapping/schedule
                 self._update_pe_assignments_from_slots()
                 self._update_task_assignments_from_pe_slots()
                 self._create_feasible_schedule()
             else:
-                # keep original (snap2 to revert if needed)
+                # keep original
                 if moved2:
                     self.pe_slots = snap2
                     self._update_pe_assignments_from_slots()
@@ -581,39 +671,107 @@ class HeuristicSolution:
                 continue
         return improved
 
+    def _would_violate_pe_type_constraints(self, pe: int, target_chiplet: int) -> bool:
+        """
+        Validate a move against type strategy.
+        """
+        pe_type = self.pe_types.get(pe)
+        if pe_type is None or pe_type not in ['IMC', 'DIG']:
+            return False  # no constraints for unknown/neutral types
+
+        if self.pe_type_strategy == 'separated':
+            # chiplet must be homogeneous
+            chiplet_label = self.chiplet_types.get(target_chiplet)
+            if chiplet_label is not None and chiplet_label != pe_type:
+                return True
+            # check current PEs in target for mixing
+            current_types = set()
+            for slot_pe in self.pe_slots.get(target_chiplet, []):
+                if slot_pe != -1:
+                    t = self.pe_types.get(slot_pe)
+                    if t in ['IMC', 'DIG', 'OTHER']:
+                        current_types.add(t)
+            if current_types and pe_type not in current_types:
+                return True
+
+        elif self.pe_type_strategy == 'mixed':
+            # ensure we don't exceed per-chiplet quotas
+            K = MAX_PES_PER_CHIPLET
+            imc_max, dig_max = get_imc_dig_counts(self.imc_ratio, K)
+            imc_max = max(0, min(imc_max, K))
+            dig_max = max(0, min(dig_max, K))
+            imc_count = 0
+            dig_count = 0
+            for slot_pe in self.pe_slots.get(target_chiplet, []):
+                if slot_pe != -1 and slot_pe != pe:
+                    t = self.pe_types.get(slot_pe)
+                    if t == 'IMC':
+                        imc_count += 1
+                    elif t == 'DIG':
+                        dig_count += 1
+            if pe_type == 'IMC' and imc_count + 1 > imc_max:
+                return True
+            if pe_type == 'DIG' and dig_count + 1 > dig_max:
+                return True
+
+        return False
+
+    def _would_violate_min_chiplet_constraint(self, pe: int, source_chiplet: int) -> bool:
+        """
+        Prevent moves that would reduce the number of used chiplets below strategy-aware minimum.
+        """
+        remaining_pes = sum(1 for slot_pe in self.pe_slots.get(source_chiplet, [])
+                            if slot_pe != -1 and slot_pe != pe)
+        if remaining_pes == 0:
+            current_used = len({ch for ch in range(self.max_chiplets)
+                                if any(slot_pe != -1 for slot_pe in self.pe_slots.get(ch, []))})
+            if current_used - 1 < self.min_chiplets_required:
+                return True
+        return False
+
     def _try_move_pe_to_chiplet(self, pe: int, chiplet: int) -> bool:
-        """Generalized 'move PE to chiplet' using free slot or low-synergy swap."""
+        """Move PE to chiplet using free slot or low-synergy swap (with constraints)."""
         loc = self._find_slot_of_pe(pe)
         if loc is None:
             return False
         cur_chip, cur_slot = loc
         if cur_chip == chiplet:
             return False
+
+        if self._would_violate_pe_type_constraints(pe, chiplet):
+            return False
+        if self._would_violate_min_chiplet_constraint(pe, cur_chip):
+            return False
+
         free = self._find_free_slot_in_chiplet(chiplet)
         if free is not None:
             self.pe_slots[chiplet][free] = pe
             self.pe_slots[cur_chip][cur_slot] = -1
             return True
+
         victim = self._choose_victim_low_synergy(chiplet, avoid=None)
         if victim is None:
             return False
         vic_pe, vic_slot = victim
+
+        if self._would_violate_pe_type_constraints(vic_pe, cur_chip):
+            return False
+
         self.pe_slots[chiplet][vic_slot], self.pe_slots[cur_chip][cur_slot] = pe, vic_pe
         return True
 
-    # ---- B) & C) helpers (existing + stronger pack-or-swap) ----
+    # ---- B) & C) helpers ----
 
     def _pack_or_swap_top_dests_into_source_chiplet(self, src_pe: int, k_max: int = 3) -> bool:
         """
-        Like _pack_top_dests... but if no slack, evict lowest-synergy local PE
-        when the estimated benefit is higher than the eviction damage.
+        If no slack in source chiplet, evict lowest-synergy local PE when gain > damage
+        (and constraints allow).
         """
         src_loc = self._find_slot_of_pe(src_pe)
         if src_loc is None:
             return False
         src_chip, _ = src_loc
 
-        # build candidate dests with benefit
         cand = []
         for dst, data in self.out_edges.get(src_pe, []):
             dst_chip = self.pe_assignments.get(dst)
@@ -631,7 +789,6 @@ class HeuristicSolution:
         for b_gain, dst in to_take:
             slack = sum(1 for pe in self.pe_slots[src_chip] if pe == -1)
             if slack > 0:
-                # use slack
                 dst_loc = self._find_slot_of_pe(dst)
                 if dst_loc is None:
                     continue
@@ -639,42 +796,38 @@ class HeuristicSolution:
                 free = self._find_free_slot_in_chiplet(src_chip)
                 if free is None:
                     continue
+                if (self._would_violate_pe_type_constraints(dst, src_chip) or
+                        self._would_violate_min_chiplet_constraint(dst, dst_chip)):
+                    continue
                 self.pe_slots[src_chip][free] = dst
                 self.pe_slots[dst_chip][dst_slot] = -1
                 moved_any = True
             else:
-                # no slack: consider evicting lowest-synergy local
                 victim = self._choose_victim_low_synergy(src_chip, avoid=src_pe)
                 if not victim:
                     continue
                 vic_pe, vic_slot = victim
-
-                # cheap estimate: how bad is removing 'vic_pe' from src_chip?
-                # sum of comm synergy with locals
+                # estimate damage
                 damage = 0
                 local = [pe for pe in self.pe_slots[src_chip] if pe != -1 and pe != vic_pe]
                 for other in local:
                     key = tuple(sorted((vic_pe, other)))
                     damage += self.pe_communication.get(key, 0) if self.pe_communication else 0
-
-                # if estimated gain dominates damage, do swap-in
                 if b_gain > damage:
                     dst_loc = self._find_slot_of_pe(dst)
                     if dst_loc is None:
                         continue
                     dst_chip, dst_slot = dst_loc
-                    # swap dst into src_chip (victim out to dst_chip)
+                    if (self._would_violate_pe_type_constraints(dst, src_chip) or
+                            self._would_violate_pe_type_constraints(vic_pe, dst_chip)):
+                        continue
                     self.pe_slots[src_chip][vic_slot], self.pe_slots[dst_chip][dst_slot] = dst, vic_pe
                     moved_any = True
 
         return moved_any
 
-    # ---- D) Steepest sampled pair-swap (while-improving) ----
+    # ---- D) Steepest sampled pair-swap ----
     def _steepest_pair_swap(self, samples_per_round: int, time_ok_fn) -> bool:
-        """
-        Try many sampled cross-chiplet swaps; apply the best improving swap each round.
-        Repeat while we keep improving and have time.
-        """
         improved_once = False
         while time_ok_fn():
             positions = [(c, s) for c in range(self.max_chiplets) for s in range(MAX_PES_PER_CHIPLET)]
@@ -694,6 +847,10 @@ class HeuristicSolution:
                 pe1 = self.pe_slots[c1][s1]
                 pe2 = self.pe_slots[c2][s2]
                 if pe1 == -1 or pe2 == -1:
+                    continue
+
+                if (self._would_violate_pe_type_constraints(pe1, c2) or
+                        self._would_violate_pe_type_constraints(pe2, c1)):
                     continue
 
                 # apply swap
@@ -747,7 +904,8 @@ class HeuristicSolution:
         source_chiplet = self.pe_assignments.get(source_pe)
         dest_chiplet = self.pe_assignments.get(dest_pe)
 
-        if (source_chiplet is None or dest_chiplet is None or source_chiplet == dest_chiplet):
+        # intra-chiplet only if both assigned and equal
+        if (source_chiplet is not None) and (dest_chiplet is not None) and (source_chiplet == dest_chiplet):
             return 1
 
         inter_chiplet_bandwidth = self._bandwidth_value()
@@ -808,13 +966,12 @@ class HeuristicSolution:
         used_chiplets = len({ch for ch in range(self.max_chiplets)
                              if any(pe != -1 for pe in self.pe_slots.get(ch, []))})
 
-        min_chiplets_capacity = (len(self.pes) + MAX_PES_PER_CHIPLET - 1) // MAX_PES_PER_CHIPLET
-        extra_chiplets = max(0, used_chiplets - min_chiplets_capacity)
-        if extra_chiplets == 0:
-            chiplet_penalty = 500 * used_chiplets
-        else:
-            exponential_penalty = COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra_chiplets - 1)
-            chiplet_penalty = exponential_penalty
+        # penalty baseline: strategy-aware minimum
+        min_required = max(1, self.min_chiplets_required or self._calculate_min_chiplets_by_strategy())
+        extra_chiplets = max(0, used_chiplets - min_required)
+        chiplet_penalty = 0 if extra_chiplets == 0 else (
+            COST_WEIGHTS['exponential_penalty_base'] * (2 ** extra_chiplets - 1)
+        )
 
         cost = (COST_WEIGHTS['cycle_weight'] * max_time
                 + chiplet_penalty
@@ -832,21 +989,20 @@ class HeuristicSolution:
             'pe_exclusivity': 0,
             'task_dependencies': 0,
             'no_multicasting': 0,
-            'inter_chiplet_comm': 0,  # placeholder
-            'pe_type_separation': 0  # PE type mixing violations
+            'pe_type_separation': 0,   # PE type / ratio violations
         }
 
         # Task assignment
         unassigned_tasks = [t for t in self.tasks if t not in self.task_assignments]
         violations['task_assignment'] = len(unassigned_tasks)
 
-        # Chiplet capacity
+        # Chiplet capacity (structure enforces capacity, but keep check)
         for chiplet in range(self.max_chiplets):
             used_slots = sum(1 for pe in self.pe_slots.get(chiplet, []) if pe != -1)
             if used_slots > MAX_PES_PER_CHIPLET:
                 violations['chiplet_capacity'] += used_slots - MAX_PES_PER_CHIPLET
 
-        # PE exclusivity
+        # PE exclusivity (should never happen with slot model)
         pe_chiplet = defaultdict(set)
         for pe, ch in self.pe_assignments.items():
             pe_chiplet[pe].add(ch)
@@ -885,43 +1041,48 @@ class HeuristicSolution:
                     if len(unique_dests) > 1:
                         violations['no_multicasting'] += len(unique_dests) - 1
 
-        # PE Type separation violations (for separated strategy)
-        if self.pe_type_strategy == 'separated':
-            violations['pe_type_separation'] = self._count_type_mixing_violations()
+        # Type constraints
+        violations['pe_type_separation'] = self._count_type_mixing_violations()
 
         return violations
 
     def _count_type_mixing_violations(self) -> int:
         """
-        Count violations when PEs of different types are placed on the same chiplet.
-        Only applies when pe_type_strategy == 'separated'.
+        - 'separated': any mixing of IMC/DIG/OTHER on a chiplet counts proportional to the number of mixed PEs.
+        - 'mixed': per-chiplet IMC count should be near round(self.imc_ratio * Kc); penalize deviation.
         """
-        if not self.pe_types or self.pe_type_strategy != 'separated':
+        if not self.pe_types:
             return 0
-            
+
         violations = 0
-        for chiplet in range(self.max_chiplets):
-            # Get PE types on this chiplet
-            chiplet_types = set()
-            for pe in self.pe_slots.get(chiplet, []):
-                if pe != -1 and pe in self.pe_types:
-                    chiplet_types.add(self.pe_types[pe])
-            
-            # If chiplet has more than one type, it's a violation
-            if len(chiplet_types) > 1:
-                # Count the number of minority type PEs as violations
-                type_counts = {}
+
+        if self.pe_type_strategy == 'separated':
+            for chiplet in range(self.max_chiplets):
+                types_here = set()
+                count_here = 0
                 for pe in self.pe_slots.get(chiplet, []):
-                    if pe != -1 and pe in self.pe_types:
-                        pe_type = self.pe_types[pe]
-                        type_counts[pe_type] = type_counts.get(pe_type, 0) + 1
+                    if pe != -1:
+                        t = self.pe_types.get(pe, 'OTHER')
+                        types_here.add(t)
+                        count_here += 1
+                if len(types_here) > 1:
+                    violations += count_here  # proportional
+        elif self.pe_type_strategy == 'mixed':
+            # Mixed strategy: check if counts exceed per-chiplet quotas
+            max_imc, max_dig = get_imc_dig_counts(self.imc_ratio, MAX_PES_PER_CHIPLET)
+            for chiplet in range(self.max_chiplets):
+                used = [pe for pe in self.pe_slots.get(chiplet, []) if pe != -1]
+                if not used:
+                    continue
+                imc_count = sum(1 for pe in used if self.pe_types.get(pe) == 'IMC')
+                dig_count = sum(1 for pe in used if self.pe_types.get(pe) == 'DIG')
                 
-                if len(type_counts) > 1:
-                    # Violation = number of PEs that are not of the majority type
-                    max_count = max(type_counts.values())
-                    total_pes = sum(type_counts.values())
-                    violations += total_pes - max_count
-                    
+                # Count violations only if limits are exceeded
+                if imc_count > max_imc:
+                    violations += imc_count - max_imc
+                if dig_count > max_dig:
+                    violations += dig_count - max_dig
+
         return violations
 
     # -------------------- Greedy helpers & mapping updates --------------------
@@ -1002,8 +1163,13 @@ class HeuristicSolution:
         if best_chip is None or best_gain <= 0:
             return False
 
+        if self._would_violate_pe_type_constraints(src_pe, best_chip):
+            return False
+
         free = self._find_free_slot_in_chiplet(best_chip)
         if free is not None:
+            if self._would_violate_min_chiplet_constraint(src_pe, src_chip):
+                return False
             self.pe_slots[best_chip][free] = src_pe
             self.pe_slots[src_chip][src_slot] = -1
         else:
@@ -1011,6 +1177,8 @@ class HeuristicSolution:
             if victim is None:
                 return False
             vic_pe, vic_slot = victim
+            if self._would_violate_pe_type_constraints(vic_pe, src_chip):
+                return False
             self.pe_slots[best_chip][vic_slot], self.pe_slots[src_chip][src_slot] = src_pe, vic_pe
         return True
 
@@ -1108,8 +1276,8 @@ class GRASPSolver:
     def __init__(self, problem, constraints: List):
         self.problem = problem
         self.constraints = constraints
-        self.pe_type_strategy = 'ignore'  # Default: ignore types
-        self.imc_ratio = 0.75  # For mixed strategy
+        self.pe_type_strategy = DEFAULT_PE_TYPE_STRATEGY  # default: type-aware
+        self.imc_ratio = DEFAULT_IMC_RATIO  # default from config
 
     def solve(self,
               max_chiplets: int = 10,
@@ -1119,7 +1287,8 @@ class GRASPSolver:
               seed: Optional[int] = None,
               rcl_size: int = 3,
               ls_max_passes: int = 4,
-              pair_swap_samples: int = 900) -> Dict[str, Any]:
+              pair_swap_samples: int = 900,
+              solution_file_suffix: str = "") -> Dict[str, Any]:
 
         print("=== GRASP + Local Search ===")
         print(f"Problem: {len(self.problem.tasks)} tasks, {len(self.problem.pes)} PEs")
@@ -1140,31 +1309,27 @@ class GRASPSolver:
             return len({ch for ch in range(sol.max_chiplets)
                         if any(pe != -1 for pe in sol.pe_slots.get(ch, []))})
 
-
         while time_module.time() - start_time < timeout and (starts is None or starts_done < starts):
             run_seed = (base_seed + starts_done) if base_seed is not None else None
             rng = random.Random(run_seed) if run_seed is not None else random.Random()
 
             # Build & refine
-            pe_type_strategy = getattr(self, 'pe_type_strategy', 'ignore')
-            imc_ratio = getattr(self, 'imc_ratio', 0.75)
-            sol = HeuristicSolution(self.problem, max_chiplets, rng=rng, 
-                                   pe_type_strategy=pe_type_strategy, imc_ratio=imc_ratio)
+            pe_type_strategy = getattr(self, 'pe_type_strategy', DEFAULT_PE_TYPE_STRATEGY)
+            imc_ratio = getattr(self, 'imc_ratio', DEFAULT_IMC_RATIO)
+            sol = HeuristicSolution(self.problem, max_chiplets, rng=rng,
+                                    pe_type_strategy=pe_type_strategy, imc_ratio=imc_ratio)
             sol.grasp_construct(rcl_size=rcl_size)
 
-            # Give local search the remaining slice conservatively
+            # Allocate remaining time fairly across starts
             if starts is not None:
-                # Spread remaining time over remaining starts
                 remaining_starts = max(1, starts - starts_done)
                 per_start = max(1.0, (timeout - (time_module.time() - start_time)) / remaining_starts)
             else:
-                # If starts=None, still cap each start to a fraction so we actually get multiple starts
-                per_start = max(1.0, 0.25 * timeout)  # try 25% each; tune as you like
+                per_start = max(1.0, 0.25 * timeout)
 
-            # Let local_search use its own local start reference (do NOT pass start_time)
             sol.local_search(max_passes=ls_max_passes,
-                            pair_swap_samples=pair_swap_samples,
-                            time_budget_s=per_start)
+                             pair_swap_samples=pair_swap_samples,
+                             time_budget_s=per_start)
 
             cost = sol.evaluate_cost()
             if cost < best_cost:
@@ -1180,7 +1345,6 @@ class GRASPSolver:
             starts_done += 1
 
         if best_solution is None:
-            # Should not happen, but return infeasible structure
             return {
                 'status': 'infeasible',
                 'total_time': 0,
@@ -1208,7 +1372,7 @@ class GRASPSolver:
 
         if save_solution_file and solution_dict['status'] in ['optimal', 'feasible_with_violations']:
             solution_file = generate_solution_file(
-                solution_dict, 'GR', self.problem.traffic_file, self.problem.task_data
+                solution_dict, 'GR', self.problem.traffic_file, self.problem.task_data, solution_file_suffix
             )
             if solution_file:
                 solution_dict['solution_file'] = solution_file
@@ -1222,7 +1386,7 @@ class GRASPSolver:
 class ChipletProblemGRASP:
     """
     Kept the class name for compatibility with your test file.
-    Internally uses GRASP instead of GRASP.
+    Uses GRASP for construction + local search.
     """
 
     def __init__(self, traffic_file: str):
@@ -1233,26 +1397,19 @@ class ChipletProblemGRASP:
 
     def _load_traffic_data(self, filename: str):
         print(f"Loading traffic data from {filename}")
-        
+
         # Try CSV format first (new format with type columns)
         try:
             df = pd.read_csv(filename)
-            # Check for both possible column name formats
-            required_cols_v1 = ['task_id', 'src_pe', 'dest_pe', 'bytes', 'wait_ids', 'src_type', 'dst_type']
-            required_cols_v2 = ['task_id', 'src_pe', 'dest_pe', 'bytes', 'wait_ids', 'src_type', 'dst_type']
-            
             if all(col in df.columns for col in ['task_id', 'src_pe', 'dest_pe', 'bytes', 'wait_ids', 'src_type', 'dst_type']):
-                print("Detected CSV format with PE types (v1 column names)")
-                return self._load_csv_with_types(df)
-            elif all(col in df.columns for col in ['task_id', 'src_pe', 'dest_pe', 'bytes', 'wait_ids', 'src_type', 'dst_type']):
-                print("Detected CSV format with PE types (v2 column names)")
+                print("Detected CSV format with PE types")
                 return self._load_csv_with_types(df)
             else:
                 print(f"CSV columns found: {list(df.columns)}")
                 print("Required columns not found, trying legacy format...")
         except Exception as e:
             print(f"Failed to load as CSV: {e}")
-            
+
         # Fallback to tab-separated format (legacy)
         try:
             df = pd.read_csv(filename, sep='\t', comment='#',
@@ -1261,7 +1418,7 @@ class ChipletProblemGRASP:
             return self._load_tab_separated(df)
         except Exception as e:
             raise ValueError(f"Could not load traffic data from {filename}: {e}")
-            
+
     def _parse_pe_id(self, pe_str):
         """Parse PE ID from string format like 'P0', 'P-1', etc."""
         pe_str = str(pe_str).strip()
@@ -1269,14 +1426,22 @@ class ChipletProblemGRASP:
             return int(pe_str[1:])
         else:
             return int(pe_str)
-            
+
     def _load_csv_with_types(self, df):
         """Load CSV format with PE type information"""
         task_data: Dict[int, Dict[str, Any]] = {}
         tasks: set = set()
         pes: set = set()
-        pe_types: Dict[int, str] = {}  # PE -> type mapping
+        pe_types: Dict[int, str] = {}
         dependencies = defaultdict(list)
+
+        def _norm_type(s):
+            u = str(s).strip().upper()
+            if u in ('DIGITAL', 'DIG'):
+                return 'DIG'
+            if u == 'IMC':
+                return 'IMC'
+            return u  # fallback
 
         for _, row in df.iterrows():
             task_id = int(row['task_id'])
@@ -1284,8 +1449,8 @@ class ChipletProblemGRASP:
             dest_pe = self._parse_pe_id(row['dest_pe'])
             data_size = int(row['bytes'])
             wait_ids = row['wait_ids']
-            src_type = str(row['src_type'])
-            dst_type = str(row['dst_type'])
+            src_type = _norm_type(row['src_type'])
+            dst_type = _norm_type(row['dst_type'])
 
             task_data[task_id] = {
                 'source_pe': source_pe,
@@ -1298,8 +1463,7 @@ class ChipletProblemGRASP:
             tasks.add(task_id)
             pes.add(source_pe)
             pes.add(dest_pe)
-            
-            # Track PE types (use source type for now, could be refined)
+
             pe_types[source_pe] = src_type
             pe_types[dest_pe] = dst_type
 
@@ -1312,17 +1476,16 @@ class ChipletProblemGRASP:
             else:
                 dependencies[task_id] = []
 
-        # Store PE types in the problem instance
         self.pe_types = pe_types
-        
+
         print(f"Loaded: {len(tasks)} tasks, {len(pes)} PEs, {sum(len(deps) for deps in dependencies.values())} dependencies")
         type_counts = {}
         for pe_type in pe_types.values():
             type_counts[pe_type] = type_counts.get(pe_type, 0) + 1
         print(f"PE types: {type_counts}")
-        
+
         return task_data, tasks, pes, dict(dependencies)
-        
+
     def _load_tab_separated(self, df):
         """Load legacy tab-separated format"""
         task_data: Dict[int, Dict[str, Any]] = {}
@@ -1353,9 +1516,8 @@ class ChipletProblemGRASP:
             else:
                 dependencies[task_id] = []
 
-        # No PE types for legacy format
         self.pe_types = {}
-        
+
         print(f"Loaded: {len(tasks)} tasks, {len(pes)} PEs, {sum(len(deps) for deps in dependencies.values())} dependencies")
         return task_data, tasks, pes, dict(dependencies)
 
@@ -1366,20 +1528,21 @@ class ChipletProblemGRASP:
               timeout: float = 300,
               max_chiplets: int = 10,
               save_solution_file: bool = True,
-              pe_type_strategy: str = 'ignore',
-              imc_ratio: float = 0.75,
+              pe_type_strategy: str = DEFAULT_PE_TYPE_STRATEGY,
+              imc_ratio: float = DEFAULT_IMC_RATIO,
+              solution_file_suffix: str = "",
               **params) -> Dict[str, Any]:
         """
         Solve using GRASP + Local Search.
 
-        Accepted params (others are ignored safely):
+        Accepted params:
           - starts: Optional[int]
           - seed: Optional[int]
-          - rcl_size: int (default 8)
+          - rcl_size: int (default 3)
           - ls_max_passes: int (default 4)
           - pair_swap_samples: int (default 900)
-          - pe_type_strategy: str ('ignore', 'separated', 'mixed')
-          - imc_ratio: float (ratio of IMC PEs for mixed strategy)
+          - pe_type_strategy: str ('separated', 'mixed')
+          - imc_ratio: float (ratio of IMC PEs for mixed strategy; default from config)
         """
         solver = GRASPSolver(self, self.constraints)
         solver.pe_type_strategy = pe_type_strategy
@@ -1391,10 +1554,11 @@ class ChipletProblemGRASP:
             'save_solution_file': save_solution_file,
             'starts': params.get('starts', None),
             'seed': params.get('seed', None),
-            'rcl_size': params.get('rcl_size', 1),
+            'rcl_size': params.get('rcl_size', 3),
             'ls_max_passes': params.get('ls_max_passes', 4),
             'pair_swap_samples': params.get('pair_swap_samples', 900),
+            'solution_file_suffix': solution_file_suffix,
         }
 
-        # Ignore GRASP-only params silently
+        # Run GRASP + local search
         return solver.solve(**grasp_config)

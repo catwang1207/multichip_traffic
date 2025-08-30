@@ -1,0 +1,520 @@
+task_id,src_network_id,src_network_name,dst_network_id,dst_network_name,src_pe,dest_pe,tensor_shape,bytes,cycles,wait_ids,description,src_type,dst_type
+1,,external,0,layer_0_q_proj,P-1,P0,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 0 (rows 0:256),IMC,IMC
+2,,external,0,layer_0_q_proj,P-1,P1,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 1 (rows 0:256),IMC,IMC
+3,,external,0,layer_0_q_proj,P-1,P2,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 2 (rows 0:256),IMC,IMC
+4,,external,0,layer_0_q_proj,P-1,P3,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 3 (rows 256:512),IMC,IMC
+5,,external,0,layer_0_q_proj,P-1,P4,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 4 (rows 256:512),IMC,IMC
+6,,external,0,layer_0_q_proj,P-1,P5,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 5 (rows 256:512),IMC,IMC
+7,,external,0,layer_0_q_proj,P-1,P6,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 6 (rows 512:768),IMC,IMC
+8,,external,0,layer_0_q_proj,P-1,P7,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 7 (rows 512:768),IMC,IMC
+9,,external,0,layer_0_q_proj,P-1,P8,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_q_proj[0] processor 8 (rows 512:768),IMC,IMC
+10,0.0,layer_0_q_proj,0,layer_0_q_proj,P0,P0,"(32, 256)",16384,512,1,"Processor 0 partial computation (input:(0, 256), output:(0, 256))",IMC,IMC
+11,0.0,layer_0_q_proj,0,layer_0_q_proj,P1,P1,"(32, 256)",16384,512,2,"Processor 1 partial computation (input:(0, 256), output:(256, 512))",IMC,IMC
+12,0.0,layer_0_q_proj,0,layer_0_q_proj,P2,P2,"(32, 256)",16384,512,3,"Processor 2 partial computation (input:(0, 256), output:(512, 768))",IMC,IMC
+13,0.0,layer_0_q_proj,0,layer_0_q_proj,P3,P3,"(32, 256)",16384,512,4,"Processor 3 partial computation (input:(256, 512), output:(0, 256))",IMC,IMC
+14,0.0,layer_0_q_proj,0,layer_0_q_proj,P4,P4,"(32, 256)",16384,512,5,"Processor 4 partial computation (input:(256, 512), output:(256, 512))",IMC,IMC
+15,0.0,layer_0_q_proj,0,layer_0_q_proj,P5,P5,"(32, 256)",16384,512,6,"Processor 5 partial computation (input:(256, 512), output:(512, 768))",IMC,IMC
+16,0.0,layer_0_q_proj,0,layer_0_q_proj,P6,P6,"(32, 256)",16384,512,7,"Processor 6 partial computation (input:(512, 768), output:(0, 256))",IMC,IMC
+17,0.0,layer_0_q_proj,0,layer_0_q_proj,P7,P7,"(32, 256)",16384,512,8,"Processor 7 partial computation (input:(512, 768), output:(256, 512))",IMC,IMC
+18,0.0,layer_0_q_proj,0,layer_0_q_proj,P8,P8,"(32, 256)",16384,512,9,"Processor 8 partial computation (input:(512, 768), output:(512, 768))",IMC,IMC
+19,0.0,layer_0_q_proj,0,layer_0_q_proj,P3,P0,"(32, 256)",16384,512,13,Send partial results from processor 3 to aggregation processor 0,IMC,IMC
+20,0.0,layer_0_q_proj,0,layer_0_q_proj,P6,P0,"(32, 256)",16384,512,16,Send partial results from processor 6 to aggregation processor 0,IMC,IMC
+21,0.0,layer_0_q_proj,0,layer_0_q_proj,P0,P0,"(32, 256)",16384,512,"10, 19, 20","Row aggregation for column range (0, 256) at processor 0",IMC,IMC
+22,0.0,layer_0_q_proj,0,layer_0_q_proj,P4,P1,"(32, 256)",16384,512,14,Send partial results from processor 4 to aggregation processor 1,IMC,IMC
+23,0.0,layer_0_q_proj,0,layer_0_q_proj,P7,P1,"(32, 256)",16384,512,17,Send partial results from processor 7 to aggregation processor 1,IMC,IMC
+24,0.0,layer_0_q_proj,0,layer_0_q_proj,P1,P1,"(32, 256)",16384,512,"11, 22, 23","Row aggregation for column range (256, 512) at processor 1",IMC,IMC
+25,0.0,layer_0_q_proj,0,layer_0_q_proj,P5,P2,"(32, 256)",16384,512,15,Send partial results from processor 5 to aggregation processor 2,IMC,IMC
+26,0.0,layer_0_q_proj,0,layer_0_q_proj,P8,P2,"(32, 256)",16384,512,18,Send partial results from processor 8 to aggregation processor 2,IMC,IMC
+27,0.0,layer_0_q_proj,0,layer_0_q_proj,P2,P2,"(32, 256)",16384,512,"12, 25, 26","Row aggregation for column range (512, 768) at processor 2",IMC,IMC
+28,,external,1,layer_0_k_proj,P-1,P9,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 9 (rows 0:256),IMC,IMC
+29,,external,1,layer_0_k_proj,P-1,P10,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 10 (rows 0:256),IMC,IMC
+30,,external,1,layer_0_k_proj,P-1,P11,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 11 (rows 0:256),IMC,IMC
+31,,external,1,layer_0_k_proj,P-1,P12,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 12 (rows 256:512),IMC,IMC
+32,,external,1,layer_0_k_proj,P-1,P13,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 13 (rows 256:512),IMC,IMC
+33,,external,1,layer_0_k_proj,P-1,P14,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 14 (rows 256:512),IMC,IMC
+34,,external,1,layer_0_k_proj,P-1,P15,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 15 (rows 512:768),IMC,IMC
+35,,external,1,layer_0_k_proj,P-1,P16,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 16 (rows 512:768),IMC,IMC
+36,,external,1,layer_0_k_proj,P-1,P17,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_k_proj[1] processor 17 (rows 512:768),IMC,IMC
+37,1.0,layer_0_k_proj,1,layer_0_k_proj,P9,P9,"(32, 256)",16384,512,28,"Processor 9 partial computation (input:(0, 256), output:(0, 256))",IMC,IMC
+38,1.0,layer_0_k_proj,1,layer_0_k_proj,P10,P10,"(32, 256)",16384,512,29,"Processor 10 partial computation (input:(0, 256), output:(256, 512))",IMC,IMC
+39,1.0,layer_0_k_proj,1,layer_0_k_proj,P11,P11,"(32, 256)",16384,512,30,"Processor 11 partial computation (input:(0, 256), output:(512, 768))",IMC,IMC
+40,1.0,layer_0_k_proj,1,layer_0_k_proj,P12,P12,"(32, 256)",16384,512,31,"Processor 12 partial computation (input:(256, 512), output:(0, 256))",IMC,IMC
+41,1.0,layer_0_k_proj,1,layer_0_k_proj,P13,P13,"(32, 256)",16384,512,32,"Processor 13 partial computation (input:(256, 512), output:(256, 512))",IMC,IMC
+42,1.0,layer_0_k_proj,1,layer_0_k_proj,P14,P14,"(32, 256)",16384,512,33,"Processor 14 partial computation (input:(256, 512), output:(512, 768))",IMC,IMC
+43,1.0,layer_0_k_proj,1,layer_0_k_proj,P15,P15,"(32, 256)",16384,512,34,"Processor 15 partial computation (input:(512, 768), output:(0, 256))",IMC,IMC
+44,1.0,layer_0_k_proj,1,layer_0_k_proj,P16,P16,"(32, 256)",16384,512,35,"Processor 16 partial computation (input:(512, 768), output:(256, 512))",IMC,IMC
+45,1.0,layer_0_k_proj,1,layer_0_k_proj,P17,P17,"(32, 256)",16384,512,36,"Processor 17 partial computation (input:(512, 768), output:(512, 768))",IMC,IMC
+46,1.0,layer_0_k_proj,1,layer_0_k_proj,P12,P9,"(32, 256)",16384,512,40,Send partial results from processor 12 to aggregation processor 9,IMC,IMC
+47,1.0,layer_0_k_proj,1,layer_0_k_proj,P15,P9,"(32, 256)",16384,512,43,Send partial results from processor 15 to aggregation processor 9,IMC,IMC
+48,1.0,layer_0_k_proj,1,layer_0_k_proj,P9,P9,"(32, 256)",16384,512,"37, 46, 47","Row aggregation for column range (0, 256) at processor 9",IMC,IMC
+49,1.0,layer_0_k_proj,1,layer_0_k_proj,P13,P10,"(32, 256)",16384,512,41,Send partial results from processor 13 to aggregation processor 10,IMC,IMC
+50,1.0,layer_0_k_proj,1,layer_0_k_proj,P16,P10,"(32, 256)",16384,512,44,Send partial results from processor 16 to aggregation processor 10,IMC,IMC
+51,1.0,layer_0_k_proj,1,layer_0_k_proj,P10,P10,"(32, 256)",16384,512,"38, 49, 50","Row aggregation for column range (256, 512) at processor 10",IMC,IMC
+52,1.0,layer_0_k_proj,1,layer_0_k_proj,P14,P11,"(32, 256)",16384,512,42,Send partial results from processor 14 to aggregation processor 11,IMC,IMC
+53,1.0,layer_0_k_proj,1,layer_0_k_proj,P17,P11,"(32, 256)",16384,512,45,Send partial results from processor 17 to aggregation processor 11,IMC,IMC
+54,1.0,layer_0_k_proj,1,layer_0_k_proj,P11,P11,"(32, 256)",16384,512,"39, 52, 53","Row aggregation for column range (512, 768) at processor 11",IMC,IMC
+55,,external,2,layer_0_v_proj,P-1,P18,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 18 (rows 0:256),IMC,IMC
+56,,external,2,layer_0_v_proj,P-1,P19,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 19 (rows 0:256),IMC,IMC
+57,,external,2,layer_0_v_proj,P-1,P20,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 20 (rows 0:256),IMC,IMC
+58,,external,2,layer_0_v_proj,P-1,P21,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 21 (rows 256:512),IMC,IMC
+59,,external,2,layer_0_v_proj,P-1,P22,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 22 (rows 256:512),IMC,IMC
+60,,external,2,layer_0_v_proj,P-1,P23,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 23 (rows 256:512),IMC,IMC
+61,,external,2,layer_0_v_proj,P-1,P24,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 24 (rows 512:768),IMC,IMC
+62,,external,2,layer_0_v_proj,P-1,P25,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 25 (rows 512:768),IMC,IMC
+63,,external,2,layer_0_v_proj,P-1,P26,"(32, 256)",16384,512,None,Inter-network input from external[None] processor -1 to layer_0_v_proj[2] processor 26 (rows 512:768),IMC,IMC
+64,2.0,layer_0_v_proj,2,layer_0_v_proj,P18,P18,"(32, 256)",16384,512,55,"Processor 18 partial computation (input:(0, 256), output:(0, 256))",IMC,IMC
+65,2.0,layer_0_v_proj,2,layer_0_v_proj,P19,P19,"(32, 256)",16384,512,56,"Processor 19 partial computation (input:(0, 256), output:(256, 512))",IMC,IMC
+66,2.0,layer_0_v_proj,2,layer_0_v_proj,P20,P20,"(32, 256)",16384,512,57,"Processor 20 partial computation (input:(0, 256), output:(512, 768))",IMC,IMC
+67,2.0,layer_0_v_proj,2,layer_0_v_proj,P21,P21,"(32, 256)",16384,512,58,"Processor 21 partial computation (input:(256, 512), output:(0, 256))",IMC,IMC
+68,2.0,layer_0_v_proj,2,layer_0_v_proj,P22,P22,"(32, 256)",16384,512,59,"Processor 22 partial computation (input:(256, 512), output:(256, 512))",IMC,IMC
+69,2.0,layer_0_v_proj,2,layer_0_v_proj,P23,P23,"(32, 256)",16384,512,60,"Processor 23 partial computation (input:(256, 512), output:(512, 768))",IMC,IMC
+70,2.0,layer_0_v_proj,2,layer_0_v_proj,P24,P24,"(32, 256)",16384,512,61,"Processor 24 partial computation (input:(512, 768), output:(0, 256))",IMC,IMC
+71,2.0,layer_0_v_proj,2,layer_0_v_proj,P25,P25,"(32, 256)",16384,512,62,"Processor 25 partial computation (input:(512, 768), output:(256, 512))",IMC,IMC
+72,2.0,layer_0_v_proj,2,layer_0_v_proj,P26,P26,"(32, 256)",16384,512,63,"Processor 26 partial computation (input:(512, 768), output:(512, 768))",IMC,IMC
+73,2.0,layer_0_v_proj,2,layer_0_v_proj,P21,P18,"(32, 256)",16384,512,67,Send partial results from processor 21 to aggregation processor 18,IMC,IMC
+74,2.0,layer_0_v_proj,2,layer_0_v_proj,P24,P18,"(32, 256)",16384,512,70,Send partial results from processor 24 to aggregation processor 18,IMC,IMC
+75,2.0,layer_0_v_proj,2,layer_0_v_proj,P18,P18,"(32, 256)",16384,512,"64, 73, 74","Row aggregation for column range (0, 256) at processor 18",IMC,IMC
+76,2.0,layer_0_v_proj,2,layer_0_v_proj,P22,P19,"(32, 256)",16384,512,68,Send partial results from processor 22 to aggregation processor 19,IMC,IMC
+77,2.0,layer_0_v_proj,2,layer_0_v_proj,P25,P19,"(32, 256)",16384,512,71,Send partial results from processor 25 to aggregation processor 19,IMC,IMC
+78,2.0,layer_0_v_proj,2,layer_0_v_proj,P19,P19,"(32, 256)",16384,512,"65, 76, 77","Row aggregation for column range (256, 512) at processor 19",IMC,IMC
+79,2.0,layer_0_v_proj,2,layer_0_v_proj,P23,P20,"(32, 256)",16384,512,69,Send partial results from processor 23 to aggregation processor 20,IMC,IMC
+80,2.0,layer_0_v_proj,2,layer_0_v_proj,P26,P20,"(32, 256)",16384,512,72,Send partial results from processor 26 to aggregation processor 20,IMC,IMC
+81,2.0,layer_0_v_proj,2,layer_0_v_proj,P20,P20,"(32, 256)",16384,512,"66, 79, 80","Row aggregation for column range (512, 768) at processor 20",IMC,IMC
+82,0.0,layer_0_q_proj,3,layer_0_attention_head_0,P0,P27,"(32, 64)",4096,128,21,"Processor 0 sends (0:32, 0:64) of input to processor 27",IMC,DIG
+83,1.0,layer_0_k_proj,3,layer_0_attention_head_0,P9,P27,"(64, 32)",4096,128,48,"Processor 9 sends (0:64, 0:32) of input Transposed to processor 27",IMC,DIG
+84,3.0,layer_0_attention_head_0,3,layer_0_attention_head_0,P27,P27,"(32, 32)",2048,64,"82, 83","Matrix multiply at processor 27 (output block 0:32, 0:32)",DIG,DIG
+85,2.0,layer_0_v_proj,3,layer_0_attention_head_0,P18,P27,"(32, 64)",4096,128,75,"Send V (0:32, 0:64) from processor 18 to processor 27",IMC,DIG
+86,3.0,layer_0_attention_head_0,3,layer_0_attention_head_0,P27,P27,"(32, 64)",4096,128,"84, 85","Attention computation ((Q·K^T)·V) at processor 27 (0:32, 0:64)",DIG,DIG
+87,0.0,layer_0_q_proj,4,layer_0_attention_head_1,P0,P28,"(32, 64)",4096,128,21,"Processor 0 sends (0:32, 0:64) of input to processor 28",IMC,DIG
+88,1.0,layer_0_k_proj,4,layer_0_attention_head_1,P9,P28,"(64, 32)",4096,128,48,"Processor 9 sends (0:64, 0:32) of input Transposed to processor 28",IMC,DIG
+89,4.0,layer_0_attention_head_1,4,layer_0_attention_head_1,P28,P28,"(32, 32)",2048,64,"87, 88","Matrix multiply at processor 28 (output block 0:32, 0:32)",DIG,DIG
+90,2.0,layer_0_v_proj,4,layer_0_attention_head_1,P18,P28,"(32, 64)",4096,128,75,"Send V (0:32, 0:64) from processor 18 to processor 28",IMC,DIG
+91,4.0,layer_0_attention_head_1,4,layer_0_attention_head_1,P28,P28,"(32, 64)",4096,128,"89, 90","Attention computation ((Q·K^T)·V) at processor 28 (0:32, 0:64)",DIG,DIG
+92,0.0,layer_0_q_proj,5,layer_0_attention_head_2,P0,P29,"(32, 64)",4096,128,21,"Processor 0 sends (0:32, 0:64) of input to processor 29",IMC,DIG
+93,1.0,layer_0_k_proj,5,layer_0_attention_head_2,P9,P29,"(64, 32)",4096,128,48,"Processor 9 sends (0:64, 0:32) of input Transposed to processor 29",IMC,DIG
+94,5.0,layer_0_attention_head_2,5,layer_0_attention_head_2,P29,P29,"(32, 32)",2048,64,"92, 93","Matrix multiply at processor 29 (output block 0:32, 0:32)",DIG,DIG
+95,2.0,layer_0_v_proj,5,layer_0_attention_head_2,P18,P29,"(32, 64)",4096,128,75,"Send V (0:32, 0:64) from processor 18 to processor 29",IMC,DIG
+96,5.0,layer_0_attention_head_2,5,layer_0_attention_head_2,P29,P29,"(32, 64)",4096,128,"94, 95","Attention computation ((Q·K^T)·V) at processor 29 (0:32, 0:64)",DIG,DIG
+97,0.0,layer_0_q_proj,6,layer_0_attention_head_3,P0,P30,"(32, 64)",4096,128,21,"Processor 0 sends (0:32, 0:64) of input to processor 30",IMC,DIG
+98,1.0,layer_0_k_proj,6,layer_0_attention_head_3,P9,P30,"(64, 32)",4096,128,48,"Processor 9 sends (0:64, 0:32) of input Transposed to processor 30",IMC,DIG
+99,6.0,layer_0_attention_head_3,6,layer_0_attention_head_3,P30,P30,"(32, 32)",2048,64,"97, 98","Matrix multiply at processor 30 (output block 0:32, 0:32)",DIG,DIG
+100,2.0,layer_0_v_proj,6,layer_0_attention_head_3,P18,P30,"(32, 64)",4096,128,75,"Send V (0:32, 0:64) from processor 18 to processor 30",IMC,DIG
+101,6.0,layer_0_attention_head_3,6,layer_0_attention_head_3,P30,P30,"(32, 64)",4096,128,"99, 100","Attention computation ((Q·K^T)·V) at processor 30 (0:32, 0:64)",DIG,DIG
+102,0.0,layer_0_q_proj,7,layer_0_attention_head_4,P1,P31,"(32, 64)",4096,128,24,"Processor 1 sends (0:32, 0:64) of input to processor 31",IMC,DIG
+103,1.0,layer_0_k_proj,7,layer_0_attention_head_4,P10,P31,"(64, 32)",4096,128,51,"Processor 10 sends (0:64, 0:32) of input Transposed to processor 31",IMC,DIG
+104,7.0,layer_0_attention_head_4,7,layer_0_attention_head_4,P31,P31,"(32, 32)",2048,64,"102, 103","Matrix multiply at processor 31 (output block 0:32, 0:32)",DIG,DIG
+105,2.0,layer_0_v_proj,7,layer_0_attention_head_4,P19,P31,"(32, 64)",4096,128,78,"Send V (0:32, 0:64) from processor 19 to processor 31",IMC,DIG
+106,7.0,layer_0_attention_head_4,7,layer_0_attention_head_4,P31,P31,"(32, 64)",4096,128,"104, 105","Attention computation ((Q·K^T)·V) at processor 31 (0:32, 0:64)",DIG,DIG
+107,0.0,layer_0_q_proj,8,layer_0_attention_head_5,P1,P32,"(32, 64)",4096,128,24,"Processor 1 sends (0:32, 0:64) of input to processor 32",IMC,DIG
+108,1.0,layer_0_k_proj,8,layer_0_attention_head_5,P10,P32,"(64, 32)",4096,128,51,"Processor 10 sends (0:64, 0:32) of input Transposed to processor 32",IMC,DIG
+109,8.0,layer_0_attention_head_5,8,layer_0_attention_head_5,P32,P32,"(32, 32)",2048,64,"107, 108","Matrix multiply at processor 32 (output block 0:32, 0:32)",DIG,DIG
+110,2.0,layer_0_v_proj,8,layer_0_attention_head_5,P19,P32,"(32, 64)",4096,128,78,"Send V (0:32, 0:64) from processor 19 to processor 32",IMC,DIG
+111,8.0,layer_0_attention_head_5,8,layer_0_attention_head_5,P32,P32,"(32, 64)",4096,128,"109, 110","Attention computation ((Q·K^T)·V) at processor 32 (0:32, 0:64)",DIG,DIG
+112,0.0,layer_0_q_proj,9,layer_0_attention_head_6,P1,P33,"(32, 64)",4096,128,24,"Processor 1 sends (0:32, 0:64) of input to processor 33",IMC,DIG
+113,1.0,layer_0_k_proj,9,layer_0_attention_head_6,P10,P33,"(64, 32)",4096,128,51,"Processor 10 sends (0:64, 0:32) of input Transposed to processor 33",IMC,DIG
+114,9.0,layer_0_attention_head_6,9,layer_0_attention_head_6,P33,P33,"(32, 32)",2048,64,"112, 113","Matrix multiply at processor 33 (output block 0:32, 0:32)",DIG,DIG
+115,2.0,layer_0_v_proj,9,layer_0_attention_head_6,P19,P33,"(32, 64)",4096,128,78,"Send V (0:32, 0:64) from processor 19 to processor 33",IMC,DIG
+116,9.0,layer_0_attention_head_6,9,layer_0_attention_head_6,P33,P33,"(32, 64)",4096,128,"114, 115","Attention computation ((Q·K^T)·V) at processor 33 (0:32, 0:64)",DIG,DIG
+117,0.0,layer_0_q_proj,10,layer_0_attention_head_7,P1,P34,"(32, 64)",4096,128,24,"Processor 1 sends (0:32, 0:64) of input to processor 34",IMC,DIG
+118,1.0,layer_0_k_proj,10,layer_0_attention_head_7,P10,P34,"(64, 32)",4096,128,51,"Processor 10 sends (0:64, 0:32) of input Transposed to processor 34",IMC,DIG
+119,10.0,layer_0_attention_head_7,10,layer_0_attention_head_7,P34,P34,"(32, 32)",2048,64,"117, 118","Matrix multiply at processor 34 (output block 0:32, 0:32)",DIG,DIG
+120,2.0,layer_0_v_proj,10,layer_0_attention_head_7,P19,P34,"(32, 64)",4096,128,78,"Send V (0:32, 0:64) from processor 19 to processor 34",IMC,DIG
+121,10.0,layer_0_attention_head_7,10,layer_0_attention_head_7,P34,P34,"(32, 64)",4096,128,"119, 120","Attention computation ((Q·K^T)·V) at processor 34 (0:32, 0:64)",DIG,DIG
+122,0.0,layer_0_q_proj,11,layer_0_attention_head_8,P2,P35,"(32, 64)",4096,128,27,"Processor 2 sends (0:32, 0:64) of input to processor 35",IMC,DIG
+123,1.0,layer_0_k_proj,11,layer_0_attention_head_8,P11,P35,"(64, 32)",4096,128,54,"Processor 11 sends (0:64, 0:32) of input Transposed to processor 35",IMC,DIG
+124,11.0,layer_0_attention_head_8,11,layer_0_attention_head_8,P35,P35,"(32, 32)",2048,64,"122, 123","Matrix multiply at processor 35 (output block 0:32, 0:32)",DIG,DIG
+125,2.0,layer_0_v_proj,11,layer_0_attention_head_8,P20,P35,"(32, 64)",4096,128,81,"Send V (0:32, 0:64) from processor 20 to processor 35",IMC,DIG
+126,11.0,layer_0_attention_head_8,11,layer_0_attention_head_8,P35,P35,"(32, 64)",4096,128,"124, 125","Attention computation ((Q·K^T)·V) at processor 35 (0:32, 0:64)",DIG,DIG
+127,0.0,layer_0_q_proj,12,layer_0_attention_head_9,P2,P36,"(32, 64)",4096,128,27,"Processor 2 sends (0:32, 0:64) of input to processor 36",IMC,DIG
+128,1.0,layer_0_k_proj,12,layer_0_attention_head_9,P11,P36,"(64, 32)",4096,128,54,"Processor 11 sends (0:64, 0:32) of input Transposed to processor 36",IMC,DIG
+129,12.0,layer_0_attention_head_9,12,layer_0_attention_head_9,P36,P36,"(32, 32)",2048,64,"127, 128","Matrix multiply at processor 36 (output block 0:32, 0:32)",DIG,DIG
+130,2.0,layer_0_v_proj,12,layer_0_attention_head_9,P20,P36,"(32, 64)",4096,128,81,"Send V (0:32, 0:64) from processor 20 to processor 36",IMC,DIG
+131,12.0,layer_0_attention_head_9,12,layer_0_attention_head_9,P36,P36,"(32, 64)",4096,128,"129, 130","Attention computation ((Q·K^T)·V) at processor 36 (0:32, 0:64)",DIG,DIG
+132,0.0,layer_0_q_proj,13,layer_0_attention_head_10,P2,P37,"(32, 64)",4096,128,27,"Processor 2 sends (0:32, 0:64) of input to processor 37",IMC,DIG
+133,1.0,layer_0_k_proj,13,layer_0_attention_head_10,P11,P37,"(64, 32)",4096,128,54,"Processor 11 sends (0:64, 0:32) of input Transposed to processor 37",IMC,DIG
+134,13.0,layer_0_attention_head_10,13,layer_0_attention_head_10,P37,P37,"(32, 32)",2048,64,"132, 133","Matrix multiply at processor 37 (output block 0:32, 0:32)",DIG,DIG
+135,2.0,layer_0_v_proj,13,layer_0_attention_head_10,P20,P37,"(32, 64)",4096,128,81,"Send V (0:32, 0:64) from processor 20 to processor 37",IMC,DIG
+136,13.0,layer_0_attention_head_10,13,layer_0_attention_head_10,P37,P37,"(32, 64)",4096,128,"134, 135","Attention computation ((Q·K^T)·V) at processor 37 (0:32, 0:64)",DIG,DIG
+137,0.0,layer_0_q_proj,14,layer_0_attention_head_11,P2,P38,"(32, 64)",4096,128,27,"Processor 2 sends (0:32, 0:64) of input to processor 38",IMC,DIG
+138,1.0,layer_0_k_proj,14,layer_0_attention_head_11,P11,P38,"(64, 32)",4096,128,54,"Processor 11 sends (0:64, 0:32) of input Transposed to processor 38",IMC,DIG
+139,14.0,layer_0_attention_head_11,14,layer_0_attention_head_11,P38,P38,"(32, 32)",2048,64,"137, 138","Matrix multiply at processor 38 (output block 0:32, 0:32)",DIG,DIG
+140,2.0,layer_0_v_proj,14,layer_0_attention_head_11,P20,P38,"(32, 64)",4096,128,81,"Send V (0:32, 0:64) from processor 20 to processor 38",IMC,DIG
+141,14.0,layer_0_attention_head_11,14,layer_0_attention_head_11,P38,P38,"(32, 64)",4096,128,"139, 140","Attention computation ((Q·K^T)·V) at processor 38 (0:32, 0:64)",DIG,DIG
+142,3.0,layer_0_attention_head_0,15,layer_0_output_proj,P27,P39,"(32, 64)",4096,128,86,"Inter-network input from layer_0_attention_head_0[3] processor 27 to layer_0_output_proj[15] processor 39 (0:32,0:64)",DIG,IMC
+143,4.0,layer_0_attention_head_1,15,layer_0_output_proj,P28,P39,"(32, 64)",4096,128,91,"Inter-network input from layer_0_attention_head_1[4] processor 28 to layer_0_output_proj[15] processor 39 (0:32,64:128)",DIG,IMC
+144,5.0,layer_0_attention_head_2,15,layer_0_output_proj,P29,P39,"(32, 64)",4096,128,96,"Inter-network input from layer_0_attention_head_2[5] processor 29 to layer_0_output_proj[15] processor 39 (0:32,128:192)",DIG,IMC
+145,6.0,layer_0_attention_head_3,15,layer_0_output_proj,P30,P39,"(32, 64)",4096,128,101,"Inter-network input from layer_0_attention_head_3[6] processor 30 to layer_0_output_proj[15] processor 39 (0:32,192:256)",DIG,IMC
+146,3.0,layer_0_attention_head_0,15,layer_0_output_proj,P27,P40,"(32, 64)",4096,128,86,"Inter-network input from layer_0_attention_head_0[3] processor 27 to layer_0_output_proj[15] processor 40 (0:32,0:64)",DIG,IMC
+147,4.0,layer_0_attention_head_1,15,layer_0_output_proj,P28,P40,"(32, 64)",4096,128,91,"Inter-network input from layer_0_attention_head_1[4] processor 28 to layer_0_output_proj[15] processor 40 (0:32,64:128)",DIG,IMC
+148,5.0,layer_0_attention_head_2,15,layer_0_output_proj,P29,P40,"(32, 64)",4096,128,96,"Inter-network input from layer_0_attention_head_2[5] processor 29 to layer_0_output_proj[15] processor 40 (0:32,128:192)",DIG,IMC
+149,6.0,layer_0_attention_head_3,15,layer_0_output_proj,P30,P40,"(32, 64)",4096,128,101,"Inter-network input from layer_0_attention_head_3[6] processor 30 to layer_0_output_proj[15] processor 40 (0:32,192:256)",DIG,IMC
+150,3.0,layer_0_attention_head_0,15,layer_0_output_proj,P27,P41,"(32, 64)",4096,128,86,"Inter-network input from layer_0_attention_head_0[3] processor 27 to layer_0_output_proj[15] processor 41 (0:32,0:64)",DIG,IMC
+151,4.0,layer_0_attention_head_1,15,layer_0_output_proj,P28,P41,"(32, 64)",4096,128,91,"Inter-network input from layer_0_attention_head_1[4] processor 28 to layer_0_output_proj[15] processor 41 (0:32,64:128)",DIG,IMC
+152,5.0,layer_0_attention_head_2,15,layer_0_output_proj,P29,P41,"(32, 64)",4096,128,96,"Inter-network input from layer_0_attention_head_2[5] processor 29 to layer_0_output_proj[15] processor 41 (0:32,128:192)",DIG,IMC
+153,6.0,layer_0_attention_head_3,15,layer_0_output_proj,P30,P41,"(32, 64)",4096,128,101,"Inter-network input from layer_0_attention_head_3[6] processor 30 to layer_0_output_proj[15] processor 41 (0:32,192:256)",DIG,IMC
+154,7.0,layer_0_attention_head_4,15,layer_0_output_proj,P31,P42,"(32, 64)",4096,128,106,"Inter-network input from layer_0_attention_head_4[7] processor 31 to layer_0_output_proj[15] processor 42 (0:32,256:320)",DIG,IMC
+155,8.0,layer_0_attention_head_5,15,layer_0_output_proj,P32,P42,"(32, 64)",4096,128,111,"Inter-network input from layer_0_attention_head_5[8] processor 32 to layer_0_output_proj[15] processor 42 (0:32,320:384)",DIG,IMC
+156,9.0,layer_0_attention_head_6,15,layer_0_output_proj,P33,P42,"(32, 64)",4096,128,116,"Inter-network input from layer_0_attention_head_6[9] processor 33 to layer_0_output_proj[15] processor 42 (0:32,384:448)",DIG,IMC
+157,10.0,layer_0_attention_head_7,15,layer_0_output_proj,P34,P42,"(32, 64)",4096,128,121,"Inter-network input from layer_0_attention_head_7[10] processor 34 to layer_0_output_proj[15] processor 42 (0:32,448:512)",DIG,IMC
+158,7.0,layer_0_attention_head_4,15,layer_0_output_proj,P31,P43,"(32, 64)",4096,128,106,"Inter-network input from layer_0_attention_head_4[7] processor 31 to layer_0_output_proj[15] processor 43 (0:32,256:320)",DIG,IMC
+159,8.0,layer_0_attention_head_5,15,layer_0_output_proj,P32,P43,"(32, 64)",4096,128,111,"Inter-network input from layer_0_attention_head_5[8] processor 32 to layer_0_output_proj[15] processor 43 (0:32,320:384)",DIG,IMC
+160,9.0,layer_0_attention_head_6,15,layer_0_output_proj,P33,P43,"(32, 64)",4096,128,116,"Inter-network input from layer_0_attention_head_6[9] processor 33 to layer_0_output_proj[15] processor 43 (0:32,384:448)",DIG,IMC
+161,10.0,layer_0_attention_head_7,15,layer_0_output_proj,P34,P43,"(32, 64)",4096,128,121,"Inter-network input from layer_0_attention_head_7[10] processor 34 to layer_0_output_proj[15] processor 43 (0:32,448:512)",DIG,IMC
+162,7.0,layer_0_attention_head_4,15,layer_0_output_proj,P31,P44,"(32, 64)",4096,128,106,"Inter-network input from layer_0_attention_head_4[7] processor 31 to layer_0_output_proj[15] processor 44 (0:32,256:320)",DIG,IMC
+163,8.0,layer_0_attention_head_5,15,layer_0_output_proj,P32,P44,"(32, 64)",4096,128,111,"Inter-network input from layer_0_attention_head_5[8] processor 32 to layer_0_output_proj[15] processor 44 (0:32,320:384)",DIG,IMC
+164,9.0,layer_0_attention_head_6,15,layer_0_output_proj,P33,P44,"(32, 64)",4096,128,116,"Inter-network input from layer_0_attention_head_6[9] processor 33 to layer_0_output_proj[15] processor 44 (0:32,384:448)",DIG,IMC
+165,10.0,layer_0_attention_head_7,15,layer_0_output_proj,P34,P44,"(32, 64)",4096,128,121,"Inter-network input from layer_0_attention_head_7[10] processor 34 to layer_0_output_proj[15] processor 44 (0:32,448:512)",DIG,IMC
+166,11.0,layer_0_attention_head_8,15,layer_0_output_proj,P35,P45,"(32, 64)",4096,128,126,"Inter-network input from layer_0_attention_head_8[11] processor 35 to layer_0_output_proj[15] processor 45 (0:32,512:576)",DIG,IMC
+167,12.0,layer_0_attention_head_9,15,layer_0_output_proj,P36,P45,"(32, 64)",4096,128,131,"Inter-network input from layer_0_attention_head_9[12] processor 36 to layer_0_output_proj[15] processor 45 (0:32,576:640)",DIG,IMC
+168,13.0,layer_0_attention_head_10,15,layer_0_output_proj,P37,P45,"(32, 64)",4096,128,136,"Inter-network input from layer_0_attention_head_10[13] processor 37 to layer_0_output_proj[15] processor 45 (0:32,640:704)",DIG,IMC
+169,14.0,layer_0_attention_head_11,15,layer_0_output_proj,P38,P45,"(32, 64)",4096,128,141,"Inter-network input from layer_0_attention_head_11[14] processor 38 to layer_0_output_proj[15] processor 45 (0:32,704:768)",DIG,IMC
+170,11.0,layer_0_attention_head_8,15,layer_0_output_proj,P35,P46,"(32, 64)",4096,128,126,"Inter-network input from layer_0_attention_head_8[11] processor 35 to layer_0_output_proj[15] processor 46 (0:32,512:576)",DIG,IMC
+171,12.0,layer_0_attention_head_9,15,layer_0_output_proj,P36,P46,"(32, 64)",4096,128,131,"Inter-network input from layer_0_attention_head_9[12] processor 36 to layer_0_output_proj[15] processor 46 (0:32,576:640)",DIG,IMC
+172,13.0,layer_0_attention_head_10,15,layer_0_output_proj,P37,P46,"(32, 64)",4096,128,136,"Inter-network input from layer_0_attention_head_10[13] processor 37 to layer_0_output_proj[15] processor 46 (0:32,640:704)",DIG,IMC
+173,14.0,layer_0_attention_head_11,15,layer_0_output_proj,P38,P46,"(32, 64)",4096,128,141,"Inter-network input from layer_0_attention_head_11[14] processor 38 to layer_0_output_proj[15] processor 46 (0:32,704:768)",DIG,IMC
+174,11.0,layer_0_attention_head_8,15,layer_0_output_proj,P35,P47,"(32, 64)",4096,128,126,"Inter-network input from layer_0_attention_head_8[11] processor 35 to layer_0_output_proj[15] processor 47 (0:32,512:576)",DIG,IMC
+175,12.0,layer_0_attention_head_9,15,layer_0_output_proj,P36,P47,"(32, 64)",4096,128,131,"Inter-network input from layer_0_attention_head_9[12] processor 36 to layer_0_output_proj[15] processor 47 (0:32,576:640)",DIG,IMC
+176,13.0,layer_0_attention_head_10,15,layer_0_output_proj,P37,P47,"(32, 64)",4096,128,136,"Inter-network input from layer_0_attention_head_10[13] processor 37 to layer_0_output_proj[15] processor 47 (0:32,640:704)",DIG,IMC
+177,14.0,layer_0_attention_head_11,15,layer_0_output_proj,P38,P47,"(32, 64)",4096,128,141,"Inter-network input from layer_0_attention_head_11[14] processor 38 to layer_0_output_proj[15] processor 47 (0:32,704:768)",DIG,IMC
+178,15.0,layer_0_output_proj,15,layer_0_output_proj,P39,P39,"(32, 256)",16384,512,"142, 143, 144, 145","Processor 39 partial computation (input:(0, 256), output:(0, 256))",IMC,IMC
+179,15.0,layer_0_output_proj,15,layer_0_output_proj,P40,P40,"(32, 256)",16384,512,"146, 147, 148, 149","Processor 40 partial computation (input:(0, 256), output:(256, 512))",IMC,IMC
+180,15.0,layer_0_output_proj,15,layer_0_output_proj,P41,P41,"(32, 256)",16384,512,"150, 151, 152, 153","Processor 41 partial computation (input:(0, 256), output:(512, 768))",IMC,IMC
+181,15.0,layer_0_output_proj,15,layer_0_output_proj,P42,P42,"(32, 256)",16384,512,"154, 155, 156, 157","Processor 42 partial computation (input:(256, 512), output:(0, 256))",IMC,IMC
+182,15.0,layer_0_output_proj,15,layer_0_output_proj,P43,P43,"(32, 256)",16384,512,"158, 159, 160, 161","Processor 43 partial computation (input:(256, 512), output:(256, 512))",IMC,IMC
+183,15.0,layer_0_output_proj,15,layer_0_output_proj,P44,P44,"(32, 256)",16384,512,"162, 163, 164, 165","Processor 44 partial computation (input:(256, 512), output:(512, 768))",IMC,IMC
+184,15.0,layer_0_output_proj,15,layer_0_output_proj,P45,P45,"(32, 256)",16384,512,"166, 167, 168, 169","Processor 45 partial computation (input:(512, 768), output:(0, 256))",IMC,IMC
+185,15.0,layer_0_output_proj,15,layer_0_output_proj,P46,P46,"(32, 256)",16384,512,"170, 171, 172, 173","Processor 46 partial computation (input:(512, 768), output:(256, 512))",IMC,IMC
+186,15.0,layer_0_output_proj,15,layer_0_output_proj,P47,P47,"(32, 256)",16384,512,"174, 175, 176, 177","Processor 47 partial computation (input:(512, 768), output:(512, 768))",IMC,IMC
+187,15.0,layer_0_output_proj,15,layer_0_output_proj,P42,P39,"(32, 256)",16384,512,181,Send partial results from processor 42 to aggregation processor 39,IMC,IMC
+188,15.0,layer_0_output_proj,15,layer_0_output_proj,P45,P39,"(32, 256)",16384,512,184,Send partial results from processor 45 to aggregation processor 39,IMC,IMC
+189,15.0,layer_0_output_proj,15,layer_0_output_proj,P39,P39,"(32, 256)",16384,512,"178, 187, 188","Row aggregation for column range (0, 256) at processor 39",IMC,IMC
+190,15.0,layer_0_output_proj,15,layer_0_output_proj,P43,P40,"(32, 256)",16384,512,182,Send partial results from processor 43 to aggregation processor 40,IMC,IMC
+191,15.0,layer_0_output_proj,15,layer_0_output_proj,P46,P40,"(32, 256)",16384,512,185,Send partial results from processor 46 to aggregation processor 40,IMC,IMC
+192,15.0,layer_0_output_proj,15,layer_0_output_proj,P40,P40,"(32, 256)",16384,512,"179, 190, 191","Row aggregation for column range (256, 512) at processor 40",IMC,IMC
+193,15.0,layer_0_output_proj,15,layer_0_output_proj,P44,P41,"(32, 256)",16384,512,183,Send partial results from processor 44 to aggregation processor 41,IMC,IMC
+194,15.0,layer_0_output_proj,15,layer_0_output_proj,P47,P41,"(32, 256)",16384,512,186,Send partial results from processor 47 to aggregation processor 41,IMC,IMC
+195,15.0,layer_0_output_proj,15,layer_0_output_proj,P41,P41,"(32, 256)",16384,512,"180, 193, 194","Row aggregation for column range (512, 768) at processor 41",IMC,IMC
+196,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P48,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 48 (0:32,0:256)",IMC,IMC
+197,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P49,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 49 (0:32,0:256)",IMC,IMC
+198,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P50,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 50 (0:32,0:256)",IMC,IMC
+199,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P51,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 51 (0:32,0:256)",IMC,IMC
+200,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P52,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 52 (0:32,0:256)",IMC,IMC
+201,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P53,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 53 (0:32,0:256)",IMC,IMC
+202,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P54,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 54 (0:32,0:256)",IMC,IMC
+203,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P55,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 55 (0:32,0:256)",IMC,IMC
+204,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P56,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 56 (0:32,0:256)",IMC,IMC
+205,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P57,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 57 (0:32,0:256)",IMC,IMC
+206,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P58,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 58 (0:32,0:256)",IMC,IMC
+207,15.0,layer_0_output_proj,16,layer_0_mlp1,P39,P59,"(32, 256)",16384,512,189,"Inter-network input from layer_0_output_proj[15] processor 39 to layer_0_mlp1[16] processor 59 (0:32,0:256)",IMC,IMC
+208,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P60,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 60 (0:32,256:512)",IMC,IMC
+209,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P61,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 61 (0:32,256:512)",IMC,IMC
+210,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P62,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 62 (0:32,256:512)",IMC,IMC
+211,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P63,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 63 (0:32,256:512)",IMC,IMC
+212,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P64,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 64 (0:32,256:512)",IMC,IMC
+213,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P65,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 65 (0:32,256:512)",IMC,IMC
+214,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P66,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 66 (0:32,256:512)",IMC,IMC
+215,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P67,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 67 (0:32,256:512)",IMC,IMC
+216,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P68,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 68 (0:32,256:512)",IMC,IMC
+217,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P69,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 69 (0:32,256:512)",IMC,IMC
+218,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P70,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 70 (0:32,256:512)",IMC,IMC
+219,15.0,layer_0_output_proj,16,layer_0_mlp1,P40,P71,"(32, 256)",16384,512,192,"Inter-network input from layer_0_output_proj[15] processor 40 to layer_0_mlp1[16] processor 71 (0:32,256:512)",IMC,IMC
+220,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P72,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 72 (0:32,512:768)",IMC,IMC
+221,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P73,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 73 (0:32,512:768)",IMC,IMC
+222,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P74,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 74 (0:32,512:768)",IMC,IMC
+223,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P75,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 75 (0:32,512:768)",IMC,IMC
+224,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P76,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 76 (0:32,512:768)",IMC,IMC
+225,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P77,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 77 (0:32,512:768)",IMC,IMC
+226,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P78,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 78 (0:32,512:768)",IMC,IMC
+227,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P79,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 79 (0:32,512:768)",IMC,IMC
+228,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P80,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 80 (0:32,512:768)",IMC,IMC
+229,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P81,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 81 (0:32,512:768)",IMC,IMC
+230,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P82,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 82 (0:32,512:768)",IMC,IMC
+231,15.0,layer_0_output_proj,16,layer_0_mlp1,P41,P83,"(32, 256)",16384,512,195,"Inter-network input from layer_0_output_proj[15] processor 41 to layer_0_mlp1[16] processor 83 (0:32,512:768)",IMC,IMC
+232,16.0,layer_0_mlp1,16,layer_0_mlp1,P48,P48,"(32, 256)",16384,512,196,"Processor 48 partial computation (input:(0, 256), output:(0, 256))",IMC,IMC
+233,16.0,layer_0_mlp1,16,layer_0_mlp1,P49,P49,"(32, 256)",16384,512,197,"Processor 49 partial computation (input:(0, 256), output:(256, 512))",IMC,IMC
+234,16.0,layer_0_mlp1,16,layer_0_mlp1,P50,P50,"(32, 256)",16384,512,198,"Processor 50 partial computation (input:(0, 256), output:(512, 768))",IMC,IMC
+235,16.0,layer_0_mlp1,16,layer_0_mlp1,P51,P51,"(32, 256)",16384,512,199,"Processor 51 partial computation (input:(0, 256), output:(768, 1024))",IMC,IMC
+236,16.0,layer_0_mlp1,16,layer_0_mlp1,P52,P52,"(32, 256)",16384,512,200,"Processor 52 partial computation (input:(0, 256), output:(1024, 1280))",IMC,IMC
+237,16.0,layer_0_mlp1,16,layer_0_mlp1,P53,P53,"(32, 256)",16384,512,201,"Processor 53 partial computation (input:(0, 256), output:(1280, 1536))",IMC,IMC
+238,16.0,layer_0_mlp1,16,layer_0_mlp1,P54,P54,"(32, 256)",16384,512,202,"Processor 54 partial computation (input:(0, 256), output:(1536, 1792))",IMC,IMC
+239,16.0,layer_0_mlp1,16,layer_0_mlp1,P55,P55,"(32, 256)",16384,512,203,"Processor 55 partial computation (input:(0, 256), output:(1792, 2048))",IMC,IMC
+240,16.0,layer_0_mlp1,16,layer_0_mlp1,P56,P56,"(32, 256)",16384,512,204,"Processor 56 partial computation (input:(0, 256), output:(2048, 2304))",IMC,IMC
+241,16.0,layer_0_mlp1,16,layer_0_mlp1,P57,P57,"(32, 256)",16384,512,205,"Processor 57 partial computation (input:(0, 256), output:(2304, 2560))",IMC,IMC
+242,16.0,layer_0_mlp1,16,layer_0_mlp1,P58,P58,"(32, 256)",16384,512,206,"Processor 58 partial computation (input:(0, 256), output:(2560, 2816))",IMC,IMC
+243,16.0,layer_0_mlp1,16,layer_0_mlp1,P59,P59,"(32, 256)",16384,512,207,"Processor 59 partial computation (input:(0, 256), output:(2816, 3072))",IMC,IMC
+244,16.0,layer_0_mlp1,16,layer_0_mlp1,P60,P60,"(32, 256)",16384,512,208,"Processor 60 partial computation (input:(256, 512), output:(0, 256))",IMC,IMC
+245,16.0,layer_0_mlp1,16,layer_0_mlp1,P61,P61,"(32, 256)",16384,512,209,"Processor 61 partial computation (input:(256, 512), output:(256, 512))",IMC,IMC
+246,16.0,layer_0_mlp1,16,layer_0_mlp1,P62,P62,"(32, 256)",16384,512,210,"Processor 62 partial computation (input:(256, 512), output:(512, 768))",IMC,IMC
+247,16.0,layer_0_mlp1,16,layer_0_mlp1,P63,P63,"(32, 256)",16384,512,211,"Processor 63 partial computation (input:(256, 512), output:(768, 1024))",IMC,IMC
+248,16.0,layer_0_mlp1,16,layer_0_mlp1,P64,P64,"(32, 256)",16384,512,212,"Processor 64 partial computation (input:(256, 512), output:(1024, 1280))",IMC,IMC
+249,16.0,layer_0_mlp1,16,layer_0_mlp1,P65,P65,"(32, 256)",16384,512,213,"Processor 65 partial computation (input:(256, 512), output:(1280, 1536))",IMC,IMC
+250,16.0,layer_0_mlp1,16,layer_0_mlp1,P66,P66,"(32, 256)",16384,512,214,"Processor 66 partial computation (input:(256, 512), output:(1536, 1792))",IMC,IMC
+251,16.0,layer_0_mlp1,16,layer_0_mlp1,P67,P67,"(32, 256)",16384,512,215,"Processor 67 partial computation (input:(256, 512), output:(1792, 2048))",IMC,IMC
+252,16.0,layer_0_mlp1,16,layer_0_mlp1,P68,P68,"(32, 256)",16384,512,216,"Processor 68 partial computation (input:(256, 512), output:(2048, 2304))",IMC,IMC
+253,16.0,layer_0_mlp1,16,layer_0_mlp1,P69,P69,"(32, 256)",16384,512,217,"Processor 69 partial computation (input:(256, 512), output:(2304, 2560))",IMC,IMC
+254,16.0,layer_0_mlp1,16,layer_0_mlp1,P70,P70,"(32, 256)",16384,512,218,"Processor 70 partial computation (input:(256, 512), output:(2560, 2816))",IMC,IMC
+255,16.0,layer_0_mlp1,16,layer_0_mlp1,P71,P71,"(32, 256)",16384,512,219,"Processor 71 partial computation (input:(256, 512), output:(2816, 3072))",IMC,IMC
+256,16.0,layer_0_mlp1,16,layer_0_mlp1,P72,P72,"(32, 256)",16384,512,220,"Processor 72 partial computation (input:(512, 768), output:(0, 256))",IMC,IMC
+257,16.0,layer_0_mlp1,16,layer_0_mlp1,P73,P73,"(32, 256)",16384,512,221,"Processor 73 partial computation (input:(512, 768), output:(256, 512))",IMC,IMC
+258,16.0,layer_0_mlp1,16,layer_0_mlp1,P74,P74,"(32, 256)",16384,512,222,"Processor 74 partial computation (input:(512, 768), output:(512, 768))",IMC,IMC
+259,16.0,layer_0_mlp1,16,layer_0_mlp1,P75,P75,"(32, 256)",16384,512,223,"Processor 75 partial computation (input:(512, 768), output:(768, 1024))",IMC,IMC
+260,16.0,layer_0_mlp1,16,layer_0_mlp1,P76,P76,"(32, 256)",16384,512,224,"Processor 76 partial computation (input:(512, 768), output:(1024, 1280))",IMC,IMC
+261,16.0,layer_0_mlp1,16,layer_0_mlp1,P77,P77,"(32, 256)",16384,512,225,"Processor 77 partial computation (input:(512, 768), output:(1280, 1536))",IMC,IMC
+262,16.0,layer_0_mlp1,16,layer_0_mlp1,P78,P78,"(32, 256)",16384,512,226,"Processor 78 partial computation (input:(512, 768), output:(1536, 1792))",IMC,IMC
+263,16.0,layer_0_mlp1,16,layer_0_mlp1,P79,P79,"(32, 256)",16384,512,227,"Processor 79 partial computation (input:(512, 768), output:(1792, 2048))",IMC,IMC
+264,16.0,layer_0_mlp1,16,layer_0_mlp1,P80,P80,"(32, 256)",16384,512,228,"Processor 80 partial computation (input:(512, 768), output:(2048, 2304))",IMC,IMC
+265,16.0,layer_0_mlp1,16,layer_0_mlp1,P81,P81,"(32, 256)",16384,512,229,"Processor 81 partial computation (input:(512, 768), output:(2304, 2560))",IMC,IMC
+266,16.0,layer_0_mlp1,16,layer_0_mlp1,P82,P82,"(32, 256)",16384,512,230,"Processor 82 partial computation (input:(512, 768), output:(2560, 2816))",IMC,IMC
+267,16.0,layer_0_mlp1,16,layer_0_mlp1,P83,P83,"(32, 256)",16384,512,231,"Processor 83 partial computation (input:(512, 768), output:(2816, 3072))",IMC,IMC
+268,16.0,layer_0_mlp1,16,layer_0_mlp1,P60,P48,"(32, 256)",16384,512,244,Send partial results from processor 60 to aggregation processor 48,IMC,IMC
+269,16.0,layer_0_mlp1,16,layer_0_mlp1,P72,P48,"(32, 256)",16384,512,256,Send partial results from processor 72 to aggregation processor 48,IMC,IMC
+270,16.0,layer_0_mlp1,16,layer_0_mlp1,P48,P48,"(32, 256)",16384,512,"232, 268, 269","Row aggregation for column range (0, 256) at processor 48",IMC,IMC
+271,16.0,layer_0_mlp1,16,layer_0_mlp1,P61,P49,"(32, 256)",16384,512,245,Send partial results from processor 61 to aggregation processor 49,IMC,IMC
+272,16.0,layer_0_mlp1,16,layer_0_mlp1,P73,P49,"(32, 256)",16384,512,257,Send partial results from processor 73 to aggregation processor 49,IMC,IMC
+273,16.0,layer_0_mlp1,16,layer_0_mlp1,P49,P49,"(32, 256)",16384,512,"233, 271, 272","Row aggregation for column range (256, 512) at processor 49",IMC,IMC
+274,16.0,layer_0_mlp1,16,layer_0_mlp1,P62,P50,"(32, 256)",16384,512,246,Send partial results from processor 62 to aggregation processor 50,IMC,IMC
+275,16.0,layer_0_mlp1,16,layer_0_mlp1,P74,P50,"(32, 256)",16384,512,258,Send partial results from processor 74 to aggregation processor 50,IMC,IMC
+276,16.0,layer_0_mlp1,16,layer_0_mlp1,P50,P50,"(32, 256)",16384,512,"234, 274, 275","Row aggregation for column range (512, 768) at processor 50",IMC,IMC
+277,16.0,layer_0_mlp1,16,layer_0_mlp1,P63,P51,"(32, 256)",16384,512,247,Send partial results from processor 63 to aggregation processor 51,IMC,IMC
+278,16.0,layer_0_mlp1,16,layer_0_mlp1,P75,P51,"(32, 256)",16384,512,259,Send partial results from processor 75 to aggregation processor 51,IMC,IMC
+279,16.0,layer_0_mlp1,16,layer_0_mlp1,P51,P51,"(32, 256)",16384,512,"235, 277, 278","Row aggregation for column range (768, 1024) at processor 51",IMC,IMC
+280,16.0,layer_0_mlp1,16,layer_0_mlp1,P64,P52,"(32, 256)",16384,512,248,Send partial results from processor 64 to aggregation processor 52,IMC,IMC
+281,16.0,layer_0_mlp1,16,layer_0_mlp1,P76,P52,"(32, 256)",16384,512,260,Send partial results from processor 76 to aggregation processor 52,IMC,IMC
+282,16.0,layer_0_mlp1,16,layer_0_mlp1,P52,P52,"(32, 256)",16384,512,"236, 280, 281","Row aggregation for column range (1024, 1280) at processor 52",IMC,IMC
+283,16.0,layer_0_mlp1,16,layer_0_mlp1,P65,P53,"(32, 256)",16384,512,249,Send partial results from processor 65 to aggregation processor 53,IMC,IMC
+284,16.0,layer_0_mlp1,16,layer_0_mlp1,P77,P53,"(32, 256)",16384,512,261,Send partial results from processor 77 to aggregation processor 53,IMC,IMC
+285,16.0,layer_0_mlp1,16,layer_0_mlp1,P53,P53,"(32, 256)",16384,512,"237, 283, 284","Row aggregation for column range (1280, 1536) at processor 53",IMC,IMC
+286,16.0,layer_0_mlp1,16,layer_0_mlp1,P66,P54,"(32, 256)",16384,512,250,Send partial results from processor 66 to aggregation processor 54,IMC,IMC
+287,16.0,layer_0_mlp1,16,layer_0_mlp1,P78,P54,"(32, 256)",16384,512,262,Send partial results from processor 78 to aggregation processor 54,IMC,IMC
+288,16.0,layer_0_mlp1,16,layer_0_mlp1,P54,P54,"(32, 256)",16384,512,"238, 286, 287","Row aggregation for column range (1536, 1792) at processor 54",IMC,IMC
+289,16.0,layer_0_mlp1,16,layer_0_mlp1,P67,P55,"(32, 256)",16384,512,251,Send partial results from processor 67 to aggregation processor 55,IMC,IMC
+290,16.0,layer_0_mlp1,16,layer_0_mlp1,P79,P55,"(32, 256)",16384,512,263,Send partial results from processor 79 to aggregation processor 55,IMC,IMC
+291,16.0,layer_0_mlp1,16,layer_0_mlp1,P55,P55,"(32, 256)",16384,512,"239, 289, 290","Row aggregation for column range (1792, 2048) at processor 55",IMC,IMC
+292,16.0,layer_0_mlp1,16,layer_0_mlp1,P68,P56,"(32, 256)",16384,512,252,Send partial results from processor 68 to aggregation processor 56,IMC,IMC
+293,16.0,layer_0_mlp1,16,layer_0_mlp1,P80,P56,"(32, 256)",16384,512,264,Send partial results from processor 80 to aggregation processor 56,IMC,IMC
+294,16.0,layer_0_mlp1,16,layer_0_mlp1,P56,P56,"(32, 256)",16384,512,"240, 292, 293","Row aggregation for column range (2048, 2304) at processor 56",IMC,IMC
+295,16.0,layer_0_mlp1,16,layer_0_mlp1,P69,P57,"(32, 256)",16384,512,253,Send partial results from processor 69 to aggregation processor 57,IMC,IMC
+296,16.0,layer_0_mlp1,16,layer_0_mlp1,P81,P57,"(32, 256)",16384,512,265,Send partial results from processor 81 to aggregation processor 57,IMC,IMC
+297,16.0,layer_0_mlp1,16,layer_0_mlp1,P57,P57,"(32, 256)",16384,512,"241, 295, 296","Row aggregation for column range (2304, 2560) at processor 57",IMC,IMC
+298,16.0,layer_0_mlp1,16,layer_0_mlp1,P70,P58,"(32, 256)",16384,512,254,Send partial results from processor 70 to aggregation processor 58,IMC,IMC
+299,16.0,layer_0_mlp1,16,layer_0_mlp1,P82,P58,"(32, 256)",16384,512,266,Send partial results from processor 82 to aggregation processor 58,IMC,IMC
+300,16.0,layer_0_mlp1,16,layer_0_mlp1,P58,P58,"(32, 256)",16384,512,"242, 298, 299","Row aggregation for column range (2560, 2816) at processor 58",IMC,IMC
+301,16.0,layer_0_mlp1,16,layer_0_mlp1,P71,P59,"(32, 256)",16384,512,255,Send partial results from processor 71 to aggregation processor 59,IMC,IMC
+302,16.0,layer_0_mlp1,16,layer_0_mlp1,P83,P59,"(32, 256)",16384,512,267,Send partial results from processor 83 to aggregation processor 59,IMC,IMC
+303,16.0,layer_0_mlp1,16,layer_0_mlp1,P59,P59,"(32, 256)",16384,512,"243, 301, 302","Row aggregation for column range (2816, 3072) at processor 59",IMC,IMC
+304,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P84,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 84 (0:32,0:256)",IMC,IMC
+305,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P84,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 84 (0:32,256:512)",IMC,IMC
+306,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P84,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 84 (0:32,512:768)",IMC,IMC
+307,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P84,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 84 (0:32,768:1024)",IMC,IMC
+308,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P85,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 85 (0:32,0:256)",IMC,IMC
+309,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P85,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 85 (0:32,256:512)",IMC,IMC
+310,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P85,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 85 (0:32,512:768)",IMC,IMC
+311,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P85,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 85 (0:32,768:1024)",IMC,IMC
+312,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P86,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 86 (0:32,0:256)",IMC,IMC
+313,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P86,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 86 (0:32,256:512)",IMC,IMC
+314,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P86,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 86 (0:32,512:768)",IMC,IMC
+315,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P86,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 86 (0:32,768:1024)",IMC,IMC
+316,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P87,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 87 (0:32,0:256)",IMC,IMC
+317,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P87,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 87 (0:32,256:512)",IMC,IMC
+318,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P87,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 87 (0:32,512:768)",IMC,IMC
+319,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P87,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 87 (0:32,768:1024)",IMC,IMC
+320,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P88,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 88 (0:32,0:256)",IMC,IMC
+321,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P88,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 88 (0:32,256:512)",IMC,IMC
+322,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P88,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 88 (0:32,512:768)",IMC,IMC
+323,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P88,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 88 (0:32,768:1024)",IMC,IMC
+324,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P89,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 89 (0:32,0:256)",IMC,IMC
+325,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P89,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 89 (0:32,256:512)",IMC,IMC
+326,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P89,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 89 (0:32,512:768)",IMC,IMC
+327,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P89,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 89 (0:32,768:1024)",IMC,IMC
+328,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P90,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 90 (0:32,0:256)",IMC,IMC
+329,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P90,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 90 (0:32,256:512)",IMC,IMC
+330,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P90,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 90 (0:32,512:768)",IMC,IMC
+331,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P90,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 90 (0:32,768:1024)",IMC,IMC
+332,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P91,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 91 (0:32,0:256)",IMC,IMC
+333,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P91,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 91 (0:32,256:512)",IMC,IMC
+334,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P91,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 91 (0:32,512:768)",IMC,IMC
+335,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P91,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 91 (0:32,768:1024)",IMC,IMC
+336,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P92,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 92 (0:32,0:256)",IMC,IMC
+337,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P92,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 92 (0:32,256:512)",IMC,IMC
+338,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P92,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 92 (0:32,512:768)",IMC,IMC
+339,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P92,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 92 (0:32,768:1024)",IMC,IMC
+340,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P93,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 93 (0:32,0:256)",IMC,IMC
+341,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P93,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 93 (0:32,256:512)",IMC,IMC
+342,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P93,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 93 (0:32,512:768)",IMC,IMC
+343,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P93,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 93 (0:32,768:1024)",IMC,IMC
+344,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P94,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 94 (0:32,0:256)",IMC,IMC
+345,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P94,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 94 (0:32,256:512)",IMC,IMC
+346,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P94,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 94 (0:32,512:768)",IMC,IMC
+347,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P94,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 94 (0:32,768:1024)",IMC,IMC
+348,16.0,layer_0_mlp1,17,layer_0_mlp2,P48,P95,"(32, 256)",16384,512,270,"Inter-network input from layer_0_mlp1[16] processor 48 to layer_0_mlp2[17] processor 95 (0:32,0:256)",IMC,IMC
+349,16.0,layer_0_mlp1,17,layer_0_mlp2,P49,P95,"(32, 256)",16384,512,273,"Inter-network input from layer_0_mlp1[16] processor 49 to layer_0_mlp2[17] processor 95 (0:32,256:512)",IMC,IMC
+350,16.0,layer_0_mlp1,17,layer_0_mlp2,P50,P95,"(32, 256)",16384,512,276,"Inter-network input from layer_0_mlp1[16] processor 50 to layer_0_mlp2[17] processor 95 (0:32,512:768)",IMC,IMC
+351,16.0,layer_0_mlp1,17,layer_0_mlp2,P51,P95,"(32, 256)",16384,512,279,"Inter-network input from layer_0_mlp1[16] processor 51 to layer_0_mlp2[17] processor 95 (0:32,768:1024)",IMC,IMC
+352,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P96,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 96 (0:32,1024:1280)",IMC,IMC
+353,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P96,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 96 (0:32,1280:1536)",IMC,IMC
+354,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P96,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 96 (0:32,1536:1792)",IMC,IMC
+355,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P96,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 96 (0:32,1792:2048)",IMC,IMC
+356,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P97,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 97 (0:32,1024:1280)",IMC,IMC
+357,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P97,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 97 (0:32,1280:1536)",IMC,IMC
+358,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P97,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 97 (0:32,1536:1792)",IMC,IMC
+359,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P97,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 97 (0:32,1792:2048)",IMC,IMC
+360,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P98,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 98 (0:32,1024:1280)",IMC,IMC
+361,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P98,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 98 (0:32,1280:1536)",IMC,IMC
+362,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P98,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 98 (0:32,1536:1792)",IMC,IMC
+363,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P98,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 98 (0:32,1792:2048)",IMC,IMC
+364,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P99,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 99 (0:32,1024:1280)",IMC,IMC
+365,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P99,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 99 (0:32,1280:1536)",IMC,IMC
+366,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P99,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 99 (0:32,1536:1792)",IMC,IMC
+367,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P99,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 99 (0:32,1792:2048)",IMC,IMC
+368,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P100,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 100 (0:32,1024:1280)",IMC,IMC
+369,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P100,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 100 (0:32,1280:1536)",IMC,IMC
+370,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P100,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 100 (0:32,1536:1792)",IMC,IMC
+371,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P100,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 100 (0:32,1792:2048)",IMC,IMC
+372,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P101,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 101 (0:32,1024:1280)",IMC,IMC
+373,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P101,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 101 (0:32,1280:1536)",IMC,IMC
+374,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P101,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 101 (0:32,1536:1792)",IMC,IMC
+375,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P101,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 101 (0:32,1792:2048)",IMC,IMC
+376,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P102,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 102 (0:32,1024:1280)",IMC,IMC
+377,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P102,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 102 (0:32,1280:1536)",IMC,IMC
+378,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P102,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 102 (0:32,1536:1792)",IMC,IMC
+379,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P102,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 102 (0:32,1792:2048)",IMC,IMC
+380,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P103,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 103 (0:32,1024:1280)",IMC,IMC
+381,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P103,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 103 (0:32,1280:1536)",IMC,IMC
+382,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P103,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 103 (0:32,1536:1792)",IMC,IMC
+383,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P103,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 103 (0:32,1792:2048)",IMC,IMC
+384,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P104,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 104 (0:32,1024:1280)",IMC,IMC
+385,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P104,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 104 (0:32,1280:1536)",IMC,IMC
+386,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P104,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 104 (0:32,1536:1792)",IMC,IMC
+387,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P104,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 104 (0:32,1792:2048)",IMC,IMC
+388,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P105,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 105 (0:32,1024:1280)",IMC,IMC
+389,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P105,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 105 (0:32,1280:1536)",IMC,IMC
+390,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P105,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 105 (0:32,1536:1792)",IMC,IMC
+391,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P105,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 105 (0:32,1792:2048)",IMC,IMC
+392,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P106,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 106 (0:32,1024:1280)",IMC,IMC
+393,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P106,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 106 (0:32,1280:1536)",IMC,IMC
+394,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P106,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 106 (0:32,1536:1792)",IMC,IMC
+395,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P106,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 106 (0:32,1792:2048)",IMC,IMC
+396,16.0,layer_0_mlp1,17,layer_0_mlp2,P52,P107,"(32, 256)",16384,512,282,"Inter-network input from layer_0_mlp1[16] processor 52 to layer_0_mlp2[17] processor 107 (0:32,1024:1280)",IMC,IMC
+397,16.0,layer_0_mlp1,17,layer_0_mlp2,P53,P107,"(32, 256)",16384,512,285,"Inter-network input from layer_0_mlp1[16] processor 53 to layer_0_mlp2[17] processor 107 (0:32,1280:1536)",IMC,IMC
+398,16.0,layer_0_mlp1,17,layer_0_mlp2,P54,P107,"(32, 256)",16384,512,288,"Inter-network input from layer_0_mlp1[16] processor 54 to layer_0_mlp2[17] processor 107 (0:32,1536:1792)",IMC,IMC
+399,16.0,layer_0_mlp1,17,layer_0_mlp2,P55,P107,"(32, 256)",16384,512,291,"Inter-network input from layer_0_mlp1[16] processor 55 to layer_0_mlp2[17] processor 107 (0:32,1792:2048)",IMC,IMC
+400,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P108,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 108 (0:32,2048:2304)",IMC,IMC
+401,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P108,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 108 (0:32,2304:2560)",IMC,IMC
+402,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P108,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 108 (0:32,2560:2816)",IMC,IMC
+403,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P108,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 108 (0:32,2816:3072)",IMC,IMC
+404,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P109,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 109 (0:32,2048:2304)",IMC,IMC
+405,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P109,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 109 (0:32,2304:2560)",IMC,IMC
+406,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P109,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 109 (0:32,2560:2816)",IMC,IMC
+407,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P109,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 109 (0:32,2816:3072)",IMC,IMC
+408,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P110,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 110 (0:32,2048:2304)",IMC,IMC
+409,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P110,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 110 (0:32,2304:2560)",IMC,IMC
+410,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P110,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 110 (0:32,2560:2816)",IMC,IMC
+411,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P110,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 110 (0:32,2816:3072)",IMC,IMC
+412,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P111,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 111 (0:32,2048:2304)",IMC,IMC
+413,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P111,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 111 (0:32,2304:2560)",IMC,IMC
+414,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P111,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 111 (0:32,2560:2816)",IMC,IMC
+415,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P111,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 111 (0:32,2816:3072)",IMC,IMC
+416,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P112,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 112 (0:32,2048:2304)",IMC,IMC
+417,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P112,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 112 (0:32,2304:2560)",IMC,IMC
+418,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P112,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 112 (0:32,2560:2816)",IMC,IMC
+419,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P112,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 112 (0:32,2816:3072)",IMC,IMC
+420,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P113,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 113 (0:32,2048:2304)",IMC,IMC
+421,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P113,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 113 (0:32,2304:2560)",IMC,IMC
+422,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P113,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 113 (0:32,2560:2816)",IMC,IMC
+423,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P113,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 113 (0:32,2816:3072)",IMC,IMC
+424,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P114,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 114 (0:32,2048:2304)",IMC,IMC
+425,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P114,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 114 (0:32,2304:2560)",IMC,IMC
+426,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P114,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 114 (0:32,2560:2816)",IMC,IMC
+427,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P114,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 114 (0:32,2816:3072)",IMC,IMC
+428,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P115,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 115 (0:32,2048:2304)",IMC,IMC
+429,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P115,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 115 (0:32,2304:2560)",IMC,IMC
+430,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P115,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 115 (0:32,2560:2816)",IMC,IMC
+431,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P115,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 115 (0:32,2816:3072)",IMC,IMC
+432,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P116,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 116 (0:32,2048:2304)",IMC,IMC
+433,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P116,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 116 (0:32,2304:2560)",IMC,IMC
+434,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P116,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 116 (0:32,2560:2816)",IMC,IMC
+435,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P116,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 116 (0:32,2816:3072)",IMC,IMC
+436,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P117,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 117 (0:32,2048:2304)",IMC,IMC
+437,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P117,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 117 (0:32,2304:2560)",IMC,IMC
+438,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P117,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 117 (0:32,2560:2816)",IMC,IMC
+439,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P117,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 117 (0:32,2816:3072)",IMC,IMC
+440,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P118,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 118 (0:32,2048:2304)",IMC,IMC
+441,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P118,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 118 (0:32,2304:2560)",IMC,IMC
+442,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P118,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 118 (0:32,2560:2816)",IMC,IMC
+443,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P118,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 118 (0:32,2816:3072)",IMC,IMC
+444,16.0,layer_0_mlp1,17,layer_0_mlp2,P56,P119,"(32, 256)",16384,512,294,"Inter-network input from layer_0_mlp1[16] processor 56 to layer_0_mlp2[17] processor 119 (0:32,2048:2304)",IMC,IMC
+445,16.0,layer_0_mlp1,17,layer_0_mlp2,P57,P119,"(32, 256)",16384,512,297,"Inter-network input from layer_0_mlp1[16] processor 57 to layer_0_mlp2[17] processor 119 (0:32,2304:2560)",IMC,IMC
+446,16.0,layer_0_mlp1,17,layer_0_mlp2,P58,P119,"(32, 256)",16384,512,300,"Inter-network input from layer_0_mlp1[16] processor 58 to layer_0_mlp2[17] processor 119 (0:32,2560:2816)",IMC,IMC
+447,16.0,layer_0_mlp1,17,layer_0_mlp2,P59,P119,"(32, 256)",16384,512,303,"Inter-network input from layer_0_mlp1[16] processor 59 to layer_0_mlp2[17] processor 119 (0:32,2816:3072)",IMC,IMC
+448,17.0,layer_0_mlp2,17,layer_0_mlp2,P84,P84,"(32, 64)",4096,128,"304, 305, 306, 307","Processor 84 partial computation (input:(0, 1024), output:(0, 64))",IMC,IMC
+449,17.0,layer_0_mlp2,17,layer_0_mlp2,P85,P85,"(32, 64)",4096,128,"308, 309, 310, 311","Processor 85 partial computation (input:(0, 1024), output:(64, 128))",IMC,IMC
+450,17.0,layer_0_mlp2,17,layer_0_mlp2,P86,P86,"(32, 64)",4096,128,"312, 313, 314, 315","Processor 86 partial computation (input:(0, 1024), output:(128, 192))",IMC,IMC
+451,17.0,layer_0_mlp2,17,layer_0_mlp2,P87,P87,"(32, 64)",4096,128,"316, 317, 318, 319","Processor 87 partial computation (input:(0, 1024), output:(192, 256))",IMC,IMC
+452,17.0,layer_0_mlp2,17,layer_0_mlp2,P88,P88,"(32, 64)",4096,128,"320, 321, 322, 323","Processor 88 partial computation (input:(0, 1024), output:(256, 320))",IMC,IMC
+453,17.0,layer_0_mlp2,17,layer_0_mlp2,P89,P89,"(32, 64)",4096,128,"324, 325, 326, 327","Processor 89 partial computation (input:(0, 1024), output:(320, 384))",IMC,IMC
+454,17.0,layer_0_mlp2,17,layer_0_mlp2,P90,P90,"(32, 64)",4096,128,"328, 329, 330, 331","Processor 90 partial computation (input:(0, 1024), output:(384, 448))",IMC,IMC
+455,17.0,layer_0_mlp2,17,layer_0_mlp2,P91,P91,"(32, 64)",4096,128,"332, 333, 334, 335","Processor 91 partial computation (input:(0, 1024), output:(448, 512))",IMC,IMC
+456,17.0,layer_0_mlp2,17,layer_0_mlp2,P92,P92,"(32, 64)",4096,128,"336, 337, 338, 339","Processor 92 partial computation (input:(0, 1024), output:(512, 576))",IMC,IMC
+457,17.0,layer_0_mlp2,17,layer_0_mlp2,P93,P93,"(32, 64)",4096,128,"340, 341, 342, 343","Processor 93 partial computation (input:(0, 1024), output:(576, 640))",IMC,IMC
+458,17.0,layer_0_mlp2,17,layer_0_mlp2,P94,P94,"(32, 64)",4096,128,"344, 345, 346, 347","Processor 94 partial computation (input:(0, 1024), output:(640, 704))",IMC,IMC
+459,17.0,layer_0_mlp2,17,layer_0_mlp2,P95,P95,"(32, 64)",4096,128,"348, 349, 350, 351","Processor 95 partial computation (input:(0, 1024), output:(704, 768))",IMC,IMC
+460,17.0,layer_0_mlp2,17,layer_0_mlp2,P96,P96,"(32, 64)",4096,128,"352, 353, 354, 355","Processor 96 partial computation (input:(1024, 2048), output:(0, 64))",IMC,IMC
+461,17.0,layer_0_mlp2,17,layer_0_mlp2,P97,P97,"(32, 64)",4096,128,"356, 357, 358, 359","Processor 97 partial computation (input:(1024, 2048), output:(64, 128))",IMC,IMC
+462,17.0,layer_0_mlp2,17,layer_0_mlp2,P98,P98,"(32, 64)",4096,128,"360, 361, 362, 363","Processor 98 partial computation (input:(1024, 2048), output:(128, 192))",IMC,IMC
+463,17.0,layer_0_mlp2,17,layer_0_mlp2,P99,P99,"(32, 64)",4096,128,"364, 365, 366, 367","Processor 99 partial computation (input:(1024, 2048), output:(192, 256))",IMC,IMC
+464,17.0,layer_0_mlp2,17,layer_0_mlp2,P100,P100,"(32, 64)",4096,128,"368, 369, 370, 371","Processor 100 partial computation (input:(1024, 2048), output:(256, 320))",IMC,IMC
+465,17.0,layer_0_mlp2,17,layer_0_mlp2,P101,P101,"(32, 64)",4096,128,"372, 373, 374, 375","Processor 101 partial computation (input:(1024, 2048), output:(320, 384))",IMC,IMC
+466,17.0,layer_0_mlp2,17,layer_0_mlp2,P102,P102,"(32, 64)",4096,128,"376, 377, 378, 379","Processor 102 partial computation (input:(1024, 2048), output:(384, 448))",IMC,IMC
+467,17.0,layer_0_mlp2,17,layer_0_mlp2,P103,P103,"(32, 64)",4096,128,"380, 381, 382, 383","Processor 103 partial computation (input:(1024, 2048), output:(448, 512))",IMC,IMC
+468,17.0,layer_0_mlp2,17,layer_0_mlp2,P104,P104,"(32, 64)",4096,128,"384, 385, 386, 387","Processor 104 partial computation (input:(1024, 2048), output:(512, 576))",IMC,IMC
+469,17.0,layer_0_mlp2,17,layer_0_mlp2,P105,P105,"(32, 64)",4096,128,"388, 389, 390, 391","Processor 105 partial computation (input:(1024, 2048), output:(576, 640))",IMC,IMC
+470,17.0,layer_0_mlp2,17,layer_0_mlp2,P106,P106,"(32, 64)",4096,128,"392, 393, 394, 395","Processor 106 partial computation (input:(1024, 2048), output:(640, 704))",IMC,IMC
+471,17.0,layer_0_mlp2,17,layer_0_mlp2,P107,P107,"(32, 64)",4096,128,"396, 397, 398, 399","Processor 107 partial computation (input:(1024, 2048), output:(704, 768))",IMC,IMC
+472,17.0,layer_0_mlp2,17,layer_0_mlp2,P108,P108,"(32, 64)",4096,128,"400, 401, 402, 403","Processor 108 partial computation (input:(2048, 3072), output:(0, 64))",IMC,IMC
+473,17.0,layer_0_mlp2,17,layer_0_mlp2,P109,P109,"(32, 64)",4096,128,"404, 405, 406, 407","Processor 109 partial computation (input:(2048, 3072), output:(64, 128))",IMC,IMC
+474,17.0,layer_0_mlp2,17,layer_0_mlp2,P110,P110,"(32, 64)",4096,128,"408, 409, 410, 411","Processor 110 partial computation (input:(2048, 3072), output:(128, 192))",IMC,IMC
+475,17.0,layer_0_mlp2,17,layer_0_mlp2,P111,P111,"(32, 64)",4096,128,"412, 413, 414, 415","Processor 111 partial computation (input:(2048, 3072), output:(192, 256))",IMC,IMC
+476,17.0,layer_0_mlp2,17,layer_0_mlp2,P112,P112,"(32, 64)",4096,128,"416, 417, 418, 419","Processor 112 partial computation (input:(2048, 3072), output:(256, 320))",IMC,IMC
+477,17.0,layer_0_mlp2,17,layer_0_mlp2,P113,P113,"(32, 64)",4096,128,"420, 421, 422, 423","Processor 113 partial computation (input:(2048, 3072), output:(320, 384))",IMC,IMC
+478,17.0,layer_0_mlp2,17,layer_0_mlp2,P114,P114,"(32, 64)",4096,128,"424, 425, 426, 427","Processor 114 partial computation (input:(2048, 3072), output:(384, 448))",IMC,IMC
+479,17.0,layer_0_mlp2,17,layer_0_mlp2,P115,P115,"(32, 64)",4096,128,"428, 429, 430, 431","Processor 115 partial computation (input:(2048, 3072), output:(448, 512))",IMC,IMC
+480,17.0,layer_0_mlp2,17,layer_0_mlp2,P116,P116,"(32, 64)",4096,128,"432, 433, 434, 435","Processor 116 partial computation (input:(2048, 3072), output:(512, 576))",IMC,IMC
+481,17.0,layer_0_mlp2,17,layer_0_mlp2,P117,P117,"(32, 64)",4096,128,"436, 437, 438, 439","Processor 117 partial computation (input:(2048, 3072), output:(576, 640))",IMC,IMC
+482,17.0,layer_0_mlp2,17,layer_0_mlp2,P118,P118,"(32, 64)",4096,128,"440, 441, 442, 443","Processor 118 partial computation (input:(2048, 3072), output:(640, 704))",IMC,IMC
+483,17.0,layer_0_mlp2,17,layer_0_mlp2,P119,P119,"(32, 64)",4096,128,"444, 445, 446, 447","Processor 119 partial computation (input:(2048, 3072), output:(704, 768))",IMC,IMC
+484,17.0,layer_0_mlp2,17,layer_0_mlp2,P96,P84,"(32, 64)",4096,128,460,Send partial results from processor 96 to aggregation processor 84,IMC,IMC
+485,17.0,layer_0_mlp2,17,layer_0_mlp2,P108,P84,"(32, 64)",4096,128,472,Send partial results from processor 108 to aggregation processor 84,IMC,IMC
+486,17.0,layer_0_mlp2,17,layer_0_mlp2,P84,P84,"(32, 64)",4096,128,"448, 484, 485","Row aggregation for column range (0, 64) at processor 84",IMC,IMC
+487,17.0,layer_0_mlp2,17,layer_0_mlp2,P97,P85,"(32, 64)",4096,128,461,Send partial results from processor 97 to aggregation processor 85,IMC,IMC
+488,17.0,layer_0_mlp2,17,layer_0_mlp2,P109,P85,"(32, 64)",4096,128,473,Send partial results from processor 109 to aggregation processor 85,IMC,IMC
+489,17.0,layer_0_mlp2,17,layer_0_mlp2,P85,P85,"(32, 64)",4096,128,"449, 487, 488","Row aggregation for column range (64, 128) at processor 85",IMC,IMC
+490,17.0,layer_0_mlp2,17,layer_0_mlp2,P98,P86,"(32, 64)",4096,128,462,Send partial results from processor 98 to aggregation processor 86,IMC,IMC
+491,17.0,layer_0_mlp2,17,layer_0_mlp2,P110,P86,"(32, 64)",4096,128,474,Send partial results from processor 110 to aggregation processor 86,IMC,IMC
+492,17.0,layer_0_mlp2,17,layer_0_mlp2,P86,P86,"(32, 64)",4096,128,"450, 490, 491","Row aggregation for column range (128, 192) at processor 86",IMC,IMC
+493,17.0,layer_0_mlp2,17,layer_0_mlp2,P99,P87,"(32, 64)",4096,128,463,Send partial results from processor 99 to aggregation processor 87,IMC,IMC
+494,17.0,layer_0_mlp2,17,layer_0_mlp2,P111,P87,"(32, 64)",4096,128,475,Send partial results from processor 111 to aggregation processor 87,IMC,IMC
+495,17.0,layer_0_mlp2,17,layer_0_mlp2,P87,P87,"(32, 64)",4096,128,"451, 493, 494","Row aggregation for column range (192, 256) at processor 87",IMC,IMC
+496,17.0,layer_0_mlp2,17,layer_0_mlp2,P100,P88,"(32, 64)",4096,128,464,Send partial results from processor 100 to aggregation processor 88,IMC,IMC
+497,17.0,layer_0_mlp2,17,layer_0_mlp2,P112,P88,"(32, 64)",4096,128,476,Send partial results from processor 112 to aggregation processor 88,IMC,IMC
+498,17.0,layer_0_mlp2,17,layer_0_mlp2,P88,P88,"(32, 64)",4096,128,"452, 496, 497","Row aggregation for column range (256, 320) at processor 88",IMC,IMC
+499,17.0,layer_0_mlp2,17,layer_0_mlp2,P101,P89,"(32, 64)",4096,128,465,Send partial results from processor 101 to aggregation processor 89,IMC,IMC
+500,17.0,layer_0_mlp2,17,layer_0_mlp2,P113,P89,"(32, 64)",4096,128,477,Send partial results from processor 113 to aggregation processor 89,IMC,IMC
+501,17.0,layer_0_mlp2,17,layer_0_mlp2,P89,P89,"(32, 64)",4096,128,"453, 499, 500","Row aggregation for column range (320, 384) at processor 89",IMC,IMC
+502,17.0,layer_0_mlp2,17,layer_0_mlp2,P102,P90,"(32, 64)",4096,128,466,Send partial results from processor 102 to aggregation processor 90,IMC,IMC
+503,17.0,layer_0_mlp2,17,layer_0_mlp2,P114,P90,"(32, 64)",4096,128,478,Send partial results from processor 114 to aggregation processor 90,IMC,IMC
+504,17.0,layer_0_mlp2,17,layer_0_mlp2,P90,P90,"(32, 64)",4096,128,"454, 502, 503","Row aggregation for column range (384, 448) at processor 90",IMC,IMC
+505,17.0,layer_0_mlp2,17,layer_0_mlp2,P103,P91,"(32, 64)",4096,128,467,Send partial results from processor 103 to aggregation processor 91,IMC,IMC
+506,17.0,layer_0_mlp2,17,layer_0_mlp2,P115,P91,"(32, 64)",4096,128,479,Send partial results from processor 115 to aggregation processor 91,IMC,IMC
+507,17.0,layer_0_mlp2,17,layer_0_mlp2,P91,P91,"(32, 64)",4096,128,"455, 505, 506","Row aggregation for column range (448, 512) at processor 91",IMC,IMC
+508,17.0,layer_0_mlp2,17,layer_0_mlp2,P104,P92,"(32, 64)",4096,128,468,Send partial results from processor 104 to aggregation processor 92,IMC,IMC
+509,17.0,layer_0_mlp2,17,layer_0_mlp2,P116,P92,"(32, 64)",4096,128,480,Send partial results from processor 116 to aggregation processor 92,IMC,IMC
+510,17.0,layer_0_mlp2,17,layer_0_mlp2,P92,P92,"(32, 64)",4096,128,"456, 508, 509","Row aggregation for column range (512, 576) at processor 92",IMC,IMC
+511,17.0,layer_0_mlp2,17,layer_0_mlp2,P105,P93,"(32, 64)",4096,128,469,Send partial results from processor 105 to aggregation processor 93,IMC,IMC
+512,17.0,layer_0_mlp2,17,layer_0_mlp2,P117,P93,"(32, 64)",4096,128,481,Send partial results from processor 117 to aggregation processor 93,IMC,IMC
+513,17.0,layer_0_mlp2,17,layer_0_mlp2,P93,P93,"(32, 64)",4096,128,"457, 511, 512","Row aggregation for column range (576, 640) at processor 93",IMC,IMC
+514,17.0,layer_0_mlp2,17,layer_0_mlp2,P106,P94,"(32, 64)",4096,128,470,Send partial results from processor 106 to aggregation processor 94,IMC,IMC
+515,17.0,layer_0_mlp2,17,layer_0_mlp2,P118,P94,"(32, 64)",4096,128,482,Send partial results from processor 118 to aggregation processor 94,IMC,IMC
+516,17.0,layer_0_mlp2,17,layer_0_mlp2,P94,P94,"(32, 64)",4096,128,"458, 514, 515","Row aggregation for column range (640, 704) at processor 94",IMC,IMC
+517,17.0,layer_0_mlp2,17,layer_0_mlp2,P107,P95,"(32, 64)",4096,128,471,Send partial results from processor 107 to aggregation processor 95,IMC,IMC
+518,17.0,layer_0_mlp2,17,layer_0_mlp2,P119,P95,"(32, 64)",4096,128,483,Send partial results from processor 119 to aggregation processor 95,IMC,IMC
+519,17.0,layer_0_mlp2,17,layer_0_mlp2,P95,P95,"(32, 64)",4096,128,"459, 517, 518","Row aggregation for column range (704, 768) at processor 95",IMC,IMC

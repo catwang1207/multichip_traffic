@@ -4,8 +4,35 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from gr_chiplet_framework import *
+from gr_chiplet_framework import ChipletProblemGRASP
 from config import MAX_PES_PER_CHIPLET, INTER_CHIPLET_BANDWIDTH, SMALL_DATASET
+
+# Simple dummy constraint classes for compatibility
+class TaskAssignmentConstraint:
+    pass
+
+class ChipletUsageConstraint:
+    pass
+    
+class TaskDependencyConstraint:
+    pass
+    
+class ChipletCapacityConstraint:
+    def __init__(self, max_pes=32):
+        self.max_pes = max_pes
+        
+class PEExclusivityConstraint:
+    pass
+    
+class InterChipletCommConstraint:
+    def __init__(self, bandwidth=8192):
+        self.bandwidth = bandwidth
+        
+class TimeBoundsConstraint:
+    pass
+    
+class NoMulticastingConstraint:
+    pass
 
 if __name__ == "__main__":
     print("=== TESTING GRASP (SMALL DATASET) ===")
