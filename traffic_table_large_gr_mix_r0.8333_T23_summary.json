@@ -1,0 +1,18 @@
+{
+  "solver": "GR",
+  "data_file": "traffic_table_large.csv",
+  "timestamp": "2025-08-30 23:27:20",
+  "status": "optimal",
+  "total_cycles": 5126,
+  "chiplets_used": 23,
+  "violations": 0,
+  "avg_pes_per_used_chiplet": 118.95652173913044,
+  "type_mode": "mixed",
+  "mixed_ratio": {
+    "imc_pes": 2592,
+    "dig_pes": 144,
+    "imc_to_dig": "18:1",
+    "imc_share": 0.9473684210526315
+  },
+  "solve_time_seconds": 157.09400153160095
+}
